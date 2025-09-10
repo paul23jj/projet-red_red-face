@@ -1,8 +1,6 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type inventaire struct {
 	name     string
@@ -32,20 +30,5 @@ func Perso() {
 		max_hp: 100,
 		hp:     100,
 	}
-	u.display()
-}
-
-func (u User) display() {
-	fmt.Printf("%s, %d/%d hp, %s, level %d\n", u.name, u.hp, u.max_hp, u.classe, u.level)
-}
-
-func (u *User) make0ld() {
-	u.level += 3
-}
-
-func main() {
-	user := User{"enzo", 4, 'F', "Demon", []inventaire{{"piment", 3}, {"essence", 1}}, 100, 100}
-	user.display()
-	user.make0ld()
-	user.display()
+	fmt.Println(u)
 }
