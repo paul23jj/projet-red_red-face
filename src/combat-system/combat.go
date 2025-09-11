@@ -93,17 +93,3 @@ func max(a, b int) int {
 	}
 	return b
 }
-
-// Fonction pour créer un ennemi en fonction du niveau
-func CreateEnemy(level int) Character {
-	switch level {
-	case 1:
-		return Character{"Rat des rues", 20, 5, 1}
-	case 2:
-		return Character{"Bandit", 30, 7, 2}
-	case 3:
-		return Character{"Chef de gang", 50, 10, 3}
-	default:
-		return Character{"Boss", 80, 12, 4}
-	}
-}
