@@ -1,4 +1,4 @@
-package combatsystem
+package main
 
 import (
 	"bufio"
@@ -7,20 +7,34 @@ import (
 	"os"
 	"strings"
 	"time"
+
+	"projet-red_red-face/src/class"
+	"projet-red_red-face/src/monster"
 )
 
 type Character struct {
-	Name   string
-	HP     int
-	Attack int
+	Name    string
+	HP      int
+	Attack  int
 	Defense int
+}
+
+func main() {
+	// Initialisation du joueur via le package class
+	player := class.InitPlayer() // doit retourner un Character
+
+	// Création d’un ennemi niveau 2 via le package monster
+	enemy := monster.CreateMonster(2) // doit retourner un Character
+
+	// Lancer un combat
+	StartCombat(player, enemy)
 }
 
 func StartCombat(player Character, enemy Character) {
 	reader := bufio.NewReader(os.Stdin)
 	rand.Seed(time.Now().UnixNano())
 
-	fmt.Printf("\n🔥 Un combat commence ! %s VS %s 🔥\n", player.Name, enemy.Name)
+	fmt.Printf("\n🔥 L'affrontement commence ! %s VS %s 🔥\n", player.Name, enemy.Name)
 
 	for player.HP > 0 && enemy.HP > 0 {
 		fmt.Printf("\n%s: %d HP | %s: %d HP\n", player.Name, player.HP, enemy.Name, enemy.HP)
@@ -29,7 +43,7 @@ func StartCombat(player Character, enemy Character) {
 		fmt.Println("2) Défendre")
 		fmt.Println("3) Utiliser un objet")
 		fmt.Println("4) Fuir")
-		fmt.Print("Ton choix: ")
+		fmt.Print("Ton choix:")
 
 		choice, _ := reader.ReadString('\n')
 		choice = strings.TrimSpace(choice)
@@ -43,7 +57,7 @@ func StartCombat(player Character, enemy Character) {
 			fmt.Println("\n🛡️ Tu te prépares à encaisser le coup !")
 			player.Defense += 2
 		case "3":
-			fmt.Println("\n💊 Tu utilises une potion (+10 HP) !")
+			fmt.Println("\n💊 Tu utilises un bissap (+10 HP) !")
 			player.HP += 10
 		case "4":
 			fmt.Println("\n🏃 Tu fuis le combat...")
@@ -54,7 +68,7 @@ func StartCombat(player Character, enemy Character) {
 		}
 
 		if enemy.HP <= 0 {
-			fmt.Printf("\n🎉 Tu as vaincu %s !\n", enemy.Name)
+			fmt.Printf("\n🎉 Tu as péta %s !🎉\n", enemy.Name)
 			break
 		}
 
