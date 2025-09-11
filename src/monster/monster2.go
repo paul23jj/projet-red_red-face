@@ -33,7 +33,7 @@ func GenererMonstre() Monstre {
 	return monstres[choix]
 }
 
-func monster() {
+func Monster() {
 	// Exemple : générer un monstre au hasard
 	ennemi := GenererMonstre()
 	fmt.Printf(" Un %s apparaît ! Vie: %d, Force: %d, Défense: %d\n",
