@@ -47,7 +47,7 @@ func main() {
 		{"red bull", 10, "+20 énergie"},
 		{"ventoline", 25, "+30 respiration"},
 		{"hérisson", 60, "+15 défense (piquant)"},
-		{"bissap", 15, "+10 vitalité"},
+		{"bissap", 15, "+10 HP"},
 		{"seringue", 5, "+5 soin rapide"},
 		{"eau", 2, "+5 hydratation"},
 		{"puff", 20, "-5 santé, +15 détente"},
@@ -60,3 +60,30 @@ func main() {
 	player := player{money: 100, inv: []item{}}
 	fmt.Println(items[0], player)
 }
+
+
+scanner := bufio.NewScanner(os.Stdin)
+	for {
+		showMarket(items)
+		showInventory(player)
+
+		fmt.Print("\nChoisis un article à acheter (numéro) ou 0 pour quitter: ")
+		scanner.Scan()
+		var choice int
+		fmt.Sscanf(scanner.Text(), "%d", &choice)
+        input := strings.TrimSpace(scanner.Text())
+		if choice == 0 {
+			break
+		} else if choice > 0 && choice <= len(items) {
+			item := items[choice-1]
+			if player.money >= item.price {
+				player.money -= item.price
+				player.inv = append(player.inv, item)
+				fmt.Printf("Tu as acheté %s pour %d kishta. effet appliqué: %s\n", item.name, item.price, item.buff)
+			} else {
+				fmt.Println("Tu n'as pas assez de kishta.")
+			}
+		} else {
+			fmt.Println("Choix invalide.")
+		}
+	}
