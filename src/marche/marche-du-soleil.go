@@ -44,12 +44,12 @@ func showInventory(player player) {
 func main() {
 	items := []item{
 		{"rtx 5070", 500, "+100 puissance graphique"},
-		{"red bull", 10, "+20 énergie"},
+		{"red bull", 10, "+20 santé"},
 		{"ventoline", 25, "+30 respiration"},
 		{"hérisson", 60, "+15 défense (piquant)"},
 		{"bissap", 15, "+10 vitalité"},
 		{"seringue", 5, "+5 soin rapide"},
-		{"eau", 2, "+5 hydratation"},
+		{"eau", 2, "+5 santé"},
 		{"puff", 20, "-5 santé, +15 détente"},
 		{"snus", 15, "-3 santé, +10 concentration"},
 		{"nerd", 8, "+5 intelligence"},

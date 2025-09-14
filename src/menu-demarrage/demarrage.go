@@ -1,7 +1,7 @@
 package menuDemarrage
 
 import (
-	"PROJETRED/class"
+	Classe "PROJETRED/class"
 	"bufio"
 	"fmt"
 	"os"
@@ -17,7 +17,7 @@ func StartMenu() {
 	choice = strings.TrimSpace(strings.ToLower(choice))
 
 	if choice == "oui" {
-		class.InitPlayer()
+		Classe.InitPlayer()
 	} else {
 		fmt.Println("Dommage... à bientôt !")
 	}
