@@ -23,7 +23,8 @@ func StartMenu() {
 			fmt.Println("\n=== Menu Principal ===")
 			fmt.Println("1. Aller dans le Four")
 			fmt.Println("2. Aller au Marché")
-			fmt.Println("3. Quitter")
+			fmt.Println("3. Chercher un tête à tête")
+			fmt.Println("4. Quitter")
 			fmt.Print("Choisis une option : ")
 
 			menuChoice, _ := reader.ReadString('\n')
@@ -37,6 +38,8 @@ func StartMenu() {
 				fmt.Println("Tu es maintenant au Marché !")
 				// Ici tu peux appeler ton module Marché : marche.StartMarche()
 			case "3":
+				fmt.Println("Tu cherches un tête à tête...")
+			case "4":
 				fmt.Println("À bientôt !")
 				return
 			default:
