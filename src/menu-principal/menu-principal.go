@@ -2,6 +2,7 @@ package MenuPrincipal
 
 import (
 	class "PROJETRED/src/class"
+	combat "PROJETRED/src/combat-system"
 	"fmt"
 )
 
@@ -18,6 +19,7 @@ func MenuPrincipal(player class.Personnage) {
 
 		switch choix {
 		case 1:
+			combat.StartCombat(player)
 
 		case 2:
 			fmt.Println("Inventaire:", player.Inventaire)
