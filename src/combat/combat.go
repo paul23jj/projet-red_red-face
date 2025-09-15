@@ -37,15 +37,19 @@ func Combat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 		case "3":
 			UtiliserObjet(Personnage)
 		case "4":
+			Pouvoir(Personnage)
+		case "5":
 			Fuir(Personnage)
+			return // quitte le combat si le joueur fuit
 		default:
 			fmt.Println("Choix invalide.")
 		}
-	}
-	if Monstre.HP > 0 && Personnage.HP > 0 {
-		Monstre.EnnemiAttaque(Monstre, Personnage)
-	}
 
+		// L'ennemi attaque si les deux sont encore vivants
+		if Monstre.HP > 0 && Personnage.HP > 0 {
+			EnnemiAttaque(Monstre, Personnage)
+		}
+	}
 	if Personnage.HP <= 0 {
 		fmt.Println("Tu as été vaincu.")
 	} else {

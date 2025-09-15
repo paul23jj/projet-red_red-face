@@ -14,6 +14,7 @@ type Personnage struct {
 	Resistance   int
 	Chance       int
 	Inventaire   []Inventaire
+	Pouvoirs     []string
 }
 
 type Inventaire struct {
@@ -48,6 +49,7 @@ func InitPlayer() Personnage {
 		p.Intelligence = 3
 		p.Resistance = 5
 		p.Chance = 7
+		p.Pouvoirs = []string{"lancer de cuivre"}
 		p.Inventaire = []Inventaire{
 			{Name: "herisson", Quantity: 1},
 		}
@@ -60,6 +62,7 @@ func InitPlayer() Personnage {
 		p.Intelligence = 3
 		p.Resistance = 7
 		p.Chance = 3
+		p.Pouvoirs = []string{"ak47"}
 		p.Inventaire = []Inventaire{
 			{Name: "vodka", Quantity: 1},
 		}
@@ -72,6 +75,7 @@ func InitPlayer() Personnage {
 		p.Intelligence = 5
 		p.Resistance = 10
 		p.Chance = 5
+		p.Pouvoirs = []string{"corps à corps"}
 		p.Inventaire = []Inventaire{
 			{Name: "manuel de soumission", Quantity: 1},
 		}
@@ -84,6 +88,7 @@ func InitPlayer() Personnage {
 		p.Intelligence = 10
 		p.Resistance = 3
 		p.Chance = 3
+		p.Pouvoirs = []string{"magie noire"}
 		p.Inventaire = []Inventaire{
 			{Name: "bissap", Quantity: 1},
 		}
@@ -96,6 +101,7 @@ func InitPlayer() Personnage {
 		p.Intelligence = 5
 		p.Resistance = 5
 		p.Chance = 10
+		p.Pouvoirs = []string{"joga bonito"}
 		p.Inventaire = []Inventaire{
 			{Name: "shamballa", Quantity: 1},
 		}
@@ -111,4 +117,42 @@ func InitPlayer() Personnage {
 		fmt.Println("Pas grave tu peux toujours les voir dans le menu principal")
 	}
 	return p
+}
+
+// Definition du monstre
+type Monstre struct {
+	Nom   string
+	HP    int
+	MaxHP int
+}
+
+func UtiliserPouvoir(p *Personnage, pouvoir string, cible *Monstre) {
+	switch pouvoir {
+	case "lancer de cuivre":
+		fmt.Println("Tu lances un cuivre !")
+		cible.HP -= int(float64(p.Force) * 1.5)
+		if cible.HP < 0 {
+			cible.HP = 0
+		}
+	case "ak47":
+		fmt.Println("Tu tires avec l'AK47 !")
+		cible.HP -= int(float64(p.Force) * 2.0)
+		if cible.HP < 0 {
+			cible.HP = 0
+		}
+	case "corps à corps":
+		fmt.Println("Attaque corps à corps !")
+		cible.HP -= int(float64(p.Force) * 1.3)
+		if cible.HP < 0 {
+			cible.HP = 0
+		}
+	case "magie noire":
+		fmt.Println("Tu utilises la magie noire !")
+		p.HP += int(float64(p.Intelligence) * 2.0)
+	case "joga bonito":
+		fmt.Println("Tu esquives gracieusement !")
+		p.Vitesse += int(float64(p.Vitesse) * 2.0)
+	default:
+		fmt.Println("Pouvoir inconnu.")
+	}
 }
