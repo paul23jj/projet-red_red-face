@@ -83,3 +83,12 @@ func Attaquer(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 		Monstre.HP = 0
 	}
 }
+
+func EnnemiAttaque(monstre *Monstre.Monstre, joueur *class.Personnage) {
+	damage := rand.Intn(8) + 1 // dégâts aléatoires entre 1 et 8
+	joueur.HP -= damage
+	fmt.Printf("%s attaque %s et inflige %d dégâts!\n", monstre.Nom, joueur.Nom, damage)
+	if joueur.HP < 0 {
+		joueur.HP = 0
+	}
+}
