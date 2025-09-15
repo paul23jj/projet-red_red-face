@@ -2,11 +2,11 @@ package menuPrincipal
 
 import (
 	class "PROJETRED/src/class"
-	"PROJETRED/src/combat"
+	combat "PROJETRED/src/combat"
 	"fmt"
 )
 
-func MenuPrincipal(player class.Personnage) {
+func MenuPrincipal(Personnage class.Personnage) {
 	for {
 		fmt.Println("\n=== MENU ===")
 		fmt.Println("1) Aller se battre")
@@ -19,10 +19,11 @@ func MenuPrincipal(player class.Personnage) {
 
 		switch choix {
 		case 1:
-			combat.StartCombat(player)
+			monstre := combat.Monstre{} // Use the Monstre type from the combat package
+			combat.Combat(&Personnage, &monstre)
 
 		case 2:
-			fmt.Println("Inventaire:", player.Inventaire)
+			fmt.Println("Inventaire:", Personnage.Inventaire)
 		case 3:
 			fmt.Println("À bientôt 👋")
 			return
