@@ -9,6 +9,7 @@ import (
 	"time"
 
 	class "PROJETRED/src/class"
+	inventaire "PROJETRED/src/inventaire"
 	monster "PROJETRED/src/monster"
 )
 
@@ -16,10 +17,15 @@ import (
 
 func main() {
 	// Initialisation du joueur via le package class
-	player := class.InitCharacter() // doit retourner un class.Character
+	player := class.Personnage{}
+	player.Nom = "Héros"
+	player.HP = 100
+	player.Force = 15
+	player.Resistance = 5
+	player.Inventaire = inventaire.InitInventaire()
 
 	// Création d’un ennemi niveau 2 via le package monster
-	enemy := monster.CreateMonster(2) // doit retourner un class.Character
+	enemy := monster.CreateMonstre(2) // doit retourner un class.Character
 
 	// Lancer un combat
 	StartCombat(player, enemy)
@@ -75,7 +81,6 @@ func StartCombat(player class.Character, enemy class.Character) {
 
 	if player.HP <= 0 {
 		fmt.Printf("\n💀 %s t'a vaincu...\n", enemy.Name)
-		fmt.Println("Tu vas en garde à vue...")
 	}
 }
 
