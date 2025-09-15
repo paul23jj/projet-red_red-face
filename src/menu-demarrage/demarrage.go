@@ -2,6 +2,10 @@ package menuDemarrage
 
 import (
 	Classe "PROJETRED/src/class"
+	Combat "PROJETRED/src/combat"
+	Four "PROJETRED/src/forge"
+	Marche "PROJETRED/src/marche"
+	Monstre "PROJETRED/src/monstre"
 	"bufio"
 	"fmt"
 	"os"
@@ -33,12 +37,15 @@ func StartMenu() {
 			switch menuChoice {
 			case "1":
 				fmt.Println("Tu es maintenant dans le Four !")
-				// Ici tu peux appeler ton module Four : four.StartFour()
+				Four.StartFour()
 			case "2":
 				fmt.Println("Tu es maintenant au Marché !")
-				// Ici tu peux appeler ton module Marché : marche.StartMarche()
+				Marche.StartMarche()
 			case "3":
 				fmt.Println("Tu cherches un tête à tête...")
+				player := Classe.Personnage{Nom: "Joueur", HP: 100, Resistance: 10}
+				ennemi := Monstre.Monstre{Nom: "Ennemi", HP: 80}
+				Combat.Combat(&player, &ennemi)
 			case "4":
 				fmt.Println("À bientôt !")
 				return

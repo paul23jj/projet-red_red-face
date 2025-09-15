@@ -9,16 +9,17 @@ import (
 	"time"
 
 	class "PROJETRED/src/class"
+	Inventaire "PROJETRED/src/inventaire"
 	Monstre "PROJETRED/src/monstre"
 )
 
-func Combat(player *class.Personnage, enemy *Monstre.Monstre) {
+func Combat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 	reader := bufio.NewReader(os.Stdin)
 	rand.Seed(time.Now().UnixNano())
 
-	for player.HP > 0 && enemy.HP > 0 {
+	for Personnage.HP > 0 && Monstre.HP > 0 {
 		fmt.Println("\n--- Tour de combat ---")
-		fmt.Printf("%s : %d HP | %s : %d HP\n", player.Nom, player.HP, enemy.Nom, enemy.HP)
+		fmt.Printf("%s : %d HP | %s : %d HP\n", Personnage.Nom, Personnage.HP, Monstre.Nom, Monstre.HP)
 		fmt.Println("Actions disponibles :")
 		fmt.Println("1) Attaquer")
 		fmt.Println("2) Défendre")
@@ -30,48 +31,52 @@ func Combat(player *class.Personnage, enemy *Monstre.Monstre) {
 
 		switch choix {
 		case "1":
-			Attaquer(player, enemy)
+			Attaquer(Personnage, Monstre)
 		case "2":
-			Defendre(player)
+			Defendre(Personnage)
 		case "3":
-			UtiliserObjet(player)
+			UtiliserObjet(Personnage)
 		case "4":
-			Fuir(player)
+			Fuir(Personnage)
 		default:
 			fmt.Println("Choix invalide.")
 		}
 	}
 
-	if player.HP <= 0 {
+	if Personnage.HP <= 0 {
 		fmt.Println("Tu as été vaincu.")
 	} else {
 		fmt.Println("Tu as vaincu l'ennemi.")
 	}
 }
 
-func Fuir(player *class.Personnage) {
+func Fuir(Personnage *class.Personnage) {
 	panic("unimplemented")
 }
 
-func UtiliserObjet(player *class.Personnage) {
-	panic("unimplemented")
+func UtiliserObjet(p *class.Personnage) {
+	Inventaire.AfficherSacoche()
+	fmt.Print("Quel objet veux-tu utiliser ? ")
+	reader := bufio.NewReader(os.Stdin)
+	objet, _ := reader.ReadString('\n')
+	objet = strings.TrimSpace(objet)
+	Inventaire.UtiliserObjet(objet, p)
 }
 
-// func Defendre removed to fix redeclaration error
-func Defendre(player *class.Personnage) {
-	fmt.Printf("%s se met en position de défense.\n", player.Nom)
+func Defendre(Personnage *class.Personnage) {
+	fmt.Printf("%s se met en position de défense.\n", Personnage.Nom)
 	// Exemple simple : augmenter temporairement la défense
-	player.Resistance += 5
+	Personnage.Resistance += 5
 	fmt.Println("Défense augmentée pour ce tour !")
 }
 
 // Ajout de la fonction Attaquer
-func Attaquer(player *class.Personnage, enemy *Monstre.Monstre) {
+func Attaquer(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 	// Exemple simple d'attaque
 	damage := rand.Intn(10) + 1 // dégâts aléatoires entre 1 et 10
-	enemy.HP -= damage
-	fmt.Printf("%s attaque %s et inflige %d dégâts!\n", player.Nom, enemy.Nom, damage)
-	if enemy.HP < 0 {
-		enemy.HP = 0
+	Monstre.HP -= damage
+	fmt.Printf("%s attaque %s et inflige %d dégâts!\n", Personnage.Nom, Monstre.Nom, damage)
+	if Monstre.HP < 0 {
+		Monstre.HP = 0
 	}
 }
