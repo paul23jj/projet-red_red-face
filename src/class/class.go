@@ -28,7 +28,7 @@ func InitPlayer() {
 	fmt.Scan(&p.nom)
 
 	fmt.Println("Ton origine: ")
-	fmt.Println("1. Gitan")
+	fmt.Println("1. Nomade")
 	fmt.Println("2. Russe")
 	fmt.Println("3. Tchetchene")
 	fmt.Println("4. Malien")
@@ -40,7 +40,7 @@ func InitPlayer() {
 
 	switch choix {
 	case 1:
-		p.classe = "Gitan"
+		p.classe = "Nomade"
 		p.hp = 70
 		p.max_hp = 70
 		p.vitesse = 10
