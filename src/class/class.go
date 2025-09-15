@@ -101,12 +101,12 @@ func InitPlayer() Personnage {
 		}
 	}
 	fmt.Printf("Te voila enfin %s le %s\n", p.Nom, p.Classe)
-	fmt.Printf("veut tu regarder tes stats ?\n Hp: %d\n Force: %d\n Resistance: %d\n Intelligence: %d\n Vitesse: %d\n Chance: %d\n", p.HP, p.Force, p.Resistance, p.Intelligence, p.Vitesse, p.Chance)
+	fmt.Printf("veut tu regarder tes stats ?\n")
 	fmt.Printf("1.Oui\n 2.Non\n")
 	fmt.Scan(&choix)
 
 	if choix == 1 {
-		// Logique pour modifier les stats
+		fmt.Printf("Hp: %d\n Force: %d\n Resistance: %d\n Intelligence: %d\n Vitesse: %d\n Chance: %d\n", p.HP, p.Force, p.Resistance, p.Intelligence, p.Vitesse, p.Chance)
 	} else {
 		fmt.Println("Pas grave tu peux toujours les voir dans le menu principal")
 	}
