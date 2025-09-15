@@ -16,7 +16,7 @@ func Combat(player *class.Personnage, enemy *monster.Monstre) {
 	reader := bufio.NewReader(os.Stdin)
 	rand.Seed(time.Now().UnixNano())
 
-	for player.HP > 0 && enemy.Hp > 0 {
+	for player.HP > 0 && enemy.HP > 0 {
 		fmt.Println("\n--- Tour de combat ---")
 		fmt.Printf("%s : %d HP | %s : %d HP\n", player.Nom, player.HP, enemy.Nom, enemy.Hp)
 		fmt.Println("Actions disponibles :")
@@ -57,8 +57,12 @@ func UtiliserObjet(player *class.Personnage) {
 	panic("unimplemented")
 }
 
+// func Defendre removed to fix redeclaration error
 func Defendre(player *class.Personnage) {
-	panic("unimplemented")
+	fmt.Printf("%s se met en position de défense.\n", player.Nom)
+	// Exemple simple : augmenter temporairement la défense
+	player.Defense += 5
+	fmt.Println("Défense augmentée pour ce tour !")
 }
 
 // Ajout de la fonction Attaquer

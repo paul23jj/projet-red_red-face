@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 package menuPrincipal
 
 import (
 	class "PROJETRED/src/class"
 	combat "PROJETRED/src/combat-system"
 	monster "PROJETRED/src/monster"
+=======
+package MenuPrincipal
+
+import (
+	class "PROJETRED/src/class"
+
+>>>>>>> refs/remotes/origin/main
 	"fmt"
 )
 
@@ -14,6 +22,7 @@ func MenuPrincipal(player class.Personnage) {
 		fmt.Println("2) Voir inventaire")
 		fmt.Println("3) Quitter")
 		fmt.Print("Choix: ")
+<<<<<<< HEAD
 		var choix int
 		fmt.Scan(&choix)
 
@@ -29,6 +38,15 @@ func MenuPrincipal(player class.Personnage) {
 			}
 
 			combat.StartCombat(playerCharacter, enemy)
+=======
+
+		var choix int
+		fmt.Scan(&choix)
+
+		switch choix {
+		case 1:
+
+>>>>>>> refs/remotes/origin/main
 		case 2:
 			fmt.Println("Inventaire:", player.Inventaire)
 		case 3:
