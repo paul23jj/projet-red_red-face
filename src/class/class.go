@@ -28,7 +28,7 @@ func InitPlayer() {
 	fmt.Scan(&p.Nom)
 
 	fmt.Println("Ton origine: ")
-	fmt.Println("1. Gitan")
+	fmt.Println("1. Nomade")
 	fmt.Println("2. Russe")
 	fmt.Println("3. Tchetchene")
 	fmt.Println("4. Malien")
