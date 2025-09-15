@@ -75,6 +75,7 @@ func StartCombat(player class.Character, enemy class.Character) {
 
 	if player.HP <= 0 {
 		fmt.Printf("\n💀 %s t'a vaincu...\n", enemy.Name)
+		fmt.Println("Tu vas en garde à vue...")
 	}
 }
 

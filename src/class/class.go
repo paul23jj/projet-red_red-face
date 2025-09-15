@@ -6,8 +6,8 @@ type Personnage struct {
 	Nom          string
 	Classe       string
 	Niveau       int
-	Hp           int
-	Max_hp       int
+	HP           int
+	MaxHP        int
 	Vitesse      int
 	Force        int
 	Intelligence int
@@ -21,7 +21,7 @@ type Inventaire struct {
 	Quantity int
 }
 
-func InitPlayer() {
+func InitPlayer() Personnage {
 	var p Personnage
 
 	fmt.Print("Ton blaze: ")
@@ -40,9 +40,9 @@ func InitPlayer() {
 
 	switch choix {
 	case 1:
-		p.Classe = "Gitan"
-		p.Hp = 70
-		p.Max_hp = 70
+		p.Classe = "Nomade"
+		p.HP = 70
+		p.MaxHP = 70
 		p.Vitesse = 10
 		p.Force = 5
 		p.Intelligence = 3
@@ -53,8 +53,8 @@ func InitPlayer() {
 		}
 	case 2:
 		p.Classe = "Russe"
-		p.Hp = 100
-		p.Max_hp = 100
+		p.HP = 100
+		p.MaxHP = 100
 		p.Vitesse = 3
 		p.Force = 10
 		p.Intelligence = 3
@@ -64,9 +64,9 @@ func InitPlayer() {
 			{Name: "vodka", Quantity: 1},
 		}
 	case 3:
-		p.Classe = "tchetchene"
-		p.Hp = 80
-		p.Max_hp = 80
+		p.Classe = "Tchetchene"
+		p.HP = 80
+		p.MaxHP = 80
 		p.Vitesse = 5
 		p.Force = 7
 		p.Intelligence = 5
@@ -75,11 +75,10 @@ func InitPlayer() {
 		p.Inventaire = []Inventaire{
 			{Name: "manuel de soumission", Quantity: 1},
 		}
-
 	case 4:
 		p.Classe = "Malien"
-		p.Hp = 30
-		p.Max_hp = 30
+		p.HP = 30
+		p.MaxHP = 30
 		p.Vitesse = 7
 		p.Force = 3
 		p.Intelligence = 10
@@ -90,8 +89,8 @@ func InitPlayer() {
 		}
 	case 5:
 		p.Classe = "Bresilien"
-		p.Hp = 50
-		p.Max_hp = 50
+		p.HP = 50
+		p.MaxHP = 50
 		p.Vitesse = 5
 		p.Force = 5
 		p.Intelligence = 5
@@ -102,4 +101,6 @@ func InitPlayer() {
 		}
 	}
 	fmt.Printf("Te voila enfin %s le %s\n", p.Nom, p.Classe)
+
+	return p
 }
