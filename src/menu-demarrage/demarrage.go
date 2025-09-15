@@ -1,7 +1,8 @@
 package menuDemarrage
 
 import (
-	Classe "PROJETRED/src/class"
+	Class "PROJETRED/src/class"
+	menu "PROJETRED/src/menu-principal"
 	"bufio"
 	"fmt"
 	"os"
@@ -17,7 +18,8 @@ func StartMenu() {
 	choice = strings.TrimSpace(strings.ToLower(choice))
 
 	if choice == "oui" {
-		Classe.InitPlayer()
+		player := Class.InitPlayer() // ✅ ici tu récupères ton joueur
+		menu.MenuPrincipal(player)   // ✅ tu envoies le joueur vers ton menu principal
 	} else {
 		fmt.Println("Dommage... à bientôt !")
 	}

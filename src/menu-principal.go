@@ -20,7 +20,7 @@ func MenuPrincipal(player class.Personnage) {
         case 1:
             enemy := monster.GenererMonstre()
 
-            playerCharacter := combat.Character{
+            playerCharacter := class.Character{
                 Name:    player.Nom,
                 HP:      player.HP,
                 Attack:  player.Force,
