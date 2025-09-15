@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-package marcheDuSoleil
-=======
 package marche
->>>>>>> refs/remotes/origin/main
 
 import (
 	"bufio"
