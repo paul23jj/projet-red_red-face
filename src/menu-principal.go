@@ -2,6 +2,7 @@ package main
 
 import (
 	class "PROJETRED/src/class"
+	combat "PROJETRED/src/combat-system"
 	monster "PROJETRED/src/monster"
 	"fmt"
 )
