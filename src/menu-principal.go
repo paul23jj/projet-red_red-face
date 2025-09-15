@@ -18,7 +18,7 @@ func MenuPrincipal(player class.Personnage) {
 
         switch choix {
         case 1:
-            enemy := monster.CreateMonster(2)
+            enemy := monster.GenererMonstre()
 
             playerCharacter := combat.Character{
                 Name:    player.Nom,
