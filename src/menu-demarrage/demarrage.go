@@ -2,7 +2,6 @@ package menuDemarrage
 
 import (
 	Classe "PROJETRED/src/class"
-	"PROJETRED/src/four"
 	"bufio"
 	"fmt"
 	"os"
@@ -18,30 +17,30 @@ func StartMenu() {
 	choice = strings.TrimSpace(strings.ToLower(choice))
 
 	if choice == "oui" {
-		player := Classe.InitPlayer() // initialisation du joueur
-
-		scanner := bufio.NewScanner(os.Stdin)
+		Classe.InitPlayer()
 
 		for {
 			fmt.Println("\n=== Menu Principal ===")
-			fmt.Println("1) Aller au Marché du Soleil 🏪")
-			fmt.Println("2) Aller voir Le Four 🔥")
-			fmt.Println("3) Quitter la tess")
-			fmt.Print("Choix : ")
+			fmt.Println("1. Aller dans le Four")
+			fmt.Println("2. Aller au Marché")
+			fmt.Println("3. Quitter")
+			fmt.Print("Choisis une option : ")
 
-			scanner.Scan()
-			choix := strings.TrimSpace(scanner.Text())
+			menuChoice, _ := reader.ReadString('\n')
+			menuChoice = strings.TrimSpace(menuChoice)
 
-			switch choix {
+			switch menuChoice {
 			case "1":
-				Classe.EntrerMarche(player) // marche déjà existant
+				fmt.Println("Tu es maintenant dans le Four !")
+				// Ici tu peux appeler ton module Four : four.StartFour()
 			case "2":
-				four.EntrerForge(player, Classe.ShowStats) // forge
+				fmt.Println("Tu es maintenant au Marché !")
+				// Ici tu peux appeler ton module Marché : marche.StartMarche()
 			case "3":
-				fmt.Println("👉 Tu es retourné à la tess. À bientôt !")
+				fmt.Println("À bientôt !")
 				return
 			default:
-				fmt.Println("Choix invalide.")
+				fmt.Println("Option invalide, réessaie.")
 			}
 		}
 
