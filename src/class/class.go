@@ -101,6 +101,15 @@ func InitPlayer() Personnage {
 		}
 	}
 	fmt.Printf("Te voila enfin %s le %s\n", p.Nom, p.Classe)
-
 	return p
+	fmt.Printf("veut tu regarder tes stats ?\n Hp: %d\n Force: %d\n Resistance: %d\n Intelligence: %d\n Vitesse: %d\n Chance: %d\n", p.HP, p.Force, p.Resistance, p.Intelligence, p.Vitesse, p.Chance)
+	fmt.Printf("1.Oui\n 2.Non\n")
+	var choix int
+	fmt.Scan(&choix)
+
+	if choix == 1 {
+		// Logique pour modifier les stats
+	} else {
+		fmt.Println("Très bien, bonne aventure !")
+	}
 }
