@@ -12,32 +12,23 @@ import (
 	monster "PROJETRED/src/monster"
 )
 
-type Character struct {
-	Name    string
-	HP      int
-	Attack  int
-	Defense int
-}
+// Remove local Character type if class.Character is used
 
 func main() {
 	// Initialisation du joueur via le package class
-	player := class.InitPlayer() // doit retourner un Character
+	player := class.InitCharacter() // doit retourner un class.Character
 
 	// Création d’un ennemi niveau 2 via le package monster
-	enemy := monster.CreateMonster(2) // doit retourner un Character
+	enemy := monster.CreateMonster(2) // doit retourner un class.Character
 
 	// Lancer un combat
 	StartCombat(player, enemy)
 }
-
-func StartCombat(player Character, enemy Character) {
+func StartCombat(player class.Character, enemy class.Character) {
 	reader := bufio.NewReader(os.Stdin)
 	rand.Seed(time.Now().UnixNano())
 
-	fmt.Printf("\n🔥 L'affrontement commence ! %s VS %s 🔥\n", player.Name, enemy.Name)
-
 	for player.HP > 0 && enemy.HP > 0 {
-		fmt.Printf("\n%s: %d HP | %s: %d HP\n", player.Name, player.HP, enemy.Name, enemy.HP)
 		fmt.Println("Choisis une action :")
 		fmt.Println("1) Attaquer")
 		fmt.Println("2) Défendre")

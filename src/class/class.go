@@ -1,4 +1,4 @@
-package class
+package Classe
 
 import "fmt"
 
