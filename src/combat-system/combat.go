@@ -12,84 +12,62 @@ import (
 	monster "PROJETRED/src/monster"
 )
 
-type Character struct {
-	Name    string
-	HP      int
-	Attack  int
-	Defense int
-}
-
-func main() {
-	// Initialisation du joueur via le package class
-	player := class.InitPlayer() // doit retourner un Character
-
-	// Création d’un ennemi niveau 2 via le package monster
-	enemy := monster.CreateMonster(2) // doit retourner un Character
-
-	// Lancer un combat
-	StartCombat(player, enemy)
-}
-
-func StartCombat(player Character, enemy Character) {
+func Combat(player *class.Personnage, enemy *monster.Monstre) {
 	reader := bufio.NewReader(os.Stdin)
 	rand.Seed(time.Now().UnixNano())
 
-	fmt.Printf("\n🔥 L'affrontement commence ! %s VS %s 🔥\n", player.Name, enemy.Name)
-
-	for player.HP > 0 && enemy.HP > 0 {
-		fmt.Printf("\n%s: %d HP | %s: %d HP\n", player.Name, player.HP, enemy.Name, enemy.HP)
-		fmt.Println("Choisis une action :")
+	for player.HP > 0 && enemy.Hp > 0 {
+		fmt.Println("\n--- Tour de combat ---")
+		fmt.Printf("%s : %d HP | %s : %d HP\n", player.Nom, player.HP, enemy.Nom, enemy.Hp)
+		fmt.Println("Actions disponibles :")
 		fmt.Println("1) Attaquer")
 		fmt.Println("2) Défendre")
 		fmt.Println("3) Utiliser un objet")
 		fmt.Println("4) Fuir")
-		fmt.Print("Ton choix:")
+		fmt.Print("Ton choix: ")
+		choix, _ := reader.ReadString('\n')
+		choix = strings.TrimSpace(choix)
 
-		choice, _ := reader.ReadString('\n')
-		choice = strings.TrimSpace(choice)
-
-		switch choice {
+		switch choix {
 		case "1":
-			damage := max(0, player.Attack-enemy.Defense+rand.Intn(3))
-			enemy.HP -= damage
-			fmt.Printf("\n💥 Tu attaques %s et infliges %d dégâts !\n", enemy.Name, damage)
+			Attaquer(player, enemy)
 		case "2":
-			fmt.Println("\n🛡️ Tu te prépares à encaisser le coup !")
-			player.Defense += 2
+			Defendre(player)
 		case "3":
-			fmt.Println("\n💊 Tu utilises un bissap (+10 HP) !")
-			player.HP += 10
+			UtiliserObjet(player)
 		case "4":
-			fmt.Println("\n🏃 Tu fuis le combat...")
-			return
+			Fuir(player)
 		default:
-			fmt.Println("Commande invalide !")
-			continue
-		}
-
-		if enemy.HP <= 0 {
-			fmt.Printf("\n🎉 Tu as péta %s !🎉\n", enemy.Name)
-			break
-		}
-
-		// Tour de l'ennemi
-		enemyDamage := max(0, enemy.Attack-player.Defense+rand.Intn(3))
-		player.HP -= enemyDamage
-		fmt.Printf("⚔️ %s attaque et inflige %d dégâts !\n", enemy.Name, enemyDamage)
-
-		if player.Defense > 2 {
-			player.Defense -= 2 // reset bonus défense
+			fmt.Println("Choix invalide.")
 		}
 	}
 
 	if player.HP <= 0 {
-		fmt.Printf("\n💀 %s t'a vaincu...\n", enemy.Name)
+		fmt.Println("Tu as été vaincu.")
+	} else {
+		fmt.Println("Tu as vaincu l'ennemi.")
 	}
 }
 
-func max(a, b int) int {
-	if a > b {
-		return a
+func Fuir(player *class.Personnage) {
+	panic("unimplemented")
+}
+
+func UtiliserObjet(player *class.Personnage) {
+	panic("unimplemented")
+}
+
+func Defendre(player *class.Personnage) {
+	panic("unimplemented")
+}
+
+// Ajout de la fonction Attaquer
+func Attaquer(player *class.Personnage, enemy *monster.Monstre) {
+	// Exemple simple d'attaque
+	damage := rand.Intn(10) + 1 // dégâts aléatoires entre 1 et 10
+	enemy.Hp -= damage
+	fmt.Printf("%s attaque %s et inflige %d dégâts!\n", player.Nom, enemy.Nom, damage)
+	if enemy.Hp < 0 {
+		enemy.Hp = 0
 	}
-	return b
 }

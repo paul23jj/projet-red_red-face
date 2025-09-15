@@ -9,7 +9,7 @@ import (
 // Structure du monstre
 type Monstre struct {
 	Nom     string
-	Vie     int
+	Hp      int
 	Force   int
 	Defense int
 	vitesse int
@@ -36,6 +36,6 @@ func GenererMonstre() Monstre {
 func Monster() {
 	// Exemple : générer un monstre au hasard
 	ennemi := GenererMonstre()
-	fmt.Printf(" Un %s apparaît ! \n Vie: %d,\n Force: %d,\n Défense: %d\n",
-		ennemi.Nom, ennemi.Vie, ennemi.Force, ennemi.Defense)
+	fmt.Printf(" Un %s apparaît ! \n Hp: %d,\n Force: %d,\n Défense: %d\n",
+		ennemi.Nom, ennemi.Hp, ennemi.Force, ennemi.Defense)
 }

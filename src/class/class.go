@@ -1,31 +1,31 @@
-package class
+package Classe
 
 import "fmt"
 
-type personnage struct {
-	nom          string
-	classe       string
-	niveau       int
-	hp           int
-	max_hp       int
-	vitesse      int
-	force        int
-	intelligence int
-	resistance   int
-	chance       int
-	inventaire   []inventaire
+type Personnage struct {
+	Nom          string
+	Classe       string
+	Niveau       int
+	HP           int
+	MaxHP        int
+	Vitesse      int
+	Force        int
+	Intelligence int
+	Resistance   int
+	Chance       int
+	Inventaire   []Inventaire
 }
 
-type inventaire struct {
-	name     string
-	quantity int
+type Inventaire struct {
+	Name     string
+	Quantity int
 }
 
-func InitPlayer() {
-	var p personnage
+func InitPlayer() Personnage {
+	var p Personnage
 
 	fmt.Print("Ton blaze: ")
-	fmt.Scan(&p.nom)
+	fmt.Scan(&p.Nom)
 
 	fmt.Println("Ton origine: ")
 	fmt.Println("1. Nomade")
@@ -40,66 +40,75 @@ func InitPlayer() {
 
 	switch choix {
 	case 1:
-		p.classe = "Nomade"
-		p.hp = 70
-		p.max_hp = 70
-		p.vitesse = 10
-		p.force = 5
-		p.intelligence = 3
-		p.resistance = 5
-		p.chance = 7
-		p.inventaire = []inventaire{
-			{name: "herisson", quantity: 1},
+		p.Classe = "Nomade"
+		p.HP = 70
+		p.MaxHP = 70
+		p.Vitesse = 10
+		p.Force = 5
+		p.Intelligence = 3
+		p.Resistance = 5
+		p.Chance = 7
+		p.Inventaire = []Inventaire{
+			{Name: "herisson", Quantity: 1},
 		}
 	case 2:
-		p.classe = "Russe"
-		p.hp = 100
-		p.max_hp = 100
-		p.vitesse = 3
-		p.force = 10
-		p.intelligence = 3
-		p.resistance = 7
-		p.chance = 3
-		p.inventaire = []inventaire{
-			{name: "vodka", quantity: 1},
+		p.Classe = "Russe"
+		p.HP = 100
+		p.MaxHP = 100
+		p.Vitesse = 3
+		p.Force = 10
+		p.Intelligence = 3
+		p.Resistance = 7
+		p.Chance = 3
+		p.Inventaire = []Inventaire{
+			{Name: "vodka", Quantity: 1},
 		}
 	case 3:
-		p.classe = "tchetchene"
-		p.hp = 80
-		p.max_hp = 80
-		p.vitesse = 5
-		p.force = 7
-		p.intelligence = 5
-		p.resistance = 10
-		p.chance = 5
-		p.inventaire = []inventaire{
-			{name: "manuel de soumission", quantity: 1},
+		p.Classe = "Tchetchene"
+		p.HP = 80
+		p.MaxHP = 80
+		p.Vitesse = 5
+		p.Force = 7
+		p.Intelligence = 5
+		p.Resistance = 10
+		p.Chance = 5
+		p.Inventaire = []Inventaire{
+			{Name: "manuel de soumission", Quantity: 1},
 		}
-
 	case 4:
-		p.classe = "Malien"
-		p.hp = 30
-		p.max_hp = 30
-		p.vitesse = 7
-		p.force = 3
-		p.intelligence = 10
-		p.resistance = 3
-		p.chance = 3
-		p.inventaire = []inventaire{
-			{name: "bissap", quantity: 1},
+		p.Classe = "Malien"
+		p.HP = 30
+		p.MaxHP = 30
+		p.Vitesse = 7
+		p.Force = 3
+		p.Intelligence = 10
+		p.Resistance = 3
+		p.Chance = 3
+		p.Inventaire = []Inventaire{
+			{Name: "bissap", Quantity: 1},
 		}
 	case 5:
-		p.classe = "Bresilien"
-		p.hp = 50
-		p.max_hp = 50
-		p.vitesse = 5
-		p.force = 5
-		p.intelligence = 5
-		p.resistance = 5
-		p.chance = 10
-		p.inventaire = []inventaire{
-			{name: "shamballa", quantity: 1},
+		p.Classe = "Bresilien"
+		p.HP = 50
+		p.MaxHP = 50
+		p.Vitesse = 5
+		p.Force = 5
+		p.Intelligence = 5
+		p.Resistance = 5
+		p.Chance = 10
+		p.Inventaire = []Inventaire{
+			{Name: "shamballa", Quantity: 1},
 		}
 	}
-	fmt.Printf("Te voila enfin %s le %s\n", p.nom, p.classe)
+	fmt.Printf("Te voila enfin %s le %s\n", p.Nom, p.Classe)
+	fmt.Printf("veut tu regarder tes stats ?\n Hp: %d\n Force: %d\n Resistance: %d\n Intelligence: %d\n Vitesse: %d\n Chance: %d\n", p.HP, p.Force, p.Resistance, p.Intelligence, p.Vitesse, p.Chance)
+	fmt.Printf("1.Oui\n 2.Non\n")
+	fmt.Scan(&choix)
+
+	if choix == 1 {
+		// Logique pour modifier les stats
+	} else {
+		fmt.Println("Très bien, bonne aventure !")
+	}
+	return p
 }
