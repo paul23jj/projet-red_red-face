@@ -110,4 +110,5 @@ func InitPlayer() Personnage {
 	} else {
 		fmt.Println("Pas grave tu peux toujours les voir dans le menu principal")
 	}
+	return p
 }
