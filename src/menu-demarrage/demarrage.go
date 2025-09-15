@@ -1,7 +1,7 @@
 package menuDemarrage
 
 import (
-	Classe "PROJETRED/class"
+	Classe "PROJETRED/src/class"
 	"bufio"
 	"fmt"
 	"os"
