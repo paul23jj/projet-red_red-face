@@ -108,7 +108,7 @@ func InitPlayer() Personnage {
 	if choix == 1 {
 		// Logique pour modifier les stats
 	} else {
-		fmt.Println("Très bien, bonne aventure !")
+		fmt.Println("Pas grave tu peux toujours les voir dans le menu principal")
 	}
 	return p
 }
