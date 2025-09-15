@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"projet-red_red-face\src\class"
-	"projet-red_red-face\src\monster"
+	class "PROJETRED/src/class"
+	monster "PROJETRED/src/monster"
 )
 
 type Character struct {
