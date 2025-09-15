@@ -1,8 +1,8 @@
-package MenuPrincipal
+package menuPrincipal
 
 import (
 	class "PROJETRED/src/class"
-	combat "PROJETRED/src/combat-system"
+	"PROJETRED/src/combat"
 	"fmt"
 )
 
