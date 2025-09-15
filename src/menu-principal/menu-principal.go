@@ -2,7 +2,6 @@ package MenuPrincipal
 
 import (
 	class "PROJETRED/src/class"
-
 	"fmt"
 )
 

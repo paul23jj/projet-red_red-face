@@ -26,13 +26,13 @@ func UtiliserObjet(nom string, joueur *Personnage) {
 	if Sacoche[nom] > 0 {
 		switch nom {
 		case "red bull":
-			joueur.Hp += 20
+			joueur.HP += 20
 			Sacoche[nom]--
-			fmt.Printf("%s utilise un red bull (+20 PV). PV actuels: %d\n", joueur.Nom, joueur.Hp)
+			fmt.Printf("%s utilise un red bull (+20 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
 		case "Eau":
-			joueur.Hp += 10
+			joueur.HP += 10
 			Sacoche[nom]--
-			fmt.Printf("%s utilise une Eau (+10 PV). PV actuels: %d\n", joueur.Nom, joueur.Hp)
+			fmt.Printf("%s utilise une Eau (+10 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
 
 		default:
 			fmt.Println("❌ Objet non utilisable.")
@@ -46,7 +46,7 @@ type Personnage struct {
 	Nom          string
 	Classe       string
 	Niveau       int
-	Hp           int
+	HP           int
 	Max_hp       int
 	Vitesse      int
 	Force        int

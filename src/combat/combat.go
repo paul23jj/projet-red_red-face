@@ -18,7 +18,7 @@ func Combat(player *class.Personnage, enemy *monster.Monstre) {
 
 	for player.HP > 0 && enemy.HP > 0 {
 		fmt.Println("\n--- Tour de combat ---")
-		fmt.Printf("%s : %d HP | %s : %d HP\n", player.Nom, player.HP, enemy.Nom, enemy.Hp)
+		fmt.Printf("%s : %d HP | %s : %d HP\n", player.Nom, player.HP, enemy.Nom, enemy.HP)
 		fmt.Println("Actions disponibles :")
 		fmt.Println("1) Attaquer")
 		fmt.Println("2) Défendre")
@@ -61,7 +61,7 @@ func UtiliserObjet(player *class.Personnage) {
 func Defendre(player *class.Personnage) {
 	fmt.Printf("%s se met en position de défense.\n", player.Nom)
 	// Exemple simple : augmenter temporairement la défense
-	player.Defense += 5
+	player.Resistance += 5
 	fmt.Println("Défense augmentée pour ce tour !")
 }
 
@@ -69,9 +69,9 @@ func Defendre(player *class.Personnage) {
 func Attaquer(player *class.Personnage, enemy *monster.Monstre) {
 	// Exemple simple d'attaque
 	damage := rand.Intn(10) + 1 // dégâts aléatoires entre 1 et 10
-	enemy.Hp -= damage
+	enemy.HP -= damage
 	fmt.Printf("%s attaque %s et inflige %d dégâts!\n", player.Nom, enemy.Nom, damage)
-	if enemy.Hp < 0 {
-		enemy.Hp = 0
+	if enemy.HP < 0 {
+		enemy.HP = 0
 	}
 }
