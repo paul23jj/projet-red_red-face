@@ -42,6 +42,9 @@ func Combat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 			fmt.Println("Choix invalide.")
 		}
 	}
+	if Monstre.HP > 0 && Personnage.HP > 0 {
+		Monstre.EnnemiAttaque(Monstre, Personnage)
+	}
 
 	if Personnage.HP <= 0 {
 		fmt.Println("Tu as été vaincu.")
