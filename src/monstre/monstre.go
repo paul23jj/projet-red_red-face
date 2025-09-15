@@ -1,6 +1,7 @@
 package Monstre
 
 import (
+	class "PROJETRED/src/class"
 	"fmt"
 	"math/rand"
 	"time"
@@ -38,4 +39,13 @@ func Monster() {
 	ennemi := GenererMonstre()
 	fmt.Printf(" Un %s apparaît ! \n HP: %d,\n Force: %d,\n Défense: %d\n",
 		ennemi.Nom, ennemi.HP, ennemi.Force, ennemi.Defense)
+}
+
+func EnnemiAttaque(monstre *Monstre, joueur *class.Personnage) {
+	damage := rand.Intn(8) + 1 // dégâts aléatoires entre 1 et 8
+	joueur.HP -= damage
+	fmt.Printf("%s attaque %s et inflige %d dégâts!\n", monstre.Nom, joueur.Nom, damage)
+	if joueur.HP < 0 {
+		joueur.HP = 0
+	}
 }
