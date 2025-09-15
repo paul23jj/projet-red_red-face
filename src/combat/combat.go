@@ -9,10 +9,10 @@ import (
 	"time"
 
 	class "PROJETRED/src/class"
-	monster "PROJETRED/src/monster"
+	Monstre "PROJETRED/src/monstre"
 )
 
-func Combat(player *class.Personnage, enemy *monster.Monstre) {
+func Combat(player *class.Personnage, enemy *Monstre.Monstre) {
 	reader := bufio.NewReader(os.Stdin)
 	rand.Seed(time.Now().UnixNano())
 
@@ -66,7 +66,7 @@ func Defendre(player *class.Personnage) {
 }
 
 // Ajout de la fonction Attaquer
-func Attaquer(player *class.Personnage, enemy *monster.Monstre) {
+func Attaquer(player *class.Personnage, enemy *Monstre.Monstre) {
 	// Exemple simple d'attaque
 	damage := rand.Intn(10) + 1 // dégâts aléatoires entre 1 et 10
 	enemy.HP -= damage

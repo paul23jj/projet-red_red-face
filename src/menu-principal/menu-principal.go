@@ -3,7 +3,7 @@ package menuPrincipal
 import (
 	class "PROJETRED/src/class"
 	combat "PROJETRED/src/combat"
-	monstre "PROJETRED/src/monstre"
+	Monstre "PROJETRED/src/monstre"
 	"fmt"
 )
 
@@ -20,8 +20,8 @@ func MenuPrincipal(Personnage class.Personnage) {
 
 		switch choix {
 		case 1:
-			monstre := monstre.Monstre{} // Use the Monstre type from the monstre package
-			combat.Combat(&Personnage, &monstre)
+			Monstre := Monstre.Monstre{}
+			combat.Combat(&Personnage, &Monstre)
 
 		case 2:
 			fmt.Println("Inventaire:", Personnage.Inventaire)
