@@ -1,89 +1,127 @@
-package marche
+package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
+	"strconv"
+	"strings"
 )
 
-type item struct {
-	name  string
-	price int
-	buff  string
+// Buff appliqué aux stats
+type Buff struct {
+	Health      int
+	Energy      int
+	Intelligence int
+	Defense     int
 }
 
-type player struct {
-	money int
-	inv   []item
+// Structure Item
+type Item struct {
+	Name  string
+	Price int
+	Buff  Buff
 }
 
-var items []item = []item{
-	{"rtx 5070", 500, "+100 puissance graphique"},
-	{"red bull", 10, "+20 énergie"},
-	{"ventoline", 25, "+30 respiration"},
+// Exemple de structure Personnage (tu peux remplacer par la tienne)
+type Character struct {
+	Name        string
+	Money       int
+	Health      int
+	Energy      int
+	Intelligence int
+	Defense     int
+	Bag         []Item
 }
 
-func showMarket(player player) {
-	fmt.Println("\n--- Marché du Soleil 🌞---")
+// Appliquer l'effet d'un item sur un joueur
+func applyBuff(c *Character, item Item) {
+	c.Health += item.Buff.Health
+	c.Energy += item.Buff.Energy
+	c.Intelligence += item.Buff.Intelligence
+	c.Defense += item.Buff.Defense
+}
+
+// Afficher le marché
+func showMarket(items []Item) {
+	fmt.Println("\n--- Marché du Soleil 🌞 ---")
 	for i, item := range items {
-		fmt.Printf("%d) %s - %d kishta | Effet: %s\n", i+1, item.name, item.buff)
+		fmt.Printf("%d) %s - %d pièces | Effets: Santé %+d, Énergie %+d, Intel %+d, Défense %+d\n",
+			i+1, item.Name, item.Price,
+			item.Buff.Health, item.Buff.Energy, item.Buff.Intelligence, item.Buff.Defense)
 	}
 	fmt.Println("0) Quitter le marché")
 }
 
-func showInventory(player player) {
-	fmt.Println("\n--- ta saccoche ---")
-	if len(player.inv) == 0 {
-		fmt.Println("ta saccoche elle est vide mon gaté")
-	} else {
-		for _, item := range player.inv {
-			fmt.Printf("- %s (Effet: %s)\n", item.name, item.buff)
-		}
+// Fonction d'achat (cœur du marché)
+func buyItem(c *Character, items []Item, choice int) {
+	if choice < 1 || choice > len(items) {
+		fmt.Println("❌ Choix invalide.")
+		return
 	}
-	fmt.Printf("kishta restante: %d kishta\n", player.money)
+
+	item := items[choice-1]
+	if c.Money < item.Price {
+		fmt.Println("❌ Pas assez de kichta.")
+		return
+	}
+
+	// Achat réussi
+	c.Money -= item.Price
+	c.Bag = append(c.Bag, item)
+	applyBuff(c, item)
+	fmt.Printf("✅ %s a acheté %s pour %d pièces !\n", c.Name, item.Name, item.Price)
 }
 
+// Exemple de fonction principale
 func main() {
-	items := []item{
-		{"rtx 5070", 500, "+100 puissance graphique"},
-		{"red bull", 10, "+20 énergie"},
-		{"ventoline", 25, "+30 respiration"},
-		{"hérisson", 60, "+15 défense (piquant)"},
-		{"bissap", 15, "+10 HP"},
-		{"seringue", 5, "+5 soin rapide"},
-		{"eau", 2, "+5 hydratation"},
-		{"puff", 20, "-5 santé, +15 détente"},
-		{"snus", 15, "-3 santé, +10 concentration"},
-		{"nerd", 8, "+5 intelligence"},
-		{"manuel de soumission", 125, "+5 resistance"},
-		{"shambala", 150, "+5 chance, +3vitesse"},
-		{"chicha", 30, "-5 santé, +3 vitesse"},
+	// Liste des items disponibles au marché
+	items := []Item{
+		{"rtx 5070", 500, Buff{Health: 0, Energy: 0, Intelligence: +50, Defense: 0}},
+		{"red bull", 10, Buff{Health: 0, Energy: +20, Intelligence: 0, Defense: 0}},
+		{"ventoline", 25, Buff{Health: +10, Energy: +15, Intelligence: 0, Defense: 0}},
+		{"hérisson", 60, Buff{Health: 0, Energy: 0, Intelligence: 0, Defense: +15}},
+		{"bissap", 15, Buff{Health: +10, Energy: +5, Intelligence: 0, Defense: 0}},
+		{"seringue", 5, Buff{Health: +5, Energy: 0, Intelligence: 0, Defense: 0}},
+		{"eau", 2, Buff{Health: +2, Energy: +2, Intelligence: 0, Defense: 0}},
+		{"puff", 20, Buff{Health: -5, Energy: +15, Intelligence: 0, Defense: 0}},
+		{"snus", 15, Buff{Health: -3, Energy: +5, Intelligence: +10, Defense: 0}},
+		{"nerd", 8, Buff{Health: 0, Energy: 0, Intelligence: +5, Defense: 0}},
 	}
-	player := player{money: 100, inv: []item{}}
-	fmt.Println(items[0], player)
-}
 
+	// Exemple de personnage (tu remplaceras par les tiens)
+	player := Character{
+		Name:        "Aventurier",
+		Money:       200,
+		Health:      100,
+		Energy:      50,
+		Intelligence: 10,
+		Defense:     5,
+		Bag:         []Item{},
+	}
 
-scanner := bufio.NewScanner(os.Stdin)
+	scanner := bufio.NewScanner(os.Stdin)
+
 	for {
 		showMarket(items)
-		showInventory(player)
+		fmt.Printf("\n%s | 💰 Argent: %d | ❤️ Santé: %d | ⚡ Énergie: %d | 🧠 Intel: %d | 🛡️ Défense: %d\n",
+			player.Name, player.Money, player.Health, player.Energy, player.Intelligence, player.Defense)
 
-		fmt.Print("\nChoisis un article à acheter (numéro) ou 0 pour quitter: ")
+		fmt.Print("\nQue veux-tu acheter ? (numéro) : ")
 		scanner.Scan()
-		var choice int
-		fmt.Sscanf(scanner.Text(), "%d", &choice)
-        input := strings.TrimSpace(scanner.Text())
-		if choice == 0 {
+		input := strings.TrimSpace(scanner.Text())
+
+		if input == "0" {
+			fmt.Println("👋 Merci d'avoir visité le Marché du Soleil 🌞 !")
 			break
-		} else if choice > 0 && choice <= len(items) {
-			item := items[choice-1]
-			if player.money >= item.price {
-				player.money -= item.price
-				player.inv = append(player.inv, item)
-				fmt.Printf("Tu as acheté %s pour %d kishta. effet appliqué: %s\n", item.name, item.price, item.buff)
-			} else {
-				fmt.Println("Tu n'as pas assez de kishta.")
-			}
-		} else {
-			fmt.Println("Choix invalide.")
 		}
+
+		choice, err := strconv.Atoi(input)
+		if err != nil {
+			fmt.Println("❌ Entrée invalide.")
+			continue
+		}
+
+		buyItem(&player, items, choice)
 	}
+}
