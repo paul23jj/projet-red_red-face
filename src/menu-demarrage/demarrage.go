@@ -2,7 +2,7 @@ package menuDemarrage
 
 import (
 	Classe "PROJETRED/src/class"
-	"PROJETRED/src/four"
+	four "PROJETRED/src/forge"
 	"bufio"
 	"fmt"
 	"os"
@@ -34,9 +34,9 @@ func StartMenu() {
 
 			switch choix {
 			case "1":
-				Classe.EntrerMarche(player) // marche déjà existant
+				Classe.EntrerMarche(&player) // marche déjà existant
 			case "2":
-				four.EntrerForge(player, Classe.ShowStats) // forge
+				four.EntrerForge(&four.Personnage{}, Classe.ShowStats) // forge
 			case "3":
 				fmt.Println("👉 Tu es retourné à la tess. À bientôt !")
 				return
