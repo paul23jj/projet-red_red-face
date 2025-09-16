@@ -101,6 +101,6 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 		fmt.Println("Tu as été vaincu.")
 	} else {
 		fmt.Println("Tu as vaincu l'ennemi.")
-		xp.GainXP(&Personnage, currentMonstre.XPValue)
+		xp.GainXP(Personnage, Monstre.XPValue)
 	}
 }

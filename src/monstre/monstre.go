@@ -25,11 +25,11 @@ func (m *Monstre) EnnemiAttaque(Monstre *Monstre, Personnage *class.Personnage) 
 func GenererMonstre() Monstre {
     // Différents types de monstres possibles
     monstres := []Monstre{
-        {"La municipale", 30, 3, 3, 3},
-        {"La nationale", 50, 5, 5, 5},
-        {"La bac", 70, 7, 7, 7},
-        {"Le crs", 100, 10, 10, 10},
-        {"Le big show", 200, 20, 20, 20},
+        {"La municipale", 30, 3, 3, 3, 10},
+        {"La nationale", 50, 5, 5, 5, 20},
+        {"La bac", 70, 7, 7, 7, 30},
+        {"Le crs", 100, 10, 10, 10, 50},
+        {"Le big show", 200, 20, 20, 20, 100},
     }
 
     // Choisir un monstre au hasard
