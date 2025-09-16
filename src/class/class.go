@@ -129,14 +129,14 @@ type Monstre struct {
 func UtiliserPouvoir(p *Personnage, pouvoir string, cible *Monstre) {
 	switch pouvoir {
 	case "lancer de cuivre":
-		fmt.Println("Tu lances un cuivre !")
+		fmt.Println("Tu lances du cuivre !")
 		cible.HP -= int(float64(p.Force) * 1.5)
 		if cible.HP < 0 {
 			cible.HP = 0
 		}
-	case "ak47":
-		fmt.Println("Tu tires avec l'AK47 !")
-		cible.HP -= int(float64(p.Force) * 2.0)
+	case "Flash":
+		fmt.Println("Tu bois un flash !")
+		cible.HP += int(float64(p.Force) * 2.0)
 		if cible.HP < 0 {
 			cible.HP = 0
 		}
