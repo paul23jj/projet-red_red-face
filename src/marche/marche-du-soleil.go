@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	inventaire "PROJETRED/src/inventaire"
 )
 
 // ---------------- Structures ----------------
@@ -86,16 +87,27 @@ func acheterItem(p *Personnage, item Item) {
 		fmt.Println("❌ Pas assez de kishta !")
 		return
 	}
-
+	// Vérifier la limite de slots
+	if len(p.inventaire) >= inventaire.MaxSlots {
+		// sauf si l’objet existe déjà (stackable)
+		found := false
+		for _, it := range p.inventaire {
+			if it.name == item.Name {
+				found = true
+				break
+			}
+		}
+		if !found && item.Name != "Sacoche +" {
+			fmt.Println("❌ Sacoche pleine, impossible d’ajouter de nouveaux objets.")
+			return
+		}
 	// Retirer l’argent
 	p.kishta -= prix
 
 	// Ajouter à l’inventaire
-	found := false
 	for i, it := range p.inventaire {
 		if it.name == item.Name {
 			p.inventaire[i].quantity++
-			found = true
 			break
 		}
 	}
@@ -107,6 +119,7 @@ func acheterItem(p *Personnage, item Item) {
 	buff(p)
 
 	fmt.Printf("✅ Tu as acheté %s pour %d kishta !\n", item.Name, prix)
+}
 }
 
 // ---------------- Main ----------------
