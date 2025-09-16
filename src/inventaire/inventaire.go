@@ -1,8 +1,10 @@
 package inventaire
 
 import (
-	class "PROJETRED/src/class"
+
 	"fmt"
+
+	"PROJETRED/src/class"
 )
 
 var Sacoche = map[string]int{}

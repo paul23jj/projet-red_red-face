@@ -1,14 +1,14 @@
 package menuDemarrage
 
 import (
+	Classe "PROJETRED/src/class"
+	Combat "PROJETRED/src/combat"
+	Monstre "PROJETRED/src/monstre"
 	"bufio"
 	"fmt"
 	"os"
 	"strings"
-
-	Classe "PROJETRED/src/class"
-	Combat "PROJETRED/src/combat"
-	Monstre "PROJETRED/src/monstre"
+	
 )
 
 func StartMenu() {
@@ -16,65 +16,42 @@ func StartMenu() {
 
 	fmt.Println("=== Bienvenue dans Projet-Red ===")
 	fmt.Print("Veux-tu rentrer dans la tess ? (oui/non) : ")
-	choice, err := reader.ReadString('\n')
-	if err != nil {
-		fmt.Println("Erreur de lecture, à bientôt !")
-		return
-	}
+	choice, _ := reader.ReadString('\n')
 	choice = strings.TrimSpace(strings.ToLower(choice))
 
-	if choice != "oui" {
+	if choice == "oui" {
+		Classe.InitPlayer()
+
+		for {
+			fmt.Println("\n=== Menu Principal ===")
+			fmt.Println("1. Aller dans le Four")
+			fmt.Println("2. Aller au Marché")
+			fmt.Println("3. Chercher un tête à tête")
+			fmt.Println("4. Quitter")
+			fmt.Print("Choisis une option : ")
+
+			menuChoice, _ := reader.ReadString('\n')
+			menuChoice = strings.TrimSpace(menuChoice)
+
+			switch menuChoice {
+			case "1":
+				fmt.Println("Tu es maintenant dans le Four !")
+			case "2":
+				fmt.Println("Tu es maintenant au Marché !")
+			case "3":
+				fmt.Println("Tu cherches un tête à tête...")
+				player := Classe.Personnage{Nom: "Joueur", HP: 100, Resistance: 10}
+				ennemi := Monstre.Monstre{Nom: "Ennemi", HP: 80}
+				Combat.Combat(&player, &ennemi)
+			case "4":
+				fmt.Println("À bientôt !")
+				return
+			default:
+				fmt.Println("Option invalide, réessaie.")
+			}
+		}
+
+	} else {
 		fmt.Println("Dommage... à bientôt !")
-		return
 	}
-
-	Classe.InitPlayer()
-
-	for {
-		fmt.Println("\n=== Menu Principal ===")
-		fmt.Println("1. Aller dans le Four")
-		fmt.Println("2. Aller au Marché")
-		fmt.Println("3. Chercher un tête à tête")
-		fmt.Println("4. Quitter")
-		fmt.Print("Choisis une option : ")
-
-		menuChoice, err := reader.ReadString('\n')
-		if err != nil {
-			fmt.Println("Erreur de lecture, réessaie.")
-			continue
-		}
-		menuChoice = strings.TrimSpace(menuChoice)
-
-		switch menuChoice {
-		case "1":
-			fmt.Println("Tu es maintenant dans le Four !")
-			gererFour()
-		case "2":
-			fmt.Println("Tu es maintenant au Marché !")
-			gererMarche()
-		case "3":
-			fmt.Println("Tu cherches un tête à tête...")
-			player := Classe.Personnage{Nom: "Joueur", HP: 100, Resistance: 10}
-			ennemi := Monstre.Monstre{Nom: "Ennemi", HP: 80}
-			Combat.Combat(&player, &ennemi)
-		case "4":
-			fmt.Println("À bientôt !")
-			os.Exit(0)
-		default:
-			fmt.Println("Option invalide, réessaie.")
-		}
-
-		// Vider le buffer en lisant les caractères restants jusqu'à la fin de la ligne
-		reader.ReadString('\n')
-	}
-}
-
-func gererFour() {
-	fmt.Println("Bienvenue dans le Four !")
-	// Ajoute ici la logique pour le Four
-}
-
-func gererMarche() {
-	fmt.Println("Bienvenue au Marché !")
-	// Ajoute ici la logique pour le Marché
 }

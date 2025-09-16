@@ -8,18 +8,18 @@ import (
 	"strings"
 	"time"
 
-	class "PROJETRED/src/class"
-	Inventaire "PROJETRED/src/inventaire"
-	Monstre "PROJETRED/src/monstre"
+	"PROJETRED/src/class"
+	"PROJETRED/src/inventaire"
+	"PROJETRED/src/monstre"
 )
 
-func Combat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
+func Combat(p *class.Personnage, m *monstre.Monstre) {
 	reader := bufio.NewReader(os.Stdin)
 	rand.Seed(time.Now().UnixNano())
 
-	for Personnage.HP > 0 && Monstre.HP > 0 {
+	for p.HP > 0 && m.HP > 0 {
 		fmt.Println("\n--- Tour de combat ---")
-		fmt.Printf("%s : %d HP | %s : %d HP\n", Personnage.Nom, Personnage.HP, Monstre.Nom, Monstre.HP)
+		fmt.Printf("%s : %d/%d HP | %s : %d/%d HP\n", p.Nom, p.HP, p.MaxHP, m.Nom, m.HP, m.MaxHP)
 		fmt.Println("Actions disponibles :")
 		fmt.Println("1) Attaquer")
 		fmt.Println("2) Défendre")
@@ -32,72 +32,47 @@ func Combat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 
 		switch choix {
 		case "1":
-			Attaquer(Personnage, Monstre)
+			damage := rand.Intn(p.Force) + 1
+			m.HP -= damage
+			fmt.Printf("%s attaque %s et inflige %d dégâts!\n", p.Nom, m.Nom, damage)
 		case "2":
-			Defendre(Personnage)
+			p.Resistance += 5
+			fmt.Printf("%s se met en défense (+5 Résistance ce tour)!\n", p.Nom)
 		case "3":
-			UtiliserObjet(Personnage)
+			inventaire.AfficherSacoche()
+			fmt.Print("Quel objet veux-tu utiliser ? ")
+			objet, _ := reader.ReadString('\n')
+			objet = strings.TrimSpace(objet)
+			inventaire.UtiliserObjet(objet, p)
 		case "4":
-			UtiliserPouvoir(Personnage)
+			if len(p.Pouvoirs) > 0 {
+				class.UtiliserPouvoir(p, p.Pouvoirs[0], m)
+			} else {
+				fmt.Println("Pas de pouvoir disponible.")
+			}
 		case "5":
-			Fuir(Personnage)
-			return
+			if rand.Intn(100) < 50 {
+				fmt.Println("Fuite réussie !")
+				return
+			} else {
+				fmt.Println("Fuite échouée ! L'ennemi contre-attaque.")
+			}
 		default:
 			fmt.Println("Choix invalide.")
+			continue
 		}
 
-		// L'ennemi attaque si les deux sont encore vivants
-		if Monstre.HP > 0 && Personnage.HP > 0 {
-			EnnemiAttaque(Monstre, Personnage)
+		if m.HP <= 0 {
+			fmt.Printf("Tu as vaincu %s !\n", m.Nom)
+			xp.GainXP(p, 5) // Gagne 5 XP par combat
+			p.Kishta += 20  // Récompense en Kishta
+			return
+		}
+
+		m.EnnemiAttaque(p)
+		if p.HP <= 0 {
+			fmt.Println("Tu as été vaincu...")
+			return
 		}
 	}
-	if Personnage.HP <= 0 {
-		fmt.Println("Tu as été vaincu.")
-	} else {
-		fmt.Println("Tu as vaincu l'ennemi.")
-	}
-}
-
-func Fuir(Personnage *class.Personnage) {
-	panic("unimplemented")
-}
-
-func UtiliserObjet(p *class.Personnage) {
-	Inventaire.AfficherSacoche()
-	fmt.Print("Quel objet veux-tu utiliser ? ")
-	reader := bufio.NewReader(os.Stdin)
-	objet, _ := reader.ReadString('\n')
-	objet = strings.TrimSpace(objet)
-	Inventaire.UtiliserObjet(objet, p)
-}
-
-func Defendre(Personnage *class.Personnage) {
-	fmt.Printf("%s se met en position de défense.\n", Personnage.Nom)
-	// Exemple simple : augmenter temporairement la défense
-	Personnage.Resistance += 5
-	fmt.Println("Défense augmentée pour ce tour !")
-}
-
-// Ajout de la fonction Attaquer
-func Attaquer(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
-	// Exemple simple d'attaque
-	damage := rand.Intn(10) + 1 // dégâts aléatoires entre 1 et 10
-	Monstre.HP -= damage
-	fmt.Printf("%s attaque %s et inflige %d dégâts!\n", Personnage.Nom, Monstre.Nom, damage)
-	if Monstre.HP < 0 {
-		Monstre.HP = 0
-	}
-}
-
-func EnnemiAttaque(monstre *Monstre.Monstre, joueur *class.Personnage) {
-	damage := rand.Intn(8) + 1 // dégâts aléatoires entre 1 et 8
-	joueur.HP -= damage
-	fmt.Printf("%s attaque %s et inflige %d dégâts!\n", monstre.Nom, joueur.Nom, damage)
-	if joueur.HP < 0 {
-		joueur.HP = 0
-	}
-}
-
-func UtiliserPouvoir(Personnage *class.Personnage) {
-	fmt.Println("Pouvoir non implémenté.")
 }

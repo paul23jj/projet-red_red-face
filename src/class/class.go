@@ -1,4 +1,4 @@
-package Class
+package class
 
 import "fmt"
 
@@ -13,8 +13,9 @@ type Personnage struct {
 	Intelligence int
 	Resistance   int
 	Chance       int
+	Kishta       int // Ajouté pour cohérence avec le marché et le four
 	Inventaire   []Inventaire
-	Pouvoirs     []string // Ajout du pouvoir unique
+	Pouvoirs     []string
 }
 
 type Inventaire struct {
@@ -22,8 +23,11 @@ type Inventaire struct {
 	Quantity int
 }
 
-func InitPlayer() Personnage {
-	var p Personnage
+func InitPlayer() *Personnage {
+	p := &Personnage{
+		Niveau: 1,
+		Kishta: 100,
+	}
 
 	fmt.Print("Ton blaze: ")
 	fmt.Scan(&p.Nom)
@@ -50,9 +54,7 @@ func InitPlayer() Personnage {
 		p.Resistance = 5
 		p.Chance = 7
 		p.Pouvoirs = []string{"lancer de cuivre"}
-		p.Inventaire = []Inventaire{
-			{Name: "herisson", Quantity: 1},
-		}
+		p.Inventaire = []Inventaire{{"herisson", 1}}
 	case 2:
 		p.Classe = "Russe"
 		p.HP = 100
@@ -63,9 +65,7 @@ func InitPlayer() Personnage {
 		p.Resistance = 7
 		p.Chance = 3
 		p.Pouvoirs = []string{"ak47"}
-		p.Inventaire = []Inventaire{
-			{Name: "vodka", Quantity: 1},
-		}
+		p.Inventaire = []Inventaire{{"vodka", 1}}
 	case 3:
 		p.Classe = "Tchetchene"
 		p.HP = 80
@@ -76,9 +76,7 @@ func InitPlayer() Personnage {
 		p.Resistance = 10
 		p.Chance = 5
 		p.Pouvoirs = []string{"corps à corps"}
-		p.Inventaire = []Inventaire{
-			{Name: "manuel de soumission", Quantity: 1},
-		}
+		p.Inventaire = []Inventaire{{"manuel de soumission", 1}}
 	case 4:
 		p.Classe = "Malien"
 		p.HP = 30
@@ -89,9 +87,7 @@ func InitPlayer() Personnage {
 		p.Resistance = 3
 		p.Chance = 3
 		p.Pouvoirs = []string{"magie noire"}
-		p.Inventaire = []Inventaire{
-			{Name: "bissap", Quantity: 1},
-		}
+		p.Inventaire = []Inventaire{{"bissap", 1}}
 	case 5:
 		p.Classe = "Bresilien"
 		p.HP = 50
@@ -102,31 +98,35 @@ func InitPlayer() Personnage {
 		p.Resistance = 5
 		p.Chance = 10
 		p.Pouvoirs = []string{"joga bonito"}
-		p.Inventaire = []Inventaire{
-			{Name: "shamballa", Quantity: 1},
-		}
+		p.Inventaire = []Inventaire{{"shamballa", 1}}
+	default:
+		fmt.Println("Choix invalide, utilisation de valeurs par défaut.")
+		p.Classe = "Défaut"
+		p.HP = 50
+		p.MaxHP = 50
+		p.Vitesse = 5
+		p.Force = 5
+		p.Intelligence = 5
+		p.Resistance = 5
+		p.Chance = 5
 	}
+
 	fmt.Printf("Te voila enfin %s le %s\n", p.Nom, p.Classe)
-	fmt.Printf("veut tu regarder tes stats ?\n")
-	fmt.Printf("1.Oui\n 2.Non\n")
+	fmt.Printf("Veux-tu regarder tes stats ?\n1. Oui\n2. Non\n")
 	fmt.Scan(&choix)
 
 	if choix == 1 {
-		fmt.Printf("Hp: %d\n Force: %d\n Resistance: %d\n Intelligence: %d\n Vitesse: %d\n Chance: %d\n", p.HP, p.Force, p.Resistance, p.Intelligence, p.Vitesse, p.Chance)
+		fmt.Printf("HP: %d/%d | Force: %d | Résistance: %d | Intelligence: %d | Vitesse: %d | Chance: %d | Kishta: %d\n",
+			p.HP, p.MaxHP, p.Force, p.Resistance, p.Intelligence, p.Vitesse, p.Chance, p.Kishta)
 	} else {
-		fmt.Println("Pas grave tu peux toujours les voir dans le menu principal")
+		fmt.Println("Pas grave, tu peux les voir dans le menu principal.")
 	}
 	return p
 }
 
-// Definition du monstre
-type Monstre struct {
-	Nom   string
-	HP    int
-	MaxHP int
-}
 
-func UtiliserPouvoir(p *Personnage, pouvoir string, cible *Monstre) {
+
+func UtiliserPouvoir(p *Personnage, pouvoir string, cible *Personnage) {
 	switch pouvoir {
 	case "lancer de cuivre":
 		fmt.Println("Tu lances du cuivre !")
@@ -134,9 +134,9 @@ func UtiliserPouvoir(p *Personnage, pouvoir string, cible *Monstre) {
 		if cible.HP < 0 {
 			cible.HP = 0
 		}
-	case "Flash":
-		fmt.Println("Tu bois un flash !")
-		cible.HP += int(float64(p.Force) * 2.0)
+	case "ak47":
+		fmt.Println("Tu tires avec l'AK47 !")
+		cible.HP -= int(float64(p.Force) * 2.0)
 		if cible.HP < 0 {
 			cible.HP = 0
 		}
@@ -149,6 +149,9 @@ func UtiliserPouvoir(p *Personnage, pouvoir string, cible *Monstre) {
 	case "magie noire":
 		fmt.Println("Tu utilises la magie noire !")
 		p.HP += int(float64(p.Intelligence) * 2.0)
+		if p.HP > p.MaxHP {
+			p.HP = p.MaxHP
+		}
 	case "joga bonito":
 		fmt.Println("Tu esquives gracieusement !")
 		p.Vitesse += int(float64(p.Vitesse) * 2.0)

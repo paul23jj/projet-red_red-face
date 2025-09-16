@@ -1,4 +1,4 @@
-package Monstre
+package monstre
 
 import (
 	class "PROJETRED/src/class"
