@@ -14,7 +14,7 @@ type Personnage struct {
 	Resistance      int
 	Chance          int
 	Inventaire      []Inventaire
-	Pouvoirs        []string // Ajout du pouvoir unique
+	Pouvoirs        []string
 	PouvoirCooldown int
 }
 
@@ -30,17 +30,15 @@ func InitPlayer() Personnage {
 	fmt.Scan(&p.Nom)
 	if p.Nom == "Kantin" {
 		fmt.Println("Bienvenue Maître Kantin !")
-    // Boost spécial
-    p.HP += 1000
-    p.MaxHP += 1000
-    p.Force += 100
-    p.Vitesse += 100
-    p.Intelligence += 100
-    p.Resistance += 100
-    p.Chance += 100
-    // Pouvoir spécial
-    p.Pouvoirs = append(p.Pouvoirs, "Ultime Kantin")
-}
+		p.HP += 1000
+		p.MaxHP += 1000
+		p.Force += 100
+		p.Vitesse += 100
+		p.Intelligence += 100
+		p.Resistance += 100
+		p.Chance += 100
+		p.Pouvoirs = append(p.Pouvoirs, "Ultime Kantin")
+	}
 	fmt.Println("Ton origine: ")
 	fmt.Println("1. Nomade")
 	fmt.Println("2. Russe")
@@ -132,7 +130,6 @@ func InitPlayer() Personnage {
 	return p
 }
 
-// Definition du monstre
 type Monstre struct {
 	Nom   string
 	HP    int
