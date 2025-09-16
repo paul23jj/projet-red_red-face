@@ -51,6 +51,7 @@ func Combat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 		if Monstre.HP > 0 && Personnage.HP > 0 {
 			EnnemiAttaque(Monstre, Personnage)
 		}
+		// Décrémenter le cooldown du pouvoir si besoin
 		if Personnage.PouvoirCooldown > 0 {
 			Personnage.PouvoirCooldown--
 		}
@@ -63,7 +64,7 @@ func Combat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 }
 
 func Fuir(Personnage *class.Personnage) {
-	panic("unimplemented")
+	fmt.Printf("%s prend la fuite !\n", Personnage.Nom)
 }
 
 func UtiliserObjet(p *class.Personnage) {
@@ -77,14 +78,11 @@ func UtiliserObjet(p *class.Personnage) {
 
 func Defendre(Personnage *class.Personnage) {
 	fmt.Printf("%s se met en position de défense.\n", Personnage.Nom)
-	// Exemple simple : augmenter temporairement la défense
 	Personnage.Resistance += 5
 	fmt.Println("Défense augmentée pour ce tour !")
 }
 
-// Ajout de la fonction Attaquer
 func Attaquer(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
-	// Exemple simple d'attaque
 	damage := rand.Intn(10) + 1 // dégâts aléatoires entre 1 et 10
 	Monstre.HP -= damage
 	fmt.Printf("%s attaque %s et inflige %d dégâts!\n", Personnage.Nom, Monstre.Nom, damage)
@@ -147,7 +145,6 @@ func UtiliserPouvoir(Personnage *class.Personnage, cible *Monstre.Monstre) {
 		fmt.Println("Pouvoir inconnu.")
 		return
 	}
-	// Barre de chargement : le pouvoir sera indisponible pendant 3 tours
 	Personnage.PouvoirCooldown = 3
 	fmt.Println("⏳ Pouvoir utilisé ! Il sera à nouveau disponible dans 3 tours.")
 }
