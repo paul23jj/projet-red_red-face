@@ -101,6 +101,7 @@ func EnnemiAttaque(monstre *Monstre.Monstre, joueur *class.Personnage) {
 }
 
 func UtiliserPouvoir(Personnage *class.Personnage, cible *Monstre.Monstre) {
+	fmt.Println(Personnage)
 	if len(Personnage.Pouvoirs) == 0 {
 		fmt.Println("Tu n'as pas de pouvoir spécial.")
 		return
