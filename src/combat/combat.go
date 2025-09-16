@@ -15,6 +15,7 @@ import (
 )
 
 func Combat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
+	fmt.Println(Personnage)
 	reader := bufio.NewReader(os.Stdin)
 	rand.Seed(time.Now().UnixNano())
 
@@ -104,6 +105,7 @@ func EnnemiAttaque(monstre *Monstre.Monstre, joueur *class.Personnage) {
 }
 
 func UtiliserPouvoir(Personnage *class.Personnage, cible *Monstre.Monstre) {
+	fmt.Println(Personnage)
 	if len(Personnage.Pouvoirs) == 0 {
 		fmt.Println("Tu n'as pas de pouvoir spécial.")
 		return

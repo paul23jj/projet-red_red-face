@@ -8,8 +8,12 @@ import (
 
 	Classe "PROJETRED/src/class"
 	Combat "PROJETRED/src/combat"
+	Inventaire "PROJETRED/src/inventaire"
 	Monstre "PROJETRED/src/monstre"
 )
+
+var player Classe.Personnage
+var monstre Monstre.Monstre
 
 func StartMenu() {
 	reader := bufio.NewReader(os.Stdin)
@@ -28,14 +32,15 @@ func StartMenu() {
 		return
 	}
 
-	Classe.InitPlayer()
+	player = Classe.InitPlayer()
 
 	for {
 		fmt.Println("\n=== Menu Principal ===")
 		fmt.Println("1. Aller dans le Four")
 		fmt.Println("2. Aller au Marché")
-		fmt.Println("3. Chercher un tête à tête")
-		fmt.Println("4. Quitter")
+		fmt.Println("3. Regarder la sacoche")
+		fmt.Println("4. Chercher un tête à tête")
+		fmt.Println("5. Quitter")
 		fmt.Print("Choisis une option : ")
 
 		menuChoice, err := reader.ReadString('\n')
@@ -53,11 +58,13 @@ func StartMenu() {
 			fmt.Println("Tu es maintenant au Marché !")
 			gererMarche()
 		case "3":
-			fmt.Println("Tu cherches un tête à tête...")
-			player := Classe.Personnage{Nom: "Joueur", HP: 100, Resistance: 10}
-			ennemi := Monstre.Monstre{Nom: "Ennemi", HP: 80}
-			Combat.Combat(&player, &ennemi)
+			fmt.Println("Voici ta sacoche :")
+			Inventaire.AfficherSacoche()
 		case "4":
+			fmt.Println("Tu cherches un tête à tête...")
+			monstre = Monstre.GenererMonstre()
+			Combat.Combat(&player, &monstre)
+		case "5":
 			fmt.Println("À bientôt !")
 			os.Exit(0)
 		default:

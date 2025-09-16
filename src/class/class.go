@@ -14,7 +14,7 @@ type Personnage struct {
 	Resistance      int
 	Chance          int
 	Inventaire      []Inventaire
-	Pouvoirs        []string // Ajout du pouvoir unique
+	Pouvoirs        []string
 	PouvoirCooldown int
 }
 
@@ -29,33 +29,18 @@ func InitPlayer() Personnage {
 	fmt.Print("Ton blaze: ")
 	fmt.Scan(&p.Nom)
 	if p.Nom == "Kantin" {
-		fmt.Println("=====Bienvenue Maître Kantin !=====")
-		p.Classe = "Dieu vivant"
-		p.HP = 1000
-		p.MaxHP = 1000
-		p.Force = 100
-		p.Vitesse = 100
-		p.Intelligence = 100
-		p.Resistance = 100
-		p.Chance = 100
-		p.Pouvoirs = []string{"Ultime Kantin"}
-
-		fmt.Printf("Te voila enfin %s le %s\n", p.Nom, p.Classe)
-
-		var choix int
-		fmt.Printf("Veux-tu regarder tes stats ?\n1.Oui\n2.Non\n")
-		fmt.Scan(&choix)
-
-		if choix == 1 {
-			fmt.Printf("Hp: %d\nForce: %d\nResistance: %d\nIntelligence: %d\nVitesse: %d\nChance: %d\n",
-				p.HP, p.Force, p.Resistance, p.Intelligence, p.Vitesse, p.Chance)
-		} else {
-			fmt.Println("Pas grave, tu peux toujours les voir dans le menu principal")
-		}
-
-		return p // ensuite on retourne Kantin
-	}
-
+		fmt.Println("Bienvenue Maître Kantin !")
+    // Boost spécial
+    p.HP += 1000
+    p.MaxHP += 1000
+    p.Force += 100
+    p.Vitesse += 100
+    p.Intelligence += 100
+    p.Resistance += 100
+    p.Chance += 100
+    // Pouvoir spécial
+    p.Pouvoirs = append(p.Pouvoirs, "Ultime Kantin")
+}
 	fmt.Println("Ton origine: ")
 	fmt.Println("1. Nomade")
 	fmt.Println("2. Russe")
@@ -135,19 +120,20 @@ func InitPlayer() Personnage {
 		}
 	}
 	fmt.Printf("Te voila enfin %s le %s\n", p.Nom, p.Classe)
+	fmt.Println(p.Pouvoirs)
 	fmt.Printf("veut tu regarder tes stats ?\n")
 	fmt.Printf("1.Oui\n 2.Non\n")
 	fmt.Scan(&choix)
 
 	if choix == 1 {
 		fmt.Printf("Hp: %d\n Force: %d\n Resistance: %d\n Intelligence: %d\n Vitesse: %d\n Chance: %d\n", p.HP, p.Force, p.Resistance, p.Intelligence, p.Vitesse, p.Chance)
+		fmt.Println("Pouvoirs :", p.Pouvoirs)
 	} else {
 		fmt.Println("Pas grave tu peux toujours les voir dans le menu principal")
 	}
 	return p
 }
 
-// Definition du monstre
 type Monstre struct {
 	Nom   string
 	HP    int
