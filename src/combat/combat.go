@@ -37,10 +37,10 @@ func Combat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 		case "3":
 			UtiliserObjet(Personnage)
 		case "4":
-			Pouvoir(Personnage)
+			UtiliserPouvoir(Personnage)
 		case "5":
 			Fuir(Personnage)
-			return // quitte le combat si le joueur fuit
+			return
 		default:
 			fmt.Println("Choix invalide.")
 		}
@@ -97,7 +97,6 @@ func EnnemiAttaque(monstre *Monstre.Monstre, joueur *class.Personnage) {
 	}
 }
 
-// Stub de la fonction Pouvoir pour éviter l'erreur de compilation
-func Pouvoir(Personnage *class.Personnage) {
+func UtiliserPouvoir(Personnage *class.Personnage) {
 	fmt.Println("Pouvoir non implémenté.")
 }
