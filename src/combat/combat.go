@@ -14,7 +14,7 @@ import (
 	Monstre "PROJETRED/src/monstre"
 )
 
-func Combat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
+func CombatMain(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 	fmt.Println(Personnage)
 	reader := bufio.NewReader(os.Stdin)
 	rand.Seed(time.Now().UnixNano())

@@ -54,6 +54,7 @@ func StartMenu() {
         fmt.Println("5. Quitter")
         fmt.Print("Choisis une option : ")
 
+<<<<<<< HEAD
         menuChoice, err := reader.ReadString('\n')
         if err != nil {
             fmt.Println("Erreur de lecture, réessaie.")
@@ -80,6 +81,28 @@ func StartMenu() {
         default:
             fmt.Println("Option invalide, réessaie.")
         }
+=======
+		switch menuChoice {
+		case "1":
+			fmt.Println("Tu es maintenant dans le Four !")
+			gererFour()
+		case "2":
+			fmt.Println("Tu es maintenant au Marché !")
+			gererMarche()
+		case "3":
+			fmt.Println("Voici ta sacoche :")
+			Inventaire.AfficherSacoche(&player)
+		case "4":
+			fmt.Println("Tu cherches un tête à tête...")
+			monstre = Monstre.GenererMonstre()
+			Combat.CombatMain(&player, &monstre)
+		case "5":
+			fmt.Println("À bientôt !")
+			os.Exit(0)
+		default:
+			fmt.Println("Option invalide, réessaie.")
+		}
+>>>>>>> be7731b85df61a943c98fac909c47daabc977b75
 
         // Vider le buffer
         reader.ReadString('\n')
