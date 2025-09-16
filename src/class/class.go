@@ -13,6 +13,7 @@ type Personnage struct {
 	Intelligence    int
 	Resistance      int
 	Chance          int
+	Sacoche         map[string]int
 	Inventaire      []Inventaire
 	Pouvoirs        []string
 	PouvoirCooldown int

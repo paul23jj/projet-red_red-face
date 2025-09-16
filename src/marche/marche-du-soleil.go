@@ -1,12 +1,12 @@
 package marche
 
 import (
+	inventaire "PROJETRED/src/inventaire"
 	"bufio"
 	"fmt"
 	"os"
 	"strconv"
 	"strings"
-	inventaire "PROJETRED/src/inventaire"
 )
 
 // ---------------- Structures ----------------
@@ -101,25 +101,25 @@ func acheterItem(p *Personnage, item Item) {
 			fmt.Println("❌ Sacoche pleine, impossible d’ajouter de nouveaux objets.")
 			return
 		}
-	// Retirer l’argent
-	p.kishta -= prix
+		// Retirer l’argent
+		p.kishta -= prix
 
-	// Ajouter à l’inventaire
-	for i, it := range p.inventaire {
-		if it.name == item.Name {
-			p.inventaire[i].quantity++
-			break
+		// Ajouter à l’inventaire
+		for i, it := range p.inventaire {
+			if it.name == item.Name {
+				p.inventaire[i].quantity++
+				break
+			}
 		}
-	}
-	if !found {
-		p.inventaire = append(p.inventaire, Inventaire{name: item.Name, quantity: 1})
-	}
+		if !found {
+			p.inventaire = append(p.inventaire, Inventaire{name: item.Name, quantity: 1})
+		}
 
-	// Appliquer le buff
-	buff(p)
+		// Appliquer le buff
+		buff(p)
 
-	fmt.Printf("✅ Tu as acheté %s pour %d kishta !\n", item.Name, prix)
-}
+		fmt.Printf("✅ Tu as acheté %s pour %d kishta !\n", item.Name, prix)
+	}
 }
 
 // ---------------- Main ----------------
