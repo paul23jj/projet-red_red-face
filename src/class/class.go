@@ -27,6 +27,7 @@ type Inventaire struct {
 
 func InitPlayer() Personnage {
 	var p Personnage
+	var choix int // <-- déclaration ici, visible partout
 
 	fmt.Print("Ton blaze: ")
 	fmt.Scan(&p.Nom)
@@ -53,74 +54,94 @@ func InitPlayer() Personnage {
 	fmt.Println("5. Bresilien")
 	fmt.Print("Choix: ")
 
-	var choix int
-	fmt.Scan(&choix)
+	if p.Nom == "Kantin" {
+		fmt.Println("Bienvenue Maître Kantin !")
+		p.Classe = "Maître"
+		p.HP = 1000
+		p.MaxHP = 1000
+		p.Force = 100
+		p.Vitesse = 100
+		p.Intelligence = 100
+		p.Resistance = 100
+		p.Chance = 100
+		p.Pouvoirs = []string{"Ultime Kantin"}
+		p.Inventaire = []Inventaire{{Name: "artefact Kantin", Quantity: 1}}
+	} else {
+		fmt.Println("Ton origine: ")
+		fmt.Println("1. Nomade")
+		fmt.Println("2. Russe")
+		fmt.Println("3. Tchetchene")
+		fmt.Println("4. Malien")
+		fmt.Println("5. Bresilien")
+		fmt.Print("Choix: ")
+		fmt.Scan(&choix)
 
-	switch choix {
-	case 1:
-		p.Classe = "Nomade"
-		p.HP = 70
-		p.MaxHP = 70
-		p.Vitesse = 10
-		p.Force = 5
-		p.Intelligence = 3
-		p.Resistance = 5
-		p.Chance = 7
-		p.Pouvoirs = []string{"lancer de cuivre"}
-		p.Inventaire = []Inventaire{
-			{Name: "herisson", Quantity: 1},
-		}
-	case 2:
-		p.Classe = "Russe"
-		p.HP = 100
-		p.MaxHP = 100
-		p.Vitesse = 3
-		p.Force = 10
-		p.Intelligence = 3
-		p.Resistance = 7
-		p.Chance = 3
-		p.Pouvoirs = []string{"ak47"}
-		p.Inventaire = []Inventaire{
-			{Name: "vodka", Quantity: 1},
-		}
-	case 3:
-		p.Classe = "Tchetchene"
-		p.HP = 80
-		p.MaxHP = 80
-		p.Vitesse = 5
-		p.Force = 7
-		p.Intelligence = 5
-		p.Resistance = 10
-		p.Chance = 5
-		p.Pouvoirs = []string{"corps à corps"}
-		p.Inventaire = []Inventaire{
-			{Name: "manuel de soumission", Quantity: 1},
-		}
-	case 4:
-		p.Classe = "Malien"
-		p.HP = 30
-		p.MaxHP = 30
-		p.Vitesse = 7
-		p.Force = 3
-		p.Intelligence = 10
-		p.Resistance = 3
-		p.Chance = 3
-		p.Pouvoirs = []string{"magie noire"}
-		p.Inventaire = []Inventaire{
-			{Name: "bissap", Quantity: 1},
-		}
-	case 5:
-		p.Classe = "Bresilien"
-		p.HP = 50
-		p.MaxHP = 50
-		p.Vitesse = 5
-		p.Force = 5
-		p.Intelligence = 5
-		p.Resistance = 5
-		p.Chance = 10
-		p.Pouvoirs = []string{"joga bonito"}
-		p.Inventaire = []Inventaire{
-			{Name: "shamballa", Quantity: 1},
+		switch choix {
+		case 1:
+			p.Classe = "Nomade"
+			p.HP = 70
+			p.MaxHP = 70
+			p.Vitesse = 10
+			p.Force = 5
+			p.Intelligence = 3
+			p.Resistance = 5
+			p.Chance = 7
+			p.Pouvoirs = []string{"lancer de cuivre"}
+			p.Inventaire = []Inventaire{
+				{Name: "herisson", Quantity: 1},
+			}
+		case 2:
+			p.Classe = "Russe"
+			p.HP = 100
+			p.MaxHP = 100
+			p.Vitesse = 3
+			p.Force = 10
+			p.Intelligence = 3
+			p.Resistance = 7
+			p.Chance = 3
+			p.Pouvoirs = []string{"ak47"}
+			p.Inventaire = []Inventaire{
+				{Name: "vodka", Quantity: 1},
+			}
+		case 3:
+			p.Classe = "Tchetchene"
+			p.HP = 80
+			p.MaxHP = 80
+			p.Vitesse = 5
+			p.Force = 7
+			p.Intelligence = 5
+			p.Resistance = 10
+			p.Chance = 5
+			p.Pouvoirs = []string{"corps à corps"}
+			p.Inventaire = []Inventaire{
+				{Name: "manuel de soumission", Quantity: 1},
+			}
+		case 4:
+			p.Classe = "Malien"
+			p.HP = 30
+			p.MaxHP = 30
+			p.Vitesse = 7
+			p.Force = 3
+			p.Intelligence = 10
+			p.Resistance = 3
+			p.Chance = 3
+			p.Pouvoirs = []string{"magie noire"}
+			p.Inventaire = []Inventaire{
+				{Name: "bissap", Quantity: 1},
+			}
+		case 5:
+			p.Classe = "Bresilien"
+			p.HP = 50
+			p.MaxHP = 50
+			p.Vitesse = 5
+			p.Force = 5
+			p.Intelligence = 5
+			p.Resistance = 5
+			p.Chance = 10
+			p.Pouvoirs = []string{"joga bonito"}
+			p.Inventaire = []Inventaire{
+				{Name: "shamballa", Quantity: 1},
+			}
 		}
 	}
 	fmt.Printf("Te voila enfin %s le %s\n", p.Nom, p.Classe)
