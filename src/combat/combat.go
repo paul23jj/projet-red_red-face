@@ -96,3 +96,8 @@ func EnnemiAttaque(monstre *Monstre.Monstre, joueur *class.Personnage) {
 		joueur.HP = 0
 	}
 }
+
+// Stub de la fonction Pouvoir pour éviter l'erreur de compilation
+func Pouvoir(Personnage *class.Personnage) {
+	fmt.Println("Pouvoir non implémenté.")
+}

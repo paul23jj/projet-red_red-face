@@ -14,7 +14,7 @@ type Personnage struct {
 	Resistance   int
 	Chance       int
 	Inventaire   []Inventaire
-	Pouvoirs     []string
+	Pouvoirs     []string // Ajout du pouvoir unique
 }
 
 type Inventaire struct {
