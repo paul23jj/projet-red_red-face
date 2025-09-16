@@ -6,14 +6,15 @@ import (
 	"os"
 	"strings"
 
-	Classe "PROJETRED/src/class"
-	Combat "PROJETRED/src/combat"
-	Inventaire "PROJETRED/src/inventaire"
-	Monstre "PROJETRED/src/monstre"
+	class "PROJETRED/src/class"
+	combat "PROJETRED/src/combat"
+	four "PROJETRED/src/forge"
+	inventaire "PROJETRED/src/inventaire"
+	monstre "PROJETRED/src/monstre"
 )
 
-var player Classe.Personnage
-var monstre Monstre.Monstre
+var player class.Personnage
+var currentMonstre monstre.Monstre
 
 func StartMenu() {
 	reader := bufio.NewReader(os.Stdin)
@@ -32,7 +33,11 @@ func StartMenu() {
 		return
 	}
 
-	player = Classe.InitPlayer()
+	player = class.InitPlayer()
+
+	if player.Saccoche == nil {
+		player.Saccoche = []class.Inventaire{}
+	}
 
 	for {
 		fmt.Println("\n=== Menu Principal ===")
@@ -49,21 +54,20 @@ func StartMenu() {
 			continue
 		}
 		menuChoice = strings.TrimSpace(menuChoice)
-
 		switch menuChoice {
 		case "1":
 			fmt.Println("Tu es maintenant dans le Four !")
 			gererFour()
 		case "2":
 			fmt.Println("Tu es maintenant au Marché !")
-			gererMarche()
+
 		case "3":
 			fmt.Println("Voici ta sacoche :")
-			Inventaire.AfficherSacoche(&player)
+			inventaire.AfficherSacoche(&player)
 		case "4":
 			fmt.Println("Tu cherches un tête à tête...")
-			monstre = Monstre.GenererMonstre()
-			Combat.CombatMain(&player, &monstre)
+			currentMonstre = monstre.GenererMonstre()
+			combat.TourPartoutCombat(&player, &currentMonstre)
 		case "5":
 			fmt.Println("À bientôt !")
 			os.Exit(0)
@@ -71,17 +75,53 @@ func StartMenu() {
 			fmt.Println("Option invalide, réessaie.")
 		}
 
-		// Vider le buffer en lisant les caractères restants jusqu'à la fin de la ligne
+		// Vider le buffer
 		reader.ReadString('\n')
 	}
 }
 
 func gererFour() {
-	fmt.Println("Bienvenue dans le Four !")
-	// Ajoute ici la logique pour le Four
-}
+	// Fonction pour afficher les stats compatible avec four.Personnage
+	showStats := func(p *four.Personnage) {
+		fmt.Printf("\n--- Stats de ton perso (%s) ---\n", p.Classe)
+		fmt.Printf("HP: %d/%d | Force: %d | Vitesse: %d | Intel: %d | Résistance: %d | Chance: %d | Kishta: %d\n",
+			p.Hp, p.MaxHp, p.Force, p.Vitesse, p.Intelligence, p.Resistance, p.Chance, p.Kishta)
+		fmt.Println("Inventaire :")
+		if len(p.Inventaire) == 0 {
+			fmt.Println(" (vide)")
+		} else {
+			for _, it := range p.Inventaire {
+				fmt.Printf(" - %s x%d\n", it.Name, it.Quantity)
+			}
+		}
+	}
 
-func gererMarche() {
-	fmt.Println("Bienvenue au Marché !")
-	// Ajoute ici la logique pour le Marché
+	// Convertir class.Personnage en four.Personnage
+	pFour := &four.Personnage{
+		Classe:       player.Classe,
+		Hp:           player.HP,
+		MaxHp:        player.MaxHP,
+		Vitesse:      player.Vitesse,
+		Force:        player.Force,
+		Intelligence: player.Intelligence,
+		Resistance:   player.Resistance,
+		Chance:       player.Chance,
+		Kishta:       player.Kishta,
+		Inventaire:   []four.Inventaire{},
+	}
+
+	// Appeler la fonction du Four
+	four.EntrerForge(pFour, showStats)
+
+	// Synchroniser les changements vers player
+	player.HP = pFour.Hp
+	player.MaxHP = pFour.MaxHp
+	player.Vitesse = pFour.Vitesse
+	player.Force = pFour.Force
+	player.Intelligence = pFour.Intelligence
+	player.Resistance = pFour.Resistance
+	player.Chance = pFour.Chance
+	player.Kishta = pFour.Kishta
+	// Synchroniser l'inventaire
+	player.Saccoche = []class.Inventaire{}
 }

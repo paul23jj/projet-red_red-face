@@ -1,7 +1,7 @@
 package main
 
-import "PROJETRED/src/menu-demarrage"
+import md "PROJETRED/src/menu-demarrage"
 
 func main() {
-	menuDemarrage.StartMenu()
+	md.StartMenu()
 }
