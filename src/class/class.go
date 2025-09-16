@@ -31,15 +31,17 @@ func InitPlayer() Personnage {
 	fmt.Scan(&p.Nom)
 	if p.Nom == "Kantin" {
 		fmt.Println("Bienvenue Maître Kantin !")
-		p.HP += 1000
-		p.MaxHP += 1000
-		p.Force += 100
-		p.Vitesse += 100
-		p.Intelligence += 100
-		p.Resistance += 100
-		p.Chance += 100
-		p.Pouvoirs = append(p.Pouvoirs, "Ultime Kantin")
-	}
+    // Boost spécial
+    p.HP += 1000
+    p.MaxHP += 1000
+    p.Force += 100
+    p.Vitesse += 100
+    p.Intelligence += 100
+    p.Resistance += 100
+    p.Chance += 100
+    // Pouvoir spécial
+    p.Pouvoirs = append(p.Pouvoirs, "Ultime Kantin")
+}
 	fmt.Println("Ton origine: ")
 	fmt.Println("1. Nomade")
 	fmt.Println("2. Russe")
@@ -140,31 +142,43 @@ type Monstre struct {
 }
 
 func UtiliserPouvoir(p *Personnage, pouvoir string, cible *Monstre) {
+	// Boost spécial pour Kantin
+	var boost float64 = 1.0
+	if p.Nom == "Kantin" {
+		boost = 10.0 // Kantin est 10x plus fort pour la démo
+	}
+
 	switch pouvoir {
 	case "lancer de cuivre":
 		fmt.Println("Tu lances du cuivre !")
-		cible.HP -= int(float64(p.Force) * 1.5)
+		cible.HP -= int(float64(p.Force) * 1.5 * boost)
 		if cible.HP < 0 {
 			cible.HP = 0
 		}
 	case "Flash":
 		fmt.Println("Tu bois un flash !")
-		cible.HP += int(float64(p.Force) * 2.0)
+		cible.HP += int(float64(p.Force) * 2.0 * boost)
 		if cible.HP < 0 {
 			cible.HP = 0
 		}
 	case "corps à corps":
 		fmt.Println("Attaque corps à corps !")
-		cible.HP -= int(float64(p.Force) * 1.3)
+		cible.HP -= int(float64(p.Force) * 1.3 * boost)
 		if cible.HP < 0 {
 			cible.HP = 0
 		}
 	case "magie noire":
 		fmt.Println("Tu utilises la magie noire !")
-		p.HP += int(float64(p.Intelligence) * 2.0)
+		p.HP += int(float64(p.Intelligence) * 2.0 * boost)
 	case "joga bonito":
 		fmt.Println("Tu esquives gracieusement !")
-		p.Vitesse += int(float64(p.Vitesse) * 2.0)
+		p.Vitesse += int(float64(p.Vitesse) * 2.0 * boost)
+	case "Ultime Kantin":
+		fmt.Println("Kantin utilise son pouvoir ultime !")
+		cible.HP -= int(float64(p.Force) * 20 * boost)
+		if cible.HP < 0 {
+			cible.HP = 0
+		}
 	default:
 		fmt.Println("Pouvoir inconnu.")
 	}
