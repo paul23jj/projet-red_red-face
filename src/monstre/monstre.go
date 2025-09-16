@@ -14,6 +14,7 @@ type Monstre struct {
     Force   int
     Defense int
     Vitesse int
+    XPValue int // Valeur d'XP donnée à la victoire
 }
 
 func (m *Monstre) EnnemiAttaque(Monstre *Monstre, Personnage *class.Personnage) {
