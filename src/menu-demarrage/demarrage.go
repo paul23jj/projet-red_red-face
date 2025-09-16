@@ -59,7 +59,7 @@ func StartMenu() {
 			gererMarche()
 		case "3":
 			fmt.Println("Voici ta sacoche :")
-			Inventaire.AfficherSacoche()
+			Inventaire.AfficherSacoche(&player)
 		case "4":
 			fmt.Println("Tu cherches un tête à tête...")
 			monstre = Monstre.GenererMonstre()

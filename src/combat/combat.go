@@ -69,7 +69,7 @@ func Fuir(Personnage *class.Personnage) {
 }
 
 func UtiliserObjet(p *class.Personnage) {
-	Inventaire.AfficherSacoche()
+	Inventaire.AfficherSacoche(p)
 	fmt.Print("Quel objet veux-tu utiliser ? ")
 	reader := bufio.NewReader(os.Stdin)
 	objet, _ := reader.ReadString('\n')
