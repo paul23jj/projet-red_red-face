@@ -59,7 +59,9 @@ func StartMenu() {
 			Inventaire.AfficherSacoche()
 		case "4":
 			fmt.Println("Tu cherches un tête à tête...")
-			player := Classe.Personnage{Nom: "Joueur", HP: 100, Resistance: 10}
+			player := Classe.Personnage{}
+			fmt.Print("Entre le nom de ton personnage : ")
+			fmt.Scanln(&player.Nom)
 			ennemi := Monstre.Monstre{Nom: "Ennemi", HP: 80}
 			Combat.Combat(&player, &ennemi)
 		case "5":
