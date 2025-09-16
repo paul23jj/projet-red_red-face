@@ -13,10 +13,10 @@ type Personnage struct {
 	Intelligence    int
 	Resistance      int
 	Chance          int
-	Inventaire      []Inventaire
+	Saccoche        []Inventaire
 	Pouvoirs        []string
 	PouvoirCooldown int
-	Money           int
+	Kishta          int
 }
 
 type Inventaire struct {
@@ -30,7 +30,7 @@ func InitPlayer() Personnage {
 
 	fmt.Print("Ton blaze: ")
 	fmt.Scan(&p.Nom)
-	p.Money = 100 // Par exemple, 100 au départ
+	p.Kishta = 100 // Par exemple, 100 au départ
 
 	if p.Nom == "Kantin" {
 		fmt.Println("Bienvenue Maître Kantin !")
@@ -43,16 +43,8 @@ func InitPlayer() Personnage {
 		p.Resistance += 100
 		p.Chance += 100
 		p.Pouvoirs = append(p.Pouvoirs, "Ultime Kantin")
-		p.Money = 100000
+		p.Kishta = 100000
 	}
-	fmt.Println("Ton origine: ")
-	fmt.Println("1. Nomade")
-	fmt.Println("2. Russe")
-	fmt.Println("3. Tchetchene")
-	fmt.Println("4. Malien")
-	fmt.Println("5. Bresilien")
-	fmt.Print("Choix: ")
-
 	if p.Nom == "Kantin" {
 		fmt.Println("Bienvenue Maître Kantin !")
 		p.Classe = "Maître"
@@ -64,7 +56,7 @@ func InitPlayer() Personnage {
 		p.Resistance = 100
 		p.Chance = 100
 		p.Pouvoirs = []string{"Ultime Kantin"}
-		p.Inventaire = []Inventaire{{Name: "artefact Kantin", Quantity: 1}}
+		p.Saccoche = []Inventaire{{Name: "artefact Kantin", Quantity: 1}}
 	} else {
 		fmt.Println("Ton origine: ")
 		fmt.Println("1. Nomade")
@@ -86,7 +78,7 @@ func InitPlayer() Personnage {
 			p.Resistance = 5
 			p.Chance = 7
 			p.Pouvoirs = []string{"lancer de cuivre"}
-			p.Inventaire = []Inventaire{
+			p.Saccoche = []Inventaire{
 				{Name: "herisson", Quantity: 1},
 			}
 		case 2:
@@ -99,7 +91,7 @@ func InitPlayer() Personnage {
 			p.Resistance = 7
 			p.Chance = 3
 			p.Pouvoirs = []string{"ak47"}
-			p.Inventaire = []Inventaire{
+			p.Saccoche = []Inventaire{
 				{Name: "vodka", Quantity: 1},
 			}
 		case 3:
@@ -112,7 +104,7 @@ func InitPlayer() Personnage {
 			p.Resistance = 10
 			p.Chance = 5
 			p.Pouvoirs = []string{"corps à corps"}
-			p.Inventaire = []Inventaire{
+			p.Saccoche = []Inventaire{
 				{Name: "manuel de soumission", Quantity: 1},
 			}
 		case 4:
@@ -125,7 +117,7 @@ func InitPlayer() Personnage {
 			p.Resistance = 3
 			p.Chance = 3
 			p.Pouvoirs = []string{"magie noire"}
-			p.Inventaire = []Inventaire{
+			p.Saccoche = []Inventaire{
 				{Name: "bissap", Quantity: 1},
 			}
 		case 5:
@@ -138,7 +130,7 @@ func InitPlayer() Personnage {
 			p.Resistance = 5
 			p.Chance = 10
 			p.Pouvoirs = []string{"joga bonito"}
-			p.Inventaire = []Inventaire{
+			p.Saccoche = []Inventaire{
 				{Name: "shamballa", Quantity: 1},
 			}
 		}
