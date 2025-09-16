@@ -13,10 +13,10 @@ type Personnage struct {
 	Intelligence    int
 	Resistance      int
 	Chance          int
-	Sacoche         map[string]int
 	Inventaire      []Inventaire
 	Pouvoirs        []string
 	PouvoirCooldown int
+	Money           int
 }
 
 type Inventaire struct {
@@ -30,6 +30,28 @@ func InitPlayer() Personnage {
 
 	fmt.Print("Ton blaze: ")
 	fmt.Scan(&p.Nom)
+	p.Money = 100 // Par exemple, 100 au départ
+
+	if p.Nom == "Kantin" {
+		fmt.Println("Bienvenue Maître Kantin !")
+		// Boost spécial
+		p.HP += 1000
+		p.MaxHP += 1000
+		p.Force += 100
+		p.Vitesse += 100
+		p.Intelligence += 100
+		p.Resistance += 100
+		p.Chance += 100
+		p.Pouvoirs = append(p.Pouvoirs, "Ultime Kantin")
+		p.Money = 100000
+	}
+	fmt.Println("Ton origine: ")
+	fmt.Println("1. Nomade")
+	fmt.Println("2. Russe")
+	fmt.Println("3. Tchetchene")
+	fmt.Println("4. Malien")
+	fmt.Println("5. Bresilien")
+	fmt.Print("Choix: ")
 
 	if p.Nom == "Kantin" {
 		fmt.Println("Bienvenue Maître Kantin !")
