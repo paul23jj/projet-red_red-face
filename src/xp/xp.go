@@ -19,7 +19,6 @@ func GainXP(player *class.Personnage, amount int) {
 // LevelUp augmente les stats du joueur
 func LevelUp(player *class.Personnage) {
 	fmt.Printf("🎉 %s passe au niveau %d !\n", player.Nom, player.Niveau/10+1)
-
 	// Bonus de stats à chaque montée de niveau
 	player.HP += 10
 	player.MaxHP += 10
