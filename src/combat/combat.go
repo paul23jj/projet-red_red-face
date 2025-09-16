@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -38,7 +39,7 @@ func Combat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 		case "3":
 			UtiliserObjet(Personnage)
 		case "4":
-			UtiliserPouvoir(Personnage)
+			UtiliserPouvoir(Personnage, Monstre)
 		case "5":
 			Fuir(Personnage)
 			return
@@ -49,6 +50,9 @@ func Combat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 		// L'ennemi attaque si les deux sont encore vivants
 		if Monstre.HP > 0 && Personnage.HP > 0 {
 			EnnemiAttaque(Monstre, Personnage)
+		}
+		if Personnage.PouvoirCooldown > 0 {
+			Personnage.PouvoirCooldown--
 		}
 	}
 	if Personnage.HP <= 0 {
@@ -98,6 +102,52 @@ func EnnemiAttaque(monstre *Monstre.Monstre, joueur *class.Personnage) {
 	}
 }
 
-func UtiliserPouvoir(Personnage *class.Personnage) {
-	fmt.Println("Pouvoir non implémenté.")
+func UtiliserPouvoir(Personnage *class.Personnage, cible *Monstre.Monstre) {
+	if len(Personnage.Pouvoirs) == 0 {
+		fmt.Println("Tu n'as pas de pouvoir spécial.")
+		return
+	}
+	if Personnage.PouvoirCooldown > 0 {
+		fmt.Printf("⏳ Ton pouvoir sera prêt dans %d tour(s).\n", Personnage.PouvoirCooldown)
+		return
+	}
+	fmt.Println("Pouvoirs disponibles :")
+	for i, pouvoir := range Personnage.Pouvoirs {
+		fmt.Printf("%d) %s\n", i+1, pouvoir)
+	}
+	fmt.Print("Choisis un pouvoir : ")
+	reader := bufio.NewReader(os.Stdin)
+	choix, _ := reader.ReadString('\n')
+	choix = strings.TrimSpace(choix)
+	index, err := strconv.Atoi(choix)
+	if err != nil || index < 1 || index > len(Personnage.Pouvoirs) {
+		fmt.Println("Choix invalide.")
+		return
+	}
+
+	// Appliquer l'effet du pouvoir choisi
+	pouvoir := Personnage.Pouvoirs[index-1]
+	switch pouvoir {
+	case "lancer de cuivre":
+		fmt.Println("💥 Tu lances un cuivre !")
+		cible.HP -= int(float64(Personnage.Force) * 1.5)
+	case "ak47":
+		fmt.Println("🔫 Tu tires avec l'AK47 !")
+		cible.HP -= int(float64(Personnage.Force) * 2.0)
+	case "corps à corps":
+		fmt.Println("🥊 Attaque corps à corps !")
+		cible.HP -= int(float64(Personnage.Force) * 1.3)
+	case "magie noire":
+		fmt.Println("🧙 Tu utilises la magie noire !")
+		cible.HP -= int(float64(Personnage.Intelligence) * 2.0)
+	case "joga bonito":
+		fmt.Println("⚽ Tu esquives gracieusement !")
+		Personnage.Vitesse *= 2
+	default:
+		fmt.Println("Pouvoir inconnu.")
+		return
+	}
+	// Barre de chargement : le pouvoir sera indisponible pendant 3 tours
+	Personnage.PouvoirCooldown = 3
+	fmt.Println("⏳ Pouvoir utilisé ! Il sera à nouveau disponible dans 3 tours.")
 }
