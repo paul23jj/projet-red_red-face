@@ -9,8 +9,6 @@ import (
 	"strings"
 )
 
-// ---------------- Structures ----------------
-
 type Inventaire struct {
 	name     string
 	quantity int

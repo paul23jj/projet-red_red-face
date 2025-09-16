@@ -63,7 +63,7 @@ func StartMenu() {
 		case "4":
 			fmt.Println("Tu cherches un tête à tête...")
 			monstre = Monstre.GenererMonstre()
-			Combat.Combat(&player, &monstre)
+			Combat.CombatMain(&player, &monstre)
 		case "5":
 			fmt.Println("À bientôt !")
 			os.Exit(0)
