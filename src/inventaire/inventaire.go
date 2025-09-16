@@ -6,6 +6,7 @@ import (
 )
 
 var Sacoche = map[string]int{}
+var MaxSlots = 10
 
 func AfficherSacoche() {
 	fmt.Println("\n📦 Sacoche :")
@@ -16,6 +17,9 @@ func AfficherSacoche() {
 	for objet, qte := range Sacoche {
 		fmt.Printf("- %s : %d\n", objet, qte)
 	}
+	// Infos sur les slots
+	fmt.Printf("\n🎒 Slots utilisés : %d/%d (reste %d)\n",
+		len(Sacoche), MaxSlots, MaxSlots-len(Sacoche))
 }
 
 func AjouterObjet(nom string, quantite int) {
