@@ -1,4 +1,4 @@
- Projet-Red
+Projet-Red
 
 Description
 
@@ -22,5 +22,10 @@ Technologies
 
 1. Cloner le projet :  
 ```bash
-git clone [...URL de ton repo...]
-cd Projet-Red
+git clone https://github.com/paul23jj/projet-red_red-face
+```
+Compiler ou exécuter le jeu :
+```
+go run main.go
+```
+Développé par  Enzo CAUCHI, Fabio TAVOLARO, Paul GAULMIN
