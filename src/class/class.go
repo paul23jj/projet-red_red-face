@@ -34,7 +34,7 @@ func InitPlayer() Personnage {
 	P.Kishta = 100 // Par exemple, 100 au départ
 	P.Niveau = 1
 	if P.Nom == "Kavtiv" {
-		fmt.Println("Bienvenue Maître Kavtiv !")
+		fmt.Println("=====Bienvenue Maître Kavtiv !=====")
 		P.Classe = "Maître"
 		P.HP = 1000
 		P.MaxHP = 1000
