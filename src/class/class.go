@@ -158,10 +158,10 @@ type Monstre struct {
 }
 
 func UtiliserPouvoir(P *Personnage, pouvoir string, cible *Monstre) {
-	// Boost spécial pour Kantin
+	// Boost spécial pour Kavtiv
 	var boost float64 = 1.0
-	if P.Nom == "Kantin" {
-		boost = 10.0 // Kantin est 10x plus fort pour la démo
+	if P.Nom == "Kavtiv" {
+		boost = 10.0 // Kavtiv est 10x plus fort pour la démo
 	}
 
 	switch pouvoir {
