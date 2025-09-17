@@ -108,6 +108,7 @@ func UtiliserObjetParNumero(joueur *class.Personnage) {
 	case "Shamballa":
 		joueur.Chance += 5
 		obj.Quantity--
+		fmt.Printf("%s utilise un Shamballa (+5 Chance). Chance actuelle: %d\n", joueur.Nom, joueur.Chance)
 	default:
 		fmt.Println("❌ Objet non utilisable.")
 	}

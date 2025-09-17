@@ -65,7 +65,6 @@ func acheterItem(p *class.Personnage, Item Item) {
 	prix := Item.Price
 	buff := Item.BuffNormal
 
-	// Si c’est l’item favori du perso
 	if Item.FavoriClasse == p.Classe {
 		prix = Item.PriceFavori
 		buff = Item.BuffFavori
@@ -130,6 +129,25 @@ func MarcheDuSoleil(p *class.Personnage) {
 		{"Snus", 15, func(p *class.Personnage) { p.HP -= 3; p.Intelligence += 10 }, nil, "", 0},
 		{"RTX 5070", 80, func(p *class.Personnage) { p.Intelligence += 50 }, nil, "", 0},
 	}
+	if p.Nom == "Kavtiv" {
+		forgeRequired := []string{
+			"Pantalon de la Municipale",
+			"Holster de la BAC",
+			"Casque de CRS",
+			"Bottes de Big Show",
+		}
+		for _, name := range forgeRequired {
+			items = append(items, Item{
+				Name:         name,
+				Price:        25, // prix à adapter
+				BuffNormal:   nil,
+				BuffFavori:   nil,
+				FavoriClasse: "",
+				PriceFavori:  0,
+			})
+		}
+	}
+
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		ShowStats(p)
@@ -151,5 +169,4 @@ func MarcheDuSoleil(p *class.Personnage) {
 		}
 		acheterItem(p, items[num-1])
 	}
-
 }
