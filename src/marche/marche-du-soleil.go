@@ -6,7 +6,6 @@ import (
 	Monstre "PROJETRED/src/monstre"
 	"bufio"
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 )
@@ -35,7 +34,6 @@ func Heal(p *class.Personnage, amount int) {
 	if p.HP > p.MaxHP {
 		p.HP = p.MaxHP
 	}
-	// Si le choix ne correspond à aucun item, retourner un item vide
 }
 
 // Affiche le marché
@@ -48,10 +46,11 @@ func ShowMarket(items []Item) {
 }
 
 // Affiche les stats du joueur
-func ShowStats(p *class.Personnage) {
+func ShowStats(p *class.Personnage, scanner *bufio.Scanner) {
 	fmt.Printf("\n--- Stats de ton perso (%s) ---\n", p.Classe)
 	fmt.Printf("HP: %d/%d | Force: %d | Vitesse: %d | Intel: %d | Résistance: %d | Chance: %d | Kishta: %d\n",
 		p.HP, p.MaxHP, p.Force, p.Vitesse, p.Intelligence, p.Resistance, p.Chance, p.Kishta)
+
 	fmt.Println("Saccoche :")
 	if len(p.Saccoche) == 0 {
 		fmt.Println("Saccoche vide !")
@@ -59,8 +58,10 @@ func ShowStats(p *class.Personnage) {
 		for _, it := range p.Saccoche {
 			fmt.Printf(" - %s x%d\n", it.Name, it.Quantity)
 		}
-		// Si aucun choix valide, retourner un item vid
 	}
+
+	fmt.Println("\nAppuie sur Entrée pour continuer...")
+	scanner.Scan() // utilise le scanner partagé
 }
 
 // Achat d’un item
@@ -80,7 +81,6 @@ func acheterItem(p *class.Personnage, Item Item) {
 
 	// Vérifier la limite de slots
 	if len(p.Saccoche) >= inventaire.MaxSlots {
-		// sauf si l’objet existe déjà (stackable)
 		found := false
 		for _, it := range p.Saccoche {
 			if it.Name == Item.Name {
@@ -117,7 +117,9 @@ func acheterItem(p *class.Personnage, Item Item) {
 
 	fmt.Printf("✅ Tu as acheté %s pour %d kishta !\n", Item.Name, prix)
 }
-func MarcheDuSoleil(p *class.Personnage) {
+
+// Marche du Soleil
+func MarcheDuSoleil(p *class.Personnage, scanner *bufio.Scanner) {
 	items := []Item{
 		{"Hérisson", 40, nil, nil, func(p *class.Personnage, ennemi *Monstre.Monstre) { ennemi.HP -= 40 }, "Chasseur", 30, "attaque"},
 		{"Vodka", 30, func(p *class.Personnage) { p.Force += 10; p.HP -= 5 }, func(p *class.Personnage) { p.Force += 20; p.HP -= 5 }, nil, "Russe", 15, ""},
@@ -138,6 +140,7 @@ func MarcheDuSoleil(p *class.Personnage) {
 			}
 		}, "", 0, ""},
 	}
+
 	if p.Nom == "Kavtiv" {
 		forgeRequired := []string{
 			"Pantalon de la Municipale",
@@ -148,7 +151,7 @@ func MarcheDuSoleil(p *class.Personnage) {
 		for _, name := range forgeRequired {
 			items = append(items, Item{
 				Name:         name,
-				Price:        25, // prix à adapter
+				Price:        25,
 				BuffNormal:   nil,
 				BuffFavori:   nil,
 				FavoriClasse: "",
@@ -157,9 +160,8 @@ func MarcheDuSoleil(p *class.Personnage) {
 		}
 	}
 
-	scanner := bufio.NewScanner(os.Stdin)
 	for {
-		ShowStats(p)
+		ShowStats(p, scanner) // utilise le scanner partagé
 		ShowMarket(items)
 
 		fmt.Print("\nQue veux-tu acheter ? (numéro ou 'tess') : ")
@@ -176,6 +178,7 @@ func MarcheDuSoleil(p *class.Personnage) {
 			fmt.Println("Choix invalide.")
 			continue
 		}
+
 		acheterItem(p, items[num-1])
 	}
 }
