@@ -62,7 +62,7 @@ func StartMenu() {
 			gererFour()
 		case "2":
 			fmt.Println("Tu es maintenant au Marché !")
-
+			gererMarche()
 		case "3":
 			fmt.Println("Voici ta sacoche :")
 			inventaire.AfficherSacoche(&Player)
@@ -128,4 +128,42 @@ func gererFour() {
 	Player.Kishta = pFour.Kishta
 	// Synchroniser l'inventaire
 	Player.Saccoche = []class.Inventaire{}
+}
+
+func gererMarche() {
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Println("\nBienvenue au Marché !")
+	fmt.Printf("Tu as %d kishta.\n", player.Kishta)
+	fmt.Println("Objets disponibles :")
+	fmt.Println("1. Red Bull (20 kishta)")
+	fmt.Println("2. Eau (10 kishta)")
+	fmt.Println("3. Quitter le marché")
+	fmt.Print("Que veux-tu acheter ? ")
+
+	choix, _ := reader.ReadString('\n')
+	choix = strings.TrimSpace(choix)
+
+	switch choix {
+	case "1":
+		if player.Kishta >= 20 {
+			player.Kishta -= 20
+			// Ajoute Red Bull à la sacoche
+			inventaire.AjouterObjet(&player, "Red Bull", 1)
+			fmt.Println("Tu as acheté un Red Bull !")
+		} else {
+			fmt.Println("Pas assez de kishta !")
+		}
+	case "2":
+		if player.Kishta >= 10 {
+			player.Kishta -= 10
+			inventaire.AjouterObjet(&player, "Eau", 1)
+			fmt.Println("Tu as acheté une Eau !")
+		} else {
+			fmt.Println("Pas assez de kishta !")
+		}
+	case "3":
+		fmt.Println("Tu quittes le marché.")
+	default:
+		fmt.Println("Choix invalide.")
+	}
 }
