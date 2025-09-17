@@ -19,7 +19,7 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 	for Personnage.HP > 0 && Monstre.HP > 0 {
 		fmt.Println("\n--- Tour de combat ---")
 		fmt.Printf("%s : %d HP | %s : %d HP\n", Personnage.Nom, Personnage.HP, Monstre.Nom, Monstre.HP)
-		fmt.Printf("Vitesse : %d | Vitesse : %d\n", Personnage.Vitesse, Monstre.Vitesse) // Affiche la vitesse
+		fmt.Printf("Vitesse : %d | Vitesse : %d\n", Personnage.Vitesse, Monstre.Vitesse)
 
 		// Détermine qui joue en premier
 		joueurPremier := Personnage.Vitesse >= Monstre.Vitesse
@@ -97,10 +97,20 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 		}
 	}
 
+	// Fin du combat
 	if Personnage.HP <= 0 {
 		fmt.Println("Tu as été vaincu.")
 	} else {
-		fmt.Println("Tu as vaincu l'ennemi.")
+		fmt.Printf("🎉 Tu as vaincu %s !\n", Monstre.Nom)
 		xp.GainXP(Personnage, Monstre.XPValue)
+
+		// Vérifier le loot
+		loot := Monstre.DropLoot()
+		if loot != nil {
+			Personnage.Saccoche = append(Personnage.Saccoche, *loot)
+			fmt.Printf("💰 %s a drop un item : %s !\n", Monstre.Nom, loot.Name)
+		} else {
+			fmt.Printf("😔 Dommage, %s n’a rien drop cette fois ci...\n", Monstre.Nom)
+		}
 	}
 }
