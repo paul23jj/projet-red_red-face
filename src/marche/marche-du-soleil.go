@@ -133,12 +133,7 @@ func MarcheDuSoleil(p *class.Personnage, scanner *bufio.Scanner) {
 		{"Puff goût fraise", 20, func(p *class.Personnage) { p.HP -= 5 }, nil, nil, "", 0, ""},
 		{"Snus", 15, func(p *class.Personnage) { p.HP -= 3; p.Vitesse += 10 }, nil, nil, "", 0, ""},
 		{"RTX 5070", 80, func(p *class.Personnage) { p.Intelligence += 50 }, nil, nil, "", 0, ""},
-		{"Pain", 10, nil, nil, func(p *class.Personnage, ennemi *Monstre.Monstre) {
-			if ennemi != nil {
-				ennemi.PainTourRestant = 3
-				fmt.Printf("Des pigeons prennent position autour de %s !\n", ennemi.Nom)
-			}
-		}, "", 0, ""},
+		{"Pain", 10, nil, nil, func(p *class.Personnage, ennemi *Monstre.Monstre) {}, "", 0, ""},
 	}
 
 	if p.Nom == "Kavtiv" {

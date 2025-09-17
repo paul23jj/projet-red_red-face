@@ -2,6 +2,7 @@ package inventaire
 
 import (
 	class "PROJETRED/src/class"
+	Monstre "PROJETRED/src/monstre"
 	"bufio"
 	"fmt"
 	"os"
@@ -37,7 +38,7 @@ func AjouterObjet(joueur *class.Personnage, nom string, quantite int) {
 	fmt.Printf("✅ %d %s ajouté(s) à la sacoche.\n", quantite, nom)
 }
 
-func UtiliserObjetParNumero(joueur *class.Personnage, ennemi *class.Personnage) {
+func UtiliserObjetParNumero(joueur *class.Personnage, ennemi *Monstre.Monstre) {
 	if len(joueur.Saccoche) == 0 {
 		fmt.Println("Ta sacoche est vide !")
 		return
@@ -110,12 +111,17 @@ func UtiliserObjetParNumero(joueur *class.Personnage, ennemi *class.Personnage) 
 		obj.Quantity--
 		fmt.Printf("%s utilise un Shamballa (+5 Chance). Chance actuelle: %d\n", joueur.Nom, joueur.Chance)
 	case "Pain":
-		if ennemi != nil {
-			ennemi.PainTourRestant = 3
-			fmt.Printf("Des pigeons prennent position autour de %s !\n", ennemi.Nom)
+		var IsPain bool = false
+		var count int = 3
+		if IsPain {
+			if count != 0 {
+				count--
+				ennemi.HP -= 10
+			} else {
+				IsPain = false
+			}
+			fmt.Printf("%s subit les dégâts des pigeons (-10 PV). PV actuels: %d\n", ennemi.Nom, ennemi.HP)
 		}
-		obj.Quantity--
-		fmt.Printf("%s lance un pain ! Effet actif pendant 3 tours.\n", joueur.Nom)
 	default:
 		fmt.Println("❌ Objet non utilisable.")
 	}

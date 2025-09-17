@@ -87,7 +87,7 @@ func UtiliserObjetParNumero(joueur *class.Personnage, ennemi *Monstre.Monstre) {
 		fmt.Println("Choix invalide.")
 		return
 	}
-	Inventaire.UtiliserObjetParNumero(joueur, joueur)
+	Inventaire.UtiliserObjetParNumero(joueur, ennemi)
 }
 
 func Defendre(Personnage *class.Personnage) {
