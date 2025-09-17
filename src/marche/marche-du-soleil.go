@@ -56,7 +56,7 @@ func showMarket(items []Item) {
 }
 
 // Affiche les stats du joueur
-func showStats(p *Personnage) {
+func ShowStats(p *Personnage) {
 	fmt.Printf("\n--- Stats de ton perso (%s) ---\n", p.classe)
 	fmt.Printf("HP: %d/%d | Force: %d | Vitesse: %d | Intel: %d | Résistance: %d | Chance: %d | Kishta: %d\n",
 		p.hp, p.max_hp, p.force, p.vitesse, p.intelligence, p.resistance, p.chance, p.kishta)
@@ -189,7 +189,7 @@ func main() {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		showStats(&p)
+		ShowStats(&p)
 		showMarket(items)
 
 		fmt.Print("\nQue veux-tu acheter ? (numéro ou 'tess') : ")

@@ -11,9 +11,10 @@ import (
 	four "PROJETRED/src/forge"
 	inventaire "PROJETRED/src/inventaire"
 	monstre "PROJETRED/src/monstre"
+	marche "PROJETRED/src/marche"
 )
 
-var player class.Personnage
+var Player class.Personnage
 var currentMonstre monstre.Monstre
 
 func StartMenu() {
@@ -33,10 +34,10 @@ func StartMenu() {
 		return
 	}
 
-	player = class.InitPlayer()
+	Player = class.InitPlayer()
 
-	if player.Saccoche == nil {
-		player.Saccoche = []class.Inventaire{}
+	if Player.Saccoche == nil {
+		Player.Saccoche = []class.Inventaire{}
 	}
 
 	for {
@@ -45,7 +46,8 @@ func StartMenu() {
 		fmt.Println("2. Aller au Marché")
 		fmt.Println("3. Regarder la sacoche")
 		fmt.Println("4. Chercher un tête à tête")
-		fmt.Println("5. Quitter")
+		fmt.Println("5. Regarder les stats")
+		fmt.Println("6. Quitter")
 		fmt.Print("Choisis une option : ")
 
 		menuChoice, err := reader.ReadString('\n')
@@ -63,12 +65,15 @@ func StartMenu() {
 
 		case "3":
 			fmt.Println("Voici ta sacoche :")
-			inventaire.AfficherSacoche(&player)
+			inventaire.AfficherSacoche(&Player)
 		case "4":
 			fmt.Println("Tu cherches un tête à tête...")
 			currentMonstre = monstre.GenererMonstre()
-			combat.TourPartoutCombat(&player, &currentMonstre)
+			combat.TourPartoutCombat(&Player, &currentMonstre)
 		case "5":
+			fmt.Println("Voici tes stats :")
+			marche.ShowStats(&Player)
+		case "6":
 			fmt.Println("À bientôt !")
 			os.Exit(0)
 		default:
@@ -98,30 +103,29 @@ func gererFour() {
 
 	// Convertir class.Personnage en four.Personnage
 	pFour := &four.Personnage{
-		Classe:       player.Classe,
-		Hp:           player.HP,
-		MaxHp:        player.MaxHP,
-		Vitesse:      player.Vitesse,
-		Force:        player.Force,
-		Intelligence: player.Intelligence,
-		Resistance:   player.Resistance,
-		Chance:       player.Chance,
-		Kishta:       player.Kishta,
+		Classe:       Player.Classe,
+		Hp:           Player.HP,
+		MaxHp:        Player.MaxHP,
+		Vitesse:      Player.Vitesse,
+		Force:        Player.Force,
+		Intelligence: Player.Intelligence,
+		Chance:       Player.Chance,
+		Kishta:       Player.Kishta,
 		Inventaire:   []four.Inventaire{},
 	}
 
 	// Appeler la fonction du Four
 	four.EntrerForge(pFour, showStats)
 
-	// Synchroniser les changements vers player
-	player.HP = pFour.Hp
-	player.MaxHP = pFour.MaxHp
-	player.Vitesse = pFour.Vitesse
-	player.Force = pFour.Force
-	player.Intelligence = pFour.Intelligence
-	player.Resistance = pFour.Resistance
-	player.Chance = pFour.Chance
-	player.Kishta = pFour.Kishta
+	// Synchroniser les changements vers Player
+	Player.HP = pFour.Hp
+	Player.MaxHP = pFour.MaxHp
+	Player.Vitesse = pFour.Vitesse
+	Player.Force = pFour.Force
+	Player.Intelligence = pFour.Intelligence
+	Player.Resistance = pFour.Resistance
+	Player.Chance = pFour.Chance
+	Player.Kishta = pFour.Kishta
 	// Synchroniser l'inventaire
-	player.Saccoche = []class.Inventaire{}
+	Player.Saccoche = []class.Inventaire{}
 }
