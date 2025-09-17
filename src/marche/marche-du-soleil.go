@@ -107,7 +107,7 @@ func acheterItem(p *class.Personnage, Item Item) {
 		fmt.Printf("✅ Tu as acheté %s pour %d kishta !\n", Item.Name, prix)
 	}
 }
-func RunMarket(p class.Personnage) {
+func RunMarket(p *class.Personnage) {
 	items := []Item{
 		{"Hérisson", 40,
 			func(p *class.Personnage) { p.Resistance += 10 },
@@ -159,7 +159,7 @@ func RunMarket(p class.Personnage) {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		ShowStats(&p)
+		ShowStats(p)
 		ShowMarket(items)
 
 		fmt.Print("\nQue veux-tu acheter ? (numéro ou 'tess') : ")
@@ -176,6 +176,6 @@ func RunMarket(p class.Personnage) {
 			fmt.Println("Choix invalide.")
 			continue
 		}
-		acheterItem(&p, items[num-1])
+		acheterItem(p, items[num-1])
 	}
 }

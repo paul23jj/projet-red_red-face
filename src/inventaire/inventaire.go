@@ -10,37 +10,46 @@ var MaxSlots = 10
 
 func AfficherSacoche(joueur *class.Personnage) {
 	fmt.Println("\n📦 Sacoche :")
-	if len(Sacoche) == 0 {
+	if len(joueur.Saccoche) == 0 {
 		fmt.Println("(vide)")
 		return
 	}
-	for objet, qte := range Sacoche {
-		fmt.Printf("- %s : %d\n", objet, qte)
+	for _, it := range joueur.Saccoche {
+		fmt.Printf("- %s : %d\n", it.Name, it.Quantity)
 	}
 	fmt.Printf("\n🎒 Slots utilisés : %d/%d (reste %d)\n",
-		len(Sacoche), MaxSlots, MaxSlots-len(Sacoche))
+		len(joueur.Saccoche), MaxSlots, MaxSlots-len(joueur.Saccoche))
 }
 
 func AjouterObjet(joueur *class.Personnage, nom string, quantite int) {
-	Sacoche[nom] += quantite
+	for i, it := range joueur.Saccoche {
+		if it.Name == nom {
+			joueur.Saccoche[i].Quantity += quantite
+			fmt.Printf("✅ %d %s ajouté(s) à la sacoche.\n", quantite, nom)
+			return
+		}
+	}
+	joueur.Saccoche = append(joueur.Saccoche, class.Inventaire{Name: nom, Quantity: quantite})
 	fmt.Printf("✅ %d %s ajouté(s) à la sacoche.\n", quantite, nom)
 }
 
 func UtiliserObjet(nom string, joueur *class.Personnage) {
-	if Sacoche[nom] > 0 {
-		switch nom {
-		case "Red Bull":
-			joueur.HP += 20
-			Sacoche[nom]--
-			fmt.Printf("%s utilise un red bull (+20 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
-		case "Eau":
-			joueur.HP += 10
-			Sacoche[nom]--
-			fmt.Printf("%s utilise une Eau (+10 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
-		default:
-			fmt.Println("❌ Objet non utilisable.")
+	for i, it := range joueur.Saccoche {
+		if it.Name == nom && it.Quantity > 0 {
+			switch nom {
+			case "Red Bull":
+				joueur.HP += 20
+				joueur.Saccoche[i].Quantity--
+				fmt.Printf("%s utilise un red bull (+20 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
+			case "Eau":
+				joueur.HP += 10
+				joueur.Saccoche[i].Quantity--
+				fmt.Printf("%s utilise une Eau (+10 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
+			default:
+				fmt.Println("❌ Objet non utilisable.")
+			}
+			return
 		}
-	} else {
-		fmt.Printf("❌ Vous n’avez pas de %s.\n", nom)
 	}
+	fmt.Printf("❌ Vous n’avez pas de %s.\n", nom)
 }
