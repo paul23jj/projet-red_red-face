@@ -3,20 +3,22 @@ package Class
 import "fmt"
 
 type Personnage struct {
-	Nom             string
-	Classe          string
-	Niveau          int
-	HP              int
-	MaxHP           int
-	Vitesse         int
-	Force           int
-	Intelligence    int
-	Resistance      int
-	Chance          int
-	Saccoche        []Inventaire
-	Pouvoirs        []string
-	PouvoirCooldown int
-	Kishta          int
+	Nom                 string
+	Classe              string
+	Niveau              int
+	HP                  int
+	MaxHP               int
+	Vitesse             int
+	Force               int
+	Intelligence        int
+	Resistance          int
+	Chance              int
+	Saccoche            []Inventaire
+	Pouvoirs            []string
+	PouvoirCooldown     int
+	Kishta              int
+	SeringueTourRestant int
+	PainTourRestant     int
 }
 
 type Inventaire struct {

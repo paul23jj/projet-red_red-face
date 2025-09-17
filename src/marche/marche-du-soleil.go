@@ -3,6 +3,7 @@ package marche
 import (
 	class "PROJETRED/src/class"
 	inventaire "PROJETRED/src/inventaire"
+	Monstre "PROJETRED/src/monstre"
 	"bufio"
 	"fmt"
 	"os"
@@ -16,12 +17,14 @@ type Inventaire struct {
 }
 
 type Item struct {
-	Name         string
-	Price        int
-	BuffNormal   func(p *class.Personnage)
-	BuffFavori   func(p *class.Personnage)
-	FavoriClasse string // si vide -> pas d’item favori
-	PriceFavori  int
+	Name           string
+	Price          int
+	BuffNormal     func(p *class.Personnage)
+	BuffFavori     func(p *class.Personnage)
+	AttaqueMonstre func(p *class.Personnage, ennemi *Monstre.Monstre)
+	FavoriClasse   string
+	PriceFavori    int
+	Type           string
 }
 
 // ---------------- Fonctions ----------------
@@ -116,18 +119,24 @@ func acheterItem(p *class.Personnage, Item Item) {
 }
 func MarcheDuSoleil(p *class.Personnage) {
 	items := []Item{
-		{"Hérisson", 40, func(p *class.Personnage) { p.Resistance += 10 }, func(p *class.Personnage) { p.Resistance += 20 }, "Nomade", 20},
-		{"Vodka", 30, func(p *class.Personnage) { p.Force += 10; p.HP -= 5 }, func(p *class.Personnage) { p.Force += 20; p.HP -= 5 }, "Russe", 15},
-		{"Manuel de soumission", 50, func(p *class.Personnage) { p.Intelligence += 15 }, func(p *class.Personnage) { p.Intelligence += 25 }, "Tchetchene", 25},
-		{"Bissap", 25, func(p *class.Personnage) { Heal(p, 15) }, func(p *class.Personnage) { Heal(p, 30) }, "Malien", 12},
-		{"Shamballa", 40, func(p *class.Personnage) { p.Chance += 10 }, func(p *class.Personnage) { p.Chance += 20 }, "Bresilien", 20},
-		{"Red bull", 15, func(p *class.Personnage) { p.Vitesse += 10; p.HP -= 5 }, nil, "", 0},
-		{"Ventoline", 20, func(p *class.Personnage) { p.Vitesse += 15 }, nil, "", 0},
-		{"Seringue", 5, func(p *class.Personnage) { Heal(p, 10) }, nil, "", 0},
-		{"Eau", 2, func(p *class.Personnage) { Heal(p, 5) }, nil, "", 0},
-		{"Puff goût fraise", 20, func(p *class.Personnage) { p.HP -= 5 }, nil, "", 0},
-		{"Snus", 15, func(p *class.Personnage) { p.HP -= 3; p.Intelligence += 10 }, nil, "", 0},
-		{"RTX 5070", 80, func(p *class.Personnage) { p.Intelligence += 50 }, nil, "", 0},
+		{"Hérisson", 40, nil, nil, func(p *class.Personnage, ennemi *Monstre.Monstre) { ennemi.HP -= 40 }, "Chasseur", 30, "attaque"},
+		{"Vodka", 30, func(p *class.Personnage) { p.Force += 10; p.HP -= 5 }, func(p *class.Personnage) { p.Force += 20; p.HP -= 5 }, nil, "Russe", 15, ""},
+		{"Manuel de soumission", 50, func(p *class.Personnage) { p.Intelligence += 15 }, func(p *class.Personnage) { p.Intelligence += 25 }, nil, "Tchetchene", 25, ""},
+		{"Bissap", 25, func(p *class.Personnage) { Heal(p, 15) }, func(p *class.Personnage) { Heal(p, 30) }, nil, "Malien", 12, ""},
+		{"Shamballa", 40, func(p *class.Personnage) { p.Chance += 10 }, func(p *class.Personnage) { p.Chance += 20 }, nil, "Bresilien", 20, ""},
+		{"Red bull", 15, func(p *class.Personnage) { p.Vitesse += 10; p.HP -= 5 }, nil, nil, "", 0, ""},
+		{"Ventoline", 20, func(p *class.Personnage) { p.Vitesse += 15 }, nil, nil, "", 0, ""},
+		{"Seringue", 5, func(p *class.Personnage) { p.SeringueTourRestant = 3 }, nil, nil, "", 0, ""},
+		{"Eau", 2, func(p *class.Personnage) { Heal(p, 5) }, nil, nil, "", 0, "soin"},
+		{"Puff goût fraise", 20, func(p *class.Personnage) { p.HP -= 5 }, nil, nil, "", 0, ""},
+		{"Snus", 15, func(p *class.Personnage) { p.HP -= 3; p.Vitesse += 10 }, nil, nil, "", 0, ""},
+		{"RTX 5070", 80, func(p *class.Personnage) { p.Intelligence += 50 }, nil, nil, "", 0, ""},
+		{"Pain", 10, nil, nil, func(p *class.Personnage, ennemi *Monstre.Monstre) {
+			if ennemi != nil {
+				ennemi.PainTourRestant = 3
+				fmt.Printf("Des pigeons prennent position autour de %s !\n", ennemi.Nom)
+			}
+		}, "", 0, ""},
 	}
 	if p.Nom == "Kavtiv" {
 		forgeRequired := []string{

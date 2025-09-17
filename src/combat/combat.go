@@ -38,7 +38,7 @@ func CombatMain(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 		case "2":
 			Defendre(Personnage)
 		case "3":
-			UtiliserObjet(Personnage)
+			UtiliserObjetParNumero(Personnage, Monstre)
 		case "4":
 			UtiliserPouvoir(Personnage, Monstre)
 		case "5":
@@ -57,6 +57,14 @@ func CombatMain(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 			Personnage.PouvoirCooldown--
 		}
 	}
+	if Personnage.SeringueTourRestant > 0 {
+		Personnage.HP += 5
+		if Personnage.HP > Personnage.MaxHP {
+			Personnage.HP = Personnage.MaxHP
+		}
+		Personnage.SeringueTourRestant--
+		fmt.Printf("%s récupère 5 PV grâce à la seringue ! PV actuels : %d\n", Personnage.Nom, Personnage.HP)
+	}
 	if Personnage.HP <= 0 {
 		fmt.Println("Tu as été vaincu.")
 	} else {
@@ -68,12 +76,18 @@ func Fuir(Personnage *class.Personnage) {
 	fmt.Printf("%s prend la fuite !\n", Personnage.Nom)
 }
 
-func UtiliserObjet(p *class.Personnage) {
-	Inventaire.AfficherSacoche(p)
+func UtiliserObjetParNumero(joueur *class.Personnage, ennemi *Monstre.Monstre) {
+	Inventaire.AfficherSacoche(joueur)
 	fmt.Print("Quel objet veux-tu utiliser ? ")
 	reader := bufio.NewReader(os.Stdin)
-	_, _ = reader.ReadString('\n')
-	Inventaire.UtiliserObjetParNumero(p)
+	choix, _ := reader.ReadString('\n')
+	choix = strings.TrimSpace(choix)
+	index, err := strconv.Atoi(choix)
+	if err != nil || index < 1 || index > len(joueur.Saccoche) {
+		fmt.Println("Choix invalide.")
+		return
+	}
+	Inventaire.UtiliserObjetParNumero(joueur, joueur)
 }
 
 func Defendre(Personnage *class.Personnage) {

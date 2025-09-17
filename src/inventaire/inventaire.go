@@ -37,7 +37,7 @@ func AjouterObjet(joueur *class.Personnage, nom string, quantite int) {
 	fmt.Printf("✅ %d %s ajouté(s) à la sacoche.\n", quantite, nom)
 }
 
-func UtiliserObjetParNumero(joueur *class.Personnage) {
+func UtiliserObjetParNumero(joueur *class.Personnage, ennemi *class.Personnage) {
 	if len(joueur.Saccoche) == 0 {
 		fmt.Println("Ta sacoche est vide !")
 		return
@@ -109,6 +109,13 @@ func UtiliserObjetParNumero(joueur *class.Personnage) {
 		joueur.Chance += 5
 		obj.Quantity--
 		fmt.Printf("%s utilise un Shamballa (+5 Chance). Chance actuelle: %d\n", joueur.Nom, joueur.Chance)
+	case "Pain":
+		if ennemi != nil {
+			ennemi.PainTourRestant = 3
+			fmt.Printf("Des pigeons prennent position autour de %s !\n", ennemi.Nom)
+		}
+		obj.Quantity--
+		fmt.Printf("%s lance un pain ! Effet actif pendant 3 tours.\n", joueur.Nom)
 	default:
 		fmt.Println("❌ Objet non utilisable.")
 	}
