@@ -1,6 +1,7 @@
 package marche
 
 import (
+	class "PROJETRED/src/class"
 	inventaire "PROJETRED/src/inventaire"
 	"bufio"
 	"fmt"
@@ -10,28 +11,15 @@ import (
 )
 
 type Inventaire struct {
-	name     string
-	quantity int
-}
-
-type Personnage struct {
-	classe       string
-	hp           int
-	max_hp       int
-	vitesse      int
-	force        int
-	intelligence int
-	resistance   int
-	chance       int
-	kishta       int
-	inventaire   []Inventaire
+	Name     string
+	Quantity int
 }
 
 type Item struct {
 	Name         string
 	Price        int
-	BuffNormal   func(p *Personnage)
-	BuffFavori   func(p *Personnage)
+	BuffNormal   func(p *class.Personnage)
+	BuffFavori   func(p *class.Personnage)
 	FavoriClasse string // si vide -> pas d’item favori
 	PriceFavori  int
 }
@@ -39,10 +27,10 @@ type Item struct {
 // ---------------- Fonctions ----------------
 
 // Applique un buff de soin avec limite au max_hp
-func heal(p *Personnage, amount int) {
-	p.hp += amount
-	if p.hp > p.max_hp {
-		p.hp = p.max_hp
+func Heal(p *class.Personnage, amount int) {
+	p.HP += amount
+	if p.HP > p.MaxHP {
+		p.HP = p.MaxHP
 	}
 }
 
@@ -56,132 +44,114 @@ func ShowMarket(items []Item) {
 }
 
 // Affiche les stats du joueur
-func ShowStats(p *Personnage) {
-	fmt.Printf("\n--- Stats de ton perso (%s) ---\n", p.classe)
+func ShowStats(p *class.Personnage) {
+	fmt.Printf("\n--- Stats de ton perso (%s) ---\n", p.Classe)
 	fmt.Printf("HP: %d/%d | Force: %d | Vitesse: %d | Intel: %d | Résistance: %d | Chance: %d | Kishta: %d\n",
-		p.hp, p.max_hp, p.force, p.vitesse, p.intelligence, p.resistance, p.chance, p.kishta)
+		p.HP, p.MaxHP, p.Force, p.Vitesse, p.Intelligence, p.Resistance, p.Chance, p.Kishta)
 	fmt.Println("Inventaire :")
-	if len(p.inventaire) == 0 {
+	if len(p.Saccoche) == 0 {
 		fmt.Println(" (vide)")
 	} else {
-		for _, it := range p.inventaire {
-			fmt.Printf(" - %s x%d\n", it.name, it.quantity)
+		for _, it := range p.Saccoche {
+			fmt.Printf(" - %s x%d\n", it.Name, it.Quantity)
 		}
 	}
 }
 
 // Achat d’un item
-func acheterItem(p *Personnage, item Item) {
-	prix := item.Price
-	buff := item.BuffNormal
+func acheterItem(p *class.Personnage, Item Item) {
+	prix := Item.Price
+	buff := Item.BuffNormal
 
 	// Si c’est l’item favori du perso
-	if item.FavoriClasse == p.classe {
-		prix = item.PriceFavori
-		buff = item.BuffFavori
+	if Item.FavoriClasse == p.Classe {
+		prix = Item.PriceFavori
+		buff = Item.BuffFavori
 	}
 
-	if p.kishta < prix {
+	if p.Kishta < prix {
 		fmt.Println("❌ Pas assez de kishta !")
 		return
 	}
 	// Vérifier la limite de slots
-	if len(p.inventaire) >= inventaire.MaxSlots {
+	if len(p.Saccoche) >= inventaire.MaxSlots {
 		// sauf si l’objet existe déjà (stackable)
 		found := false
-		for _, it := range p.inventaire {
-			if it.name == item.Name {
+		for _, it := range p.Saccoche {
+			if it.Name == Item.Name {
 				found = true
 				break
 			}
 		}
-		if !found && item.Name != "Sacoche +" {
+		if !found && Item.Name != "Sacoche +" {
 			fmt.Println("❌ Sacoche pleine, impossible d’ajouter de nouveaux objets.")
 			return
 		}
 		// Retirer l’argent
-		p.kishta -= prix
+		p.Kishta -= prix
 
 		// Ajouter à l’inventaire
-		for i, it := range p.inventaire {
-			if it.name == item.Name {
-				p.inventaire[i].quantity++
+		for i, it := range p.Saccoche {
+			if it.Name == Item.Name {
+				p.Saccoche[i].Quantity++
 				break
 			}
 		}
 		if !found {
-			p.inventaire = append(p.inventaire, Inventaire{name: item.Name, quantity: 1})
+			p.Saccoche = append(p.Saccoche, class.Inventaire{Name: Item.Name, Quantity: 1})
 		}
 
 		// Appliquer le buff
 		buff(p)
 
-		fmt.Printf("✅ Tu as acheté %s pour %d kishta !\n", item.Name, prix)
+		fmt.Printf("✅ Tu as acheté %s pour %d kishta !\n", Item.Name, prix)
 	}
 }
-
-// ---------------- Main ----------------
-
-func main() {
-	// Exemple : un joueur Russe
-	p := Personnage{
-		classe:       "Russe",
-		hp:           100,
-		max_hp:       100,
-		vitesse:      3,
-		force:        10,
-		intelligence: 3,
-		resistance:   7,
-		chance:       3,
-		kishta:       100, // argent de départ
-		inventaire:   []Inventaire{},
-	}
-
-	// Liste des items
+func RunMarket(p class.Personnage) {
 	items := []Item{
 		{"Hérisson", 40,
-			func(p *Personnage) { p.resistance += 10 },
-			func(p *Personnage) { p.resistance += 20 },
+			func(p *class.Personnage) { p.Resistance += 10 },
+			func(p *class.Personnage) { p.Resistance += 20 },
 			"Nomade", 20},
 		{"Vodka", 30,
-			func(p *Personnage) { p.force += 10; p.hp -= 5 },
-			func(p *Personnage) { p.force += 20; p.hp -= 5 },
+			func(p *class.Personnage) { p.Force += 10; p.HP -= 5 },
+			func(p *class.Personnage) { p.Force += 20; p.HP -= 5 },
 			"Russe", 15},
 		{"Manuel de soumission", 50,
-			func(p *Personnage) { p.intelligence += 15 },
-			func(p *Personnage) { p.intelligence += 25 },
-			"tchetchene", 25},
+			func(p *class.Personnage) { p.Intelligence += 15 },
+			func(p *class.Personnage) { p.Intelligence += 25 },
+			"Tchetchene", 25},
 		{"Bissap", 25,
-			func(p *Personnage) { heal(p, 15) },
-			func(p *Personnage) { heal(p, 30) },
+			func(p *class.Personnage) { Heal(p, 15) },
+			func(p *class.Personnage) { Heal(p, 30) },
 			"Malien", 12},
 		{"Shamballa", 40,
-			func(p *Personnage) { p.chance += 10 },
-			func(p *Personnage) { p.chance += 20 },
+			func(p *class.Personnage) { p.Chance += 10 },
+			func(p *class.Personnage) { p.Chance += 20 },
 			"Bresilien", 20},
 		{"Red bull", 15,
-			func(p *Personnage) { p.vitesse += 10; p.hp -= 5 },
+			func(p *class.Personnage) { p.Vitesse += 10; p.HP -= 5 },
 			nil, "", 0},
 		{"Ventoline", 20,
-			func(p *Personnage) { p.vitesse += 15 },
+			func(p *class.Personnage) { p.Vitesse += 15 },
 			nil, "", 0},
 		{"Seringue", 5,
-			func(p *Personnage) { heal(p, 10) },
+			func(p *class.Personnage) { Heal(p, 10) },
 			nil, "", 0},
 		{"Eau", 2,
-			func(p *Personnage) { heal(p, 5) },
+			func(p *class.Personnage) { Heal(p, 5) },
 			nil, "", 0},
 		{"Puff", 20,
-			func(p *Personnage) { p.hp -= 5 }, // détente RP
+			func(p *class.Personnage) { p.HP -= 5 },
 			nil, "", 0},
 		{"Snus", 15,
-			func(p *Personnage) { p.hp -= 3; p.intelligence += 10 },
+			func(p *class.Personnage) { p.HP -= 3; p.Intelligence += 10 },
 			nil, "", 0},
 		{"Nerd", 8,
-			func(p *Personnage) { p.intelligence += 5 },
+			func(p *class.Personnage) { p.Intelligence += 5 },
 			nil, "", 0},
 		{"RTX 5070", 80,
-			func(p *Personnage) { p.intelligence += 50 },
+			func(p *class.Personnage) { p.Intelligence += 50 },
 			nil, "", 0},
 	}
 
@@ -206,7 +176,6 @@ func main() {
 			fmt.Println("Choix invalide.")
 			continue
 		}
-
 		acheterItem(&p, items[num-1])
 	}
 }
