@@ -72,9 +72,8 @@ func UtiliserObjet(p *class.Personnage) {
 	Inventaire.AfficherSacoche(p)
 	fmt.Print("Quel objet veux-tu utiliser ? ")
 	reader := bufio.NewReader(os.Stdin)
-	objet, _ := reader.ReadString('\n')
-	objet = strings.TrimSpace(objet)
-	Inventaire.UtiliserObjet(objet, p)
+	_, _ = reader.ReadString('\n')
+	Inventaire.UtiliserObjetParNumero(p)
 }
 
 func Defendre(Personnage *class.Personnage) {

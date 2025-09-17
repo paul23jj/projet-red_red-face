@@ -2,20 +2,29 @@ package marche
 
 import (
 	class "PROJETRED/src/class"
+	inventaire "PROJETRED/src/inventaire"
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 )
+
+type Inventaire struct {
+	Name     string
+	Quantity int
+}
 
 type Item struct {
 	Name         string
 	Price        int
 	BuffNormal   func(p *class.Personnage)
 	BuffFavori   func(p *class.Personnage)
-	FavoriClasse string
+	FavoriClasse string // si vide -> pas d’item favori
 	PriceFavori  int
 }
+
+// ---------------- Fonctions ----------------
 
 // Applique un buff de soin avec limite au max_hp
 func Heal(p *class.Personnage, amount int) {
@@ -23,6 +32,7 @@ func Heal(p *class.Personnage, amount int) {
 	if p.HP > p.MaxHP {
 		p.HP = p.MaxHP
 	}
+	// Si le choix ne correspond à aucun item, retourner un item vide
 }
 
 // Affiche le marché
@@ -46,28 +56,19 @@ func ShowStats(p *class.Personnage) {
 		for _, it := range p.Saccoche {
 			fmt.Printf(" - %s x%d\n", it.Name, it.Quantity)
 		}
+		// Si aucun choix valide, retourner un item vid
 	}
-}
-
-// Ajoute un objet à la sacoche du joueur
-func AjouterObjet(p *class.Personnage, nom string, quantite int) {
-	for i, it := range p.Saccoche {
-		if it.Name == nom {
-			p.Saccoche[i].Quantity += quantite
-			return
-		}
-	}
-	p.Saccoche = append(p.Saccoche, class.Inventaire{Name: nom, Quantity: quantite})
 }
 
 // Achat d’un item
-func acheterItem(p *class.Personnage, item Item) {
-	prix := item.Price
-	buff := item.BuffNormal
+func acheterItem(p *class.Personnage, Item Item) {
+	prix := Item.Price
+	buff := Item.BuffNormal
 
-	if item.FavoriClasse == p.Classe {
-		prix = item.PriceFavori
-		buff = item.BuffFavori
+	// Si c’est l’item favori du perso
+	if Item.FavoriClasse == p.Classe {
+		prix = Item.PriceFavori
+		buff = Item.BuffFavori
 	}
 
 	if p.Kishta < prix {
@@ -75,32 +76,45 @@ func acheterItem(p *class.Personnage, item Item) {
 		return
 	}
 
-	// Vérifier la limite de slots (10 objets différents max)
-	if len(p.Saccoche) >= 10 {
+	// Vérifier la limite de slots
+	if len(p.Saccoche) >= inventaire.MaxSlots {
+		// sauf si l’objet existe déjà (stackable)
 		found := false
 		for _, it := range p.Saccoche {
-			if it.Name == item.Name {
+			if it.Name == Item.Name {
 				found = true
 				break
 			}
 		}
-		if !found {
+		if !found && Item.Name != "Sacoche +" {
 			fmt.Println("❌ Sacoche pleine, impossible d’ajouter de nouveaux objets.")
 			return
 		}
 	}
 
+	// Retirer l’argent
 	p.Kishta -= prix
-	AjouterObjet(p, item.Name, 1)
 
+	// Ajouter à l’inventaire
+	found := false
+	for i, it := range p.Saccoche {
+		if it.Name == Item.Name {
+			p.Saccoche[i].Quantity++
+			found = true
+			break
+		}
+	}
+	if !found {
+		p.Saccoche = append(p.Saccoche, class.Inventaire{Name: Item.Name, Quantity: 1})
+	}
+
+	// Appliquer le buff
 	if buff != nil {
 		buff(p)
 	}
 
-	fmt.Printf("✅ Tu as acheté %s pour %d kishta !\n", item.Name, prix)
+	fmt.Printf("✅ Tu as acheté %s pour %d kishta !\n", Item.Name, prix)
 }
-
-// Fonction principale du marché
 func MarcheDuSoleil(p *class.Personnage) {
 	items := []Item{
 		{"Hérisson", 40, func(p *class.Personnage) { p.Resistance += 10 }, func(p *class.Personnage) { p.Resistance += 20 }, "Nomade", 20},
@@ -130,33 +144,12 @@ func MarcheDuSoleil(p *class.Personnage) {
 			break
 		}
 
-		switch choix {
-		case "1":
-			acheterItem(p, items[0])
-		case "2":
-			acheterItem(p, items[1])
-		case "3":
-			acheterItem(p, items[2])
-		case "4":
-			acheterItem(p, items[3])
-		case "5":
-			acheterItem(p, items[4])
-		case "6":
-			acheterItem(p, items[5])
-		case "7":
-			acheterItem(p, items[6])
-		case "8":
-			acheterItem(p, items[7])
-		case "9":
-			acheterItem(p, items[8])
-		case "10":
-			acheterItem(p, items[9])
-		case "11":
-			acheterItem(p, items[10])
-		case "12":
-			acheterItem(p, items[11])
-		default:
+		num, err := strconv.Atoi(choix)
+		if err != nil || num < 1 || num > len(items) {
 			fmt.Println("Choix invalide.")
+			continue
 		}
+		acheterItem(p, items[num-1])
 	}
+
 }

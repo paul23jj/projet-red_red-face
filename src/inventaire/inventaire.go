@@ -2,7 +2,11 @@ package inventaire
 
 import (
 	class "PROJETRED/src/class"
+	"bufio"
 	"fmt"
+	"os"
+	"strconv"
+	"strings"
 )
 
 var Sacoche = map[string]int{}
@@ -33,23 +37,78 @@ func AjouterObjet(joueur *class.Personnage, nom string, quantite int) {
 	fmt.Printf("✅ %d %s ajouté(s) à la sacoche.\n", quantite, nom)
 }
 
-func UtiliserObjet(nom string, joueur *class.Personnage) {
-	for i, it := range joueur.Saccoche {
-		if it.Name == nom && it.Quantity > 0 {
-			switch nom {
-			case "Red Bull":
-				joueur.HP += 20
-				joueur.Saccoche[i].Quantity--
-				fmt.Printf("%s utilise un red bull (+20 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
-			case "Eau":
-				joueur.HP += 10
-				joueur.Saccoche[i].Quantity--
-				fmt.Printf("%s utilise une Eau (+10 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
-			default:
-				fmt.Println("❌ Objet non utilisable.")
-			}
-			return
-		}
+func UtiliserObjetParNumero(joueur *class.Personnage) {
+	if len(joueur.Saccoche) == 0 {
+		fmt.Println("Ta sacoche est vide !")
+		return
 	}
-	fmt.Printf("❌ Vous n’avez pas de %s.\n", nom)
+	fmt.Println("\nObjets disponibles :")
+	for i, it := range joueur.Saccoche {
+		fmt.Printf("%d) %s x%d\n", i+1, it.Name, it.Quantity)
+	}
+	fmt.Print("Tape le numéro de l'objet à utiliser : ")
+	reader := bufio.NewReader(os.Stdin)
+	choixStr, _ := reader.ReadString('\n')
+	choixStr = strings.TrimSpace(choixStr)
+	choix, err := strconv.Atoi(choixStr)
+	if err != nil || choix < 1 || choix > len(joueur.Saccoche) {
+		fmt.Println("Choix invalide.")
+		return
+	}
+	obj := &joueur.Saccoche[choix-1]
+	if obj.Quantity <= 0 {
+		fmt.Println("Tu n'en as plus !")
+		return
+	}
+	switch obj.Name {
+	case "Red bull":
+		joueur.HP += 20
+		obj.Quantity--
+		fmt.Printf("%s utilise un Red Bull (+20 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
+	case "Eau":
+		joueur.HP += 10
+		obj.Quantity--
+		fmt.Printf("%s utilise une Eau (+10 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
+	case "Bissap":
+		joueur.HP += 15
+		obj.Quantity--
+		fmt.Printf("%s utilise un Bissap (+15 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
+	case "Seringue":
+		joueur.HP += 25
+		obj.Quantity--
+		fmt.Printf("%s utilise une Seringue (+25 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
+	case "Vodka":
+		joueur.Force += 5
+		obj.Quantity--
+		fmt.Printf("%s utilise une Vodka (+5 Force, -5 PV). Force actuelle: %d, PV actuels: %d\n", joueur.Nom, joueur.Force, joueur.HP-5)
+	case "Hérisson":
+		joueur.Resistance += 5
+		obj.Quantity--
+		fmt.Printf("%s utilise un Hérisson (+5 Résistance). Résistance actuelle: %d\n", joueur.Nom, joueur.Resistance)
+	case "Manuel de soumission":
+		joueur.Intelligence += 5
+		obj.Quantity--
+		fmt.Printf("%s utilise un Manuel de soumission (+5 Intelligence). Intelligence actuelle: %d\n", joueur.Nom, joueur.Intelligence)
+	case "Snus":
+		joueur.Intelligence += 3
+		obj.Quantity--
+		fmt.Printf("%s utilise un Snus (+3 Intelligence, -3 PV). Intelligence actuelle: %d, PV actuels: %d\n", joueur.Nom, joueur.Intelligence, joueur.HP-3)
+	case "Puff goût fraise":
+		joueur.HP -= 5
+		obj.Quantity--
+		fmt.Printf("%s utilise un Puff goût fraise (-5 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
+	case "RTX 5070":
+		joueur.Intelligence += 20
+		obj.Quantity--
+		fmt.Printf("%s utilise une RTX 5070 (+20 Intelligence). Intelligence actuelle: %d\n", joueur.Nom, joueur.Intelligence)
+	case "Ventoline":
+		joueur.Vitesse += 10
+		obj.Quantity--
+		fmt.Printf("%s utilise une Ventoline (+10 Vitesse). Vitesse actuelle: %d\n", joueur.Nom, joueur.Vitesse)
+	case "Shamballa":
+		joueur.Chance += 5
+		obj.Quantity--
+	default:
+		fmt.Println("❌ Objet non utilisable.")
+	}
 }
