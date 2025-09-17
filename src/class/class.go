@@ -56,8 +56,8 @@ func InitPlayer() Personnage {
 		P.Intelligence = 100
 		P.Resistance = 100
 		P.Chance = 100
-		P.Pouvoirs = []string{"Ultime Kavtiv"}
-		P.Saccoche = []Inventaire{{Name: "artefact Kavtiv", Quantity: 1}}
+		P.Pouvoirs = []string{"Tacos 3 Viandes"}
+		P.Saccoche = []Inventaire{{Name: "Sanglier", Quantity: 1}}
 	} else {
 		fmt.Println("Ton origine: ")
 		fmt.Println("1. Nomade")
