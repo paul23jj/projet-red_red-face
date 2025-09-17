@@ -47,7 +47,7 @@ func heal(p *Personnage, amount int) {
 }
 
 // Affiche le marché
-func showMarket(items []Item) {
+func ShowMarket(items []Item) {
 	fmt.Println("\n--- 🌞 Marché du Soleil 🌞 ---")
 	for i, item := range items {
 		fmt.Printf("%d) %s - %d kishta\n", i+1, item.Name, item.Price)
@@ -190,7 +190,7 @@ func main() {
 
 	for {
 		ShowStats(&p)
-		showMarket(items)
+		ShowMarket(items)
 
 		fmt.Print("\nQue veux-tu acheter ? (numéro ou 'tess') : ")
 		scanner.Scan()

@@ -10,8 +10,8 @@ import (
 	combat "PROJETRED/src/combat"
 	four "PROJETRED/src/forge"
 	inventaire "PROJETRED/src/inventaire"
-	monstre "PROJETRED/src/monstre"
 	marche "PROJETRED/src/marche"
+	monstre "PROJETRED/src/monstre"
 )
 
 var Player class.Personnage
@@ -133,7 +133,7 @@ func gererFour() {
 func gererMarche() {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("\nBienvenue au Marché !")
-	fmt.Printf("Tu as %d kishta.\n", player.Kishta)
+	fmt.Printf("Tu as %d kishta.\n", Player.Kishta)
 	fmt.Println("Objets disponibles :")
 	fmt.Println("1. Red Bull (20 kishta)")
 	fmt.Println("2. Eau (10 kishta)")
@@ -145,18 +145,18 @@ func gererMarche() {
 
 	switch choix {
 	case "1":
-		if player.Kishta >= 20 {
-			player.Kishta -= 20
+		if Player.Kishta >= 20 {
+			Player.Kishta -= 20
 			// Ajoute Red Bull à la sacoche
-			inventaire.AjouterObjet(&player, "Red Bull", 1)
+			inventaire.AjouterObjet(&Player, "Red Bull", 1)
 			fmt.Println("Tu as acheté un Red Bull !")
 		} else {
 			fmt.Println("Pas assez de kishta !")
 		}
 	case "2":
-		if player.Kishta >= 10 {
-			player.Kishta -= 10
-			inventaire.AjouterObjet(&player, "Eau", 1)
+		if Player.Kishta >= 10 {
+			Player.Kishta -= 10
+			inventaire.AjouterObjet(&Player, "Eau", 1)
 			fmt.Println("Tu as acheté une Eau !")
 		} else {
 			fmt.Println("Pas assez de kishta !")
