@@ -131,5 +131,5 @@ func gererFour() {
 }
 
 func gererMarche() {
-	marche.RunMarket(&Player)
+	marche.MarcheDuSoleil(&Player)
 }
