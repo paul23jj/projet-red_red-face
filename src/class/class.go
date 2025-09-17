@@ -33,8 +33,8 @@ func InitPlayer() Personnage {
 	fmt.Scan(&P.Nom)
 	P.Kishta = 100 // Par exemple, 100 au départ
 
-	if P.Nom == "Kantin" {
-		fmt.Println("Bienvenue Maître Kantin !")
+	if P.Nom == "Kavtiv" {
+		fmt.Println("Bienvenue Maître Kavtiv !")
 		// Boost spécial
 		P.HP += 1000
 		P.MaxHP += 1000
@@ -43,11 +43,11 @@ func InitPlayer() Personnage {
 		P.Intelligence += 100
 		P.Resistance += 100
 		P.Chance += 100
-		P.Pouvoirs = append(P.Pouvoirs, "Ultime Kantin")
+		P.Pouvoirs = append(P.Pouvoirs, "Ultime Kavtiv")
 		P.Kishta = 100000
 	}
-	if P.Nom == "Kantin" {
-		fmt.Println("Bienvenue Maître Kantin !")
+	if P.Nom == "Kavtiv" {
+		fmt.Println("Bienvenue Maître Kavtiv !")
 		P.Classe = "Maître"
 		P.HP = 1000
 		P.MaxHP = 1000
@@ -56,8 +56,8 @@ func InitPlayer() Personnage {
 		P.Intelligence = 100
 		P.Resistance = 100
 		P.Chance = 100
-		P.Pouvoirs = []string{"Ultime Kantin"}
-		P.Saccoche = []Inventaire{{Name: "artefact Kantin", Quantity: 1}}
+		P.Pouvoirs = []string{"Ultime Kavtiv"}
+		P.Saccoche = []Inventaire{{Name: "artefact Kavtiv", Quantity: 1}}
 	} else {
 		fmt.Println("Ton origine: ")
 		fmt.Println("1. Nomade")
