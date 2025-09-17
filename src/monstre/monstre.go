@@ -14,12 +14,22 @@ type Monstre struct {
 	Force   int
 	Defense int
 	Vitesse int
-	XPValue int // Valeur d'XP donnée à la victoire
-    Loot    []class.Inventaire // objets que ce monstre peut drop
+	XPValue int                // Valeur d'XP donnée à la victoire
+	Loot    []class.Inventaire // objets que ce monstre peut drop
 }
 
-func (m *Monstre) EnnemiAttaque(Monstre *Monstre, Personnage *class.Personnage) {
-	panic("unimplemented")
+// Méthode d'attaque du monstre (à compléter plus tard)
+func (m *Monstre) EnnemiAttaque(cible *class.Personnage) {
+	// Exemple simple : dégâts = force - une partie de la résistance du joueur
+	degats := m.Force - (cible.Resistance / 2)
+	if degats < 0 {
+		degats = 0
+	}
+	cible.HP -= degats
+	fmt.Printf("%s attaque %s et inflige %d dégâts !\n", m.Nom, cible.Nom, degats)
+	if cible.HP < 0 {
+		cible.HP = 0
+	}
 }
 
 // Fonction qui crée un monstre aléatoire
@@ -40,12 +50,15 @@ func GenererMonstre() Monstre {
 	return monstres[choix]
 }
 
-func Monster() {
-	// Exemple : générer un monstre au hasard
+// Fonction qui affiche un monstre généré
+func Monster() Monstre {
 	ennemi := GenererMonstre()
-	fmt.Printf(" Un %s apparaît ! \n HP: %d,\n Force: %d,\n Défense: %d\n",
+	fmt.Printf("⚔️ Un %s apparaît !\nHP: %d\nForce: %d\nDéfense: %d\n",
 		ennemi.Nom, ennemi.HP, ennemi.Force, ennemi.Defense)
+	return ennemi
 }
+
+// Gestion du loot (20% de chance de drop)
 func (m *Monstre) DropLoot() *class.Inventaire {
 	if len(m.Loot) == 0 {
 		return nil
@@ -53,12 +66,11 @@ func (m *Monstre) DropLoot() *class.Inventaire {
 
 	rand.Seed(time.Now().UnixNano())
 
-	// 20% de chance de drop par exemple
+	// 20% de chance de drop
 	if rand.Intn(100) < 20 {
-		loot := m.Loot[rand.Intn(len(m.Loot))]
-		return &loot
+		idx := rand.Intn(len(m.Loot))
+		return &m.Loot[idx] // retourne un vrai élément de la slice
 	}
 
 	return nil
 }
-

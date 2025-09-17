@@ -84,7 +84,7 @@ func Defendre(Personnage *class.Personnage) {
 
 func Attaquer(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 	damage := rand.Intn(10) + 1 // dégâts aléatoires entre 1 et 10
-	if Personnage.Nom == "Kantin" {
+	if Personnage.Nom == "Kavtiv" {
 		damage *= 10 // boost 10x pour la démo
 	}
 	Monstre.HP -= damage
