@@ -131,39 +131,5 @@ func gererFour() {
 }
 
 func gererMarche() {
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("\nBienvenue au Marché !")
-	fmt.Printf("Tu as %d kishta.\n", Player.Kishta)
-	fmt.Println("Objets disponibles :")
-	fmt.Println("1. Red Bull (20 kishta)")
-	fmt.Println("2. Eau (10 kishta)")
-	fmt.Println("3. Quitter le marché")
-	fmt.Print("Que veux-tu acheter ? ")
-
-	choix, _ := reader.ReadString('\n')
-	choix = strings.TrimSpace(choix)
-
-	switch choix {
-	case "1":
-		if Player.Kishta >= 20 {
-			Player.Kishta -= 20
-			// Ajoute Red Bull à la sacoche
-			inventaire.AjouterObjet(&Player, "Red Bull", 1)
-			fmt.Println("Tu as acheté un Red Bull !")
-		} else {
-			fmt.Println("Pas assez de kishta !")
-		}
-	case "2":
-		if Player.Kishta >= 10 {
-			Player.Kishta -= 10
-			inventaire.AjouterObjet(&Player, "Eau", 1)
-			fmt.Println("Tu as acheté une Eau !")
-		} else {
-			fmt.Println("Pas assez de kishta !")
-		}
-	case "3":
-		fmt.Println("Tu quittes le marché.")
-	default:
-		fmt.Println("Choix invalide.")
-	}
+	marche.RunMarket(&Player)
 }
