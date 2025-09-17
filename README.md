@@ -22,7 +22,7 @@ Technologies
 
 1. Cloner le projet :  
 ```bash
-git clone https://github.com/paul23jj/projet-red_red-face
+git clone https://github.com/paul23jj/projet-red_red-face.git
 ```
 Compiler ou exécuter le jeu :
 ```
