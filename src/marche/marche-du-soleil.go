@@ -48,9 +48,9 @@ func ShowStats(p *class.Personnage) {
 	fmt.Printf("\n--- Stats de ton perso (%s) ---\n", p.Classe)
 	fmt.Printf("HP: %d/%d | Force: %d | Vitesse: %d | Intel: %d | Résistance: %d | Chance: %d | Kishta: %d\n",
 		p.HP, p.MaxHP, p.Force, p.Vitesse, p.Intelligence, p.Resistance, p.Chance, p.Kishta)
-	fmt.Println("Inventaire :")
+	fmt.Println("Saccoche :")
 	if len(p.Saccoche) == 0 {
-		fmt.Println(" (vide)")
+		fmt.Println("Saccoche vide !")
 	} else {
 		for _, it := range p.Saccoche {
 			fmt.Printf(" - %s x%d\n", it.Name, it.Quantity)
