@@ -78,10 +78,10 @@ func StartMenu() {
 
 func gererFour() {
 	// Fonction pour afficher les stats compatible avec four.Personnage
-	showStats := func(p *four.Personnage) {
+	showStats := func(p *class.Personnage) {
 		fmt.Printf("\n--- Stats de ton perso (%s) ---\n", p.Classe)
 		fmt.Printf("HP: %d/%d | Force: %d | Vitesse: %d | Intel: %d | Résistance: %d | Chance: %d | Kishta: %d\n",
-			p.Hp, p.MaxHp, p.Force, p.Vitesse, p.Intelligence, p.Resistance, p.Chance, p.Kishta)
+			p.HP, p.MaxHP, p.Force, p.Vitesse, p.Intelligence, p.Resistance, p.Chance, p.Kishta)
 		fmt.Println("Sacoche :")
 		if len(p.Saccoche) == 0 {
 			fmt.Println(" (vide)")
@@ -93,24 +93,24 @@ func gererFour() {
 	}
 
 	// Convertir class.Personnage en four.Personnage
-	pFour := &four.Personnage{
+	pFour := &class.Personnage{
 		Classe:       Player.Classe,
-		Hp:           Player.HP,
-		MaxHp:        Player.MaxHP,
+		HP:           Player.HP,
+		MaxHP:        Player.MaxHP,
 		Vitesse:      Player.Vitesse,
 		Force:        Player.Force,
 		Intelligence: Player.Intelligence,
 		Chance:       Player.Chance,
 		Kishta:       Player.Kishta,
-		Saccoche:   []four.Inventaire{},
+		Saccoche:     []class.Inventaire{},
 	}
 
 	// Appeler la fonction du Four
 	four.EntrerForge(pFour, showStats)
 
 	// Synchroniser les changements vers Player
-	Player.HP = pFour.Hp
-	Player.MaxHP = pFour.MaxHp
+	Player.HP = pFour.HP
+	Player.MaxHP = pFour.MaxHP
 	Player.Vitesse = pFour.Vitesse
 	Player.Force = pFour.Force
 	Player.Intelligence = pFour.Intelligence
