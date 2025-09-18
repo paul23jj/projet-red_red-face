@@ -12,6 +12,8 @@ import (
 
 var Sacoche = map[string]int{}
 var MaxSlots = 10
+var IsPain bool = false
+var Count int = 3
 
 func AfficherSacoche(joueur *class.Personnage) {
 	fmt.Println("\n📦 Sacoche :")
@@ -111,18 +113,29 @@ func UtiliserObjetParNumero(joueur *class.Personnage, ennemi *Monstre.Monstre) {
 		obj.Quantity--
 		fmt.Printf("%s utilise un Shamballa (+5 Chance). Chance actuelle: %d\n", joueur.Nom, joueur.Chance)
 	case "Pain":
-		var IsPain bool = false
-		var count int = 3
-		if IsPain {
-			if count != 0 {
-				count--
-				ennemi.HP -= 10
-			} else {
-				IsPain = false
-			}
-			fmt.Printf("%s subit les dégâts des pigeons (-10 PV). PV actuels: %d\n", ennemi.Nom, ennemi.HP)
+		if !IsPain {
+			Count = 3
 		}
+		obj.Quantity--
 	default:
 		fmt.Println("❌ Objet non utilisable.")
+	}
+}
+
+func PainDommage(ennemi *Monstre.Monstre) {
+	fmt.Println(ennemi.HP)
+	IsPain = true
+	if IsPain {
+		if Count != 0 {
+			fmt.Println("les pigeons arrivent.")
+			Count--
+			fmt.Println(Count)
+			fmt.Println(ennemi.HP)
+			ennemi.HP -= 10
+			fmt.Println(ennemi.HP)
+			fmt.Printf("%s subit les dégâts des pigeons (-10 PV). PV actuels: %d\n", ennemi.Nom, ennemi.HP)
+		} else {
+			IsPain = false
+		}
 	}
 }

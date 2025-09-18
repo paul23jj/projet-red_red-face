@@ -2,6 +2,7 @@ package combat
 
 import (
 	class "PROJETRED/src/class"
+	inv "PROJETRED/src/inventaire"
 	Monstre "PROJETRED/src/monstre"
 	xp "PROJETRED/src/xp"
 	"bufio"
@@ -51,7 +52,7 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 			default:
 				fmt.Println("Choix invalide.")
 			}
-
+			inv.PainDommage(Monstre)
 			// Si le monstre est encore vivant, il joue
 			if Monstre.HP > 0 && Personnage.HP > 0 {
 				EnnemiAttaque(Monstre, Personnage)
@@ -99,9 +100,9 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 
 	// Fin du combat
 	if Personnage.HP <= 0 {
-		fmt.Println("Tu as été vaincu.")
+		fmt.Println("GAV pour toi")
 	} else {
-		fmt.Printf("🎉 Tu as vaincu %s !\n", Monstre.Nom)
+		fmt.Printf("Tu as piétiner %s !\n", Monstre.Nom)
 		xp.GainXP(Personnage, Monstre.XPValue)
 
 		// Vérifier le loot

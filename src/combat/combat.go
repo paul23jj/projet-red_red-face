@@ -67,6 +67,8 @@ func CombatMain(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 	}
 	if Personnage.HP <= 0 {
 		fmt.Println("Tu as été vaincu.")
+		Inventaire.IsPain = false
+		Inventaire.Count = 3
 	} else {
 		fmt.Println("Tu as vaincu l'ennemi.")
 	}
