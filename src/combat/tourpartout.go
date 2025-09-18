@@ -13,16 +13,71 @@ import (
 	"time"
 )
 
-func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
+func Attaquer(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
+	// Exemple d'implémentation simple de l'attaque
+	degats := Personnage.Force - Monstre.Defense
+	if degats < 0 {
+		degats = 0
+	}
+	Monstre.HP -= degats
+	fmt.Printf("%s attaque %s et inflige %d dégâts ! PV restant du monstre : %d\n", Personnage.Nom, Monstre.Nom, degats, Monstre.HP)
+}
+
+// Fuir permet au personnage de tenter de fuir le combat
+func Fuir(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
+	chance := rand.Intn(100)
+	if chance < 50 {
+		fmt.Printf("%s réussit à fuir le combat contre %s !\n", Personnage.Nom, Monstre.Nom)
+	} else {
+		fmt.Printf("%s tente de fuir mais échoue ! Le combat continue...\n", Personnage.Nom)
+	}
+}
+
+// UtiliserPouvoir permet au personnage d'utiliser son pouvoir spécial contre le monstre
+func UtiliserPouvoir(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
+	if Personnage.PouvoirCooldown > 0 {
+		fmt.Printf("%s ne peut pas utiliser son pouvoir spécial pour %d tour(s) !\n", Personnage.Nom, Personnage.PouvoirCooldown)
+		return
+	}
+	// Exemple d'effet de pouvoir spécial : inflige des dégâts supplémentaires
+	degats := Personnage.Force*2 - Monstre.Defense
+	if degats < 0 {
+		degats = 0
+	}
+	Monstre.HP -= degats
+	fmt.Printf("%s utilise son pouvoir spécial et inflige %d dégâts à %s ! PV restant du monstre : %d\n", Personnage.Nom, degats, Monstre.Nom, Monstre.HP)
+	Personnage.PouvoirCooldown = 3 // cooldown de 3 tours
+}
+
+// Defendre permet au personnage de réduire les dégâts subis au prochain tour
+func Defendre(Personnage *class.Personnage) {
+	Personnage.Resistance += 5
+	fmt.Printf("%s se défend et augmente sa résistance de 5 pour ce tour !\n", Personnage.Nom)
+}
+
+// EnnemiAttaque permet au monstre d'attaquer le personnage
+func EnnemiAttaque(Monstre *Monstre.Monstre, Personnage *class.Personnage) {
+	degats := Monstre.Force - Personnage.Resistance
+	if degats < 0 {
+		degats = 0
+	}
+	Personnage.HP -= degats
+	fmt.Printf("%s attaque %s et inflige %d dégâts ! PV restant du personnage : %d\n", Monstre.Nom, Personnage.Nom, degats, Personnage.HP)
+}
+
+func Combatmain(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 	reader := bufio.NewReader(os.Stdin)
 	rand.Seed(time.Now().UnixNano())
+
+	// Effets sur plusieurs tours
+	painEffet := 0
+	seringueEffet := 0
 
 	for Personnage.HP > 0 && Monstre.HP > 0 {
 		fmt.Println("\n--- Tour de combat ---")
 		fmt.Printf("%s : %d HP | %s : %d HP\n", Personnage.Nom, Personnage.HP, Monstre.Nom, Monstre.HP)
 		fmt.Printf("Vitesse : %d | Vitesse : %d\n", Personnage.Vitesse, Monstre.Vitesse)
 
-		// Détermine qui joue en premier
 		joueurPremier := Personnage.Vitesse >= Monstre.Vitesse
 
 		if joueurPremier {
@@ -43,16 +98,22 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 			case "2":
 				Defendre(Personnage)
 			case "3":
-				UtiliserObjetParNumero(Personnage, Monstre)
+				objetUtilise := inv.UtiliserObjetParNumero(Personnage, Monstre)
+				if objetUtilise == "Pain" {
+					painEffet = 3
+				}
+				if objetUtilise == "Seringue" {
+					seringueEffet = 3
+				}
 			case "4":
 				UtiliserPouvoir(Personnage, Monstre)
 			case "5":
-				Fuir(Personnage)
+				Fuir(Personnage, Monstre)
 				return
 			default:
 				fmt.Println("Choix invalide.")
 			}
-			inv.PainDommage(Monstre)
+
 			// Si le monstre est encore vivant, il joue
 			if Monstre.HP > 0 && Personnage.HP > 0 {
 				EnnemiAttaque(Monstre, Personnage)
@@ -80,16 +141,42 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 				case "2":
 					Defendre(Personnage)
 				case "3":
-					UtiliserObjetParNumero(Personnage, Monstre)
+					objetUtilise := inv.UtiliserObjetParNumero(Personnage, Monstre)
+					if objetUtilise == "Pain" {
+						painEffet = 3
+					}
+					if objetUtilise == "Seringue" {
+						seringueEffet = 3
+					}
 				case "4":
 					UtiliserPouvoir(Personnage, Monstre)
 				case "5":
-					Fuir(Personnage)
+					Fuir(Personnage, Monstre)
 					return
 				default:
 					fmt.Println("Choix invalide.")
 				}
 			}
+		}
+
+		// Effet du pain à chaque tour
+		if painEffet > 0 {
+			Monstre.HP -= 10
+			painEffet--
+			if Monstre.HP < 0 {
+				Monstre.HP = 0
+			}
+			fmt.Printf("Le pain inflige 10 dégâts à %s ! PV restant : %d\n", Monstre.Nom, Monstre.HP)
+		}
+
+		// Effet de la seringue à chaque tour
+		if seringueEffet > 0 {
+			Personnage.HP += 5
+			seringueEffet--
+			if Personnage.HP > Personnage.MaxHP {
+				Personnage.HP = Personnage.MaxHP
+			}
+			fmt.Printf("%s récupère 5 PV grâce à la seringue ! PV actuels : %d\n", Personnage.Nom, Personnage.HP)
 		}
 
 		// Décrémenter le cooldown du pouvoir si besoin
@@ -102,7 +189,7 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 	if Personnage.HP <= 0 {
 		fmt.Println("GAV pour toi")
 	} else {
-		fmt.Printf("Tu as piétiner %s !\n", Monstre.Nom)
+		fmt.Printf("Tu as piétiné %s !\n", Monstre.Nom)
 		xp.GainXP(Personnage, Monstre.XPValue)
 
 		// Vérifier le loot

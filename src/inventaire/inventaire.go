@@ -12,8 +12,6 @@ import (
 
 var Sacoche = map[string]int{}
 var MaxSlots = 10
-var IsPain bool = false
-var Count int = 3
 
 func AfficherSacoche(joueur *class.Personnage) {
 	fmt.Println("\n📦 Sacoche :")
@@ -40,10 +38,10 @@ func AjouterObjet(joueur *class.Personnage, nom string, quantite int) {
 	fmt.Printf("✅ %d %s ajouté(s) à la sacoche.\n", quantite, nom)
 }
 
-func UtiliserObjetParNumero(joueur *class.Personnage, ennemi *Monstre.Monstre) {
+func UtiliserObjetParNumero(joueur *class.Personnage, ennemi *Monstre.Monstre) string {
 	if len(joueur.Saccoche) == 0 {
 		fmt.Println("Ta sacoche est vide !")
-		return
+		return ""
 	}
 	fmt.Println("\nObjets disponibles :")
 	for i, it := range joueur.Saccoche {
@@ -56,12 +54,12 @@ func UtiliserObjetParNumero(joueur *class.Personnage, ennemi *Monstre.Monstre) {
 	choix, err := strconv.Atoi(choixStr)
 	if err != nil || choix < 1 || choix > len(joueur.Saccoche) {
 		fmt.Println("Choix invalide.")
-		return
+		return ""
 	}
 	obj := &joueur.Saccoche[choix-1]
 	if obj.Quantity <= 0 {
 		fmt.Println("Tu n'en as plus !")
-		return
+		return ""
 	}
 	switch obj.Name {
 	case "Red bull":
@@ -77,9 +75,9 @@ func UtiliserObjetParNumero(joueur *class.Personnage, ennemi *Monstre.Monstre) {
 		obj.Quantity--
 		fmt.Printf("%s utilise un Bissap (+15 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
 	case "Seringue":
-		joueur.HP += 25
 		obj.Quantity--
-		fmt.Printf("%s utilise une Seringue (+25 PV). PV actuels: %d\n", joueur.Nom, joueur.HP)
+		fmt.Printf("%s se fait une piqûre, effet actif pendant 3 tours.\n", joueur.Nom)
+		return "Seringue"
 	case "Vodka":
 		joueur.Force += 5
 		obj.Quantity--
@@ -113,29 +111,11 @@ func UtiliserObjetParNumero(joueur *class.Personnage, ennemi *Monstre.Monstre) {
 		obj.Quantity--
 		fmt.Printf("%s utilise un Shamballa (+5 Chance). Chance actuelle: %d\n", joueur.Nom, joueur.Chance)
 	case "Pain":
-		if !IsPain {
-			Count = 3
-		}
 		obj.Quantity--
+		fmt.Printf("Des pigeons prennent position autour de %s !\n", ennemi.Nom)
+		return "Pain"
 	default:
 		fmt.Println("❌ Objet non utilisable.")
 	}
-}
-
-func PainDommage(ennemi *Monstre.Monstre) {
-	fmt.Println(ennemi.HP)
-	IsPain = true
-	if IsPain {
-		if Count != 0 {
-			fmt.Println("les pigeons arrivent.")
-			Count--
-			fmt.Println(Count)
-			fmt.Println(ennemi.HP)
-			ennemi.HP -= 10
-			fmt.Println(ennemi.HP)
-			fmt.Printf("%s subit les dégâts des pigeons (-10 PV). PV actuels: %d\n", ennemi.Nom, ennemi.HP)
-		} else {
-			IsPain = false
-		}
-	}
+	return ""
 }
