@@ -38,7 +38,7 @@ func StartMenu() {
 	}
 
 	for {
-		fmt.Println("\n=== Menu Principal ===")
+		fmt.Println("\n=== La Tess ===")
 		fmt.Println("1. Aller dans le Four")
 		fmt.Println("2. Aller au Marché")
 		fmt.Println("3. Regarder la sacoche")

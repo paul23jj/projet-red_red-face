@@ -10,8 +10,8 @@ func GainXP(player *class.Personnage, amount int) {
 	player.Niveau += amount
 	fmt.Printf("✨ %s a gagné %d points d'expérience !\n", player.Nom, amount)
 
-	// Exemple de règle : tous les 10 XP → le joueur augmente de niveau
-	if player.Niveau%10 == 0 {
+	// Tous les 100 XP → le joueur augmente de niveau
+	if player.Niveau >= 100 {
 		LevelUp(player)
 	}
 }
@@ -26,6 +26,6 @@ func LevelUp(player *class.Personnage) {
 	player.Force += 2
 	player.Resistance += 2
 
-	fmt.Printf("💪 Nouvelles stats : %d HP | %d Force | %d Résistance\n",
+	fmt.Printf("💪 Nouvelles stats : %d (+10) HP | %d (+2) Force | %d (+2) Résistance\n",
 		player.HP, player.Force, player.Resistance)
 }
