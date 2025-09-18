@@ -1,4 +1,4 @@
-package four
+package forge
 
 import (
     "bufio"
@@ -24,7 +24,7 @@ type Personnage struct {
     Resistance   int
     Chance       int
     Kishta       int
-    Inventaire   []Inventaire
+    Saccoche     []Inventaire
 }
 
 // --- Item spécial du Four ---
@@ -92,7 +92,7 @@ func acheterForge(p *Personnage, item Item) {
     // Vérifier si le joueur a tous les items requis
     for _, req := range item.RequiredItems {
         found := false
-        for _, inv := range p.Inventaire {
+        for _, inv := range p.Saccoche {
             if inv.Name == req.Name && inv.Quantity >= req.Quantity {
                 found = true
                 break
@@ -104,31 +104,31 @@ func acheterForge(p *Personnage, item Item) {
         }
     }
 
-    // Retirer les items requis de l'inventaire
+    // Retirer les items requis de la saccoche
     for _, req := range item.RequiredItems {
-        for i, inv := range p.Inventaire {
+        for i, inv := range p.Saccoche {
             if inv.Name == req.Name {
-                p.Inventaire[i].Quantity -= req.Quantity
-                if p.Inventaire[i].Quantity == 0 {
+                p.Saccoche[i].Quantity -= req.Quantity
+                if p.Saccoche[i].Quantity == 0 {
                     // Supprimer l'item si quantité = 0
-                    p.Inventaire = append(p.Inventaire[:i], p.Inventaire[i+1:]...)
+                    p.Saccoche = append(p.Saccoche[:i], p.Saccoche[i+1:]...)
                 }
                 break
             }
         }
     }
 
-    // Ajouter l'item forgé à l'inventaire
+    // Ajouter l'item forgé à la saccoche
     found := false
-    for i, it := range p.Inventaire {
+    for i, it := range p.Saccoche {
         if it.Name == item.Name {
-            p.Inventaire[i].Quantity++
+            p.Saccoche[i].Quantity++
             found = true
             break
         }
     }
     if !found {
-        p.Inventaire = append(p.Inventaire, Inventaire{Name: item.Name, Quantity: 1})
+        p.Saccoche = append(p.Saccoche, Inventaire{Name: item.Name, Quantity: 1})
     }
 
     // Appliquer le buff
@@ -138,6 +138,16 @@ func acheterForge(p *Personnage, item Item) {
 
 // --- Fonction principale pour entrer dans Le Four ---
 func EntrerForge(p *Personnage, showStats func(*Personnage)) {
+    // Débogage : Afficher Saccoche immédiatement à l'entrée
+    fmt.Println("--- Debug Saccoche (entrée dans EntrerForge) ---")
+    if len(p.Saccoche) == 0 {
+        fmt.Println("Saccoche vide")
+    } else {
+        for _, item := range p.Saccoche {
+            fmt.Printf("- %s x%d\n", item.Name, item.Quantity)
+        }
+    }
+
     items := ItemsForge()
     scanner := bufio.NewScanner(os.Stdin)
 
@@ -151,6 +161,15 @@ func EntrerForge(p *Personnage, showStats func(*Personnage)) {
 
         if choix == "tess" {
             fmt.Println("👉 Tu es retourné à la tess.")
+            // Débogage : Afficher Saccoche à la sortie
+            fmt.Println("--- Debug Saccoche (sortie) ---")
+            if len(p.Saccoche) == 0 {
+                fmt.Println("Saccoche vide")
+            } else {
+                for _, item := range p.Saccoche {
+                    fmt.Printf("- %s x%d\n", item.Name, item.Quantity)
+                }
+            }
             break
         }
         num, err := strconv.Atoi(choix)

@@ -91,11 +91,11 @@ func gererFour() {
 		fmt.Printf("\n--- Stats de ton perso (%s) ---\n", p.Classe)
 		fmt.Printf("HP: %d/%d | Force: %d | Vitesse: %d | Intel: %d | Résistance: %d | Chance: %d | Kishta: %d\n",
 			p.Hp, p.MaxHp, p.Force, p.Vitesse, p.Intelligence, p.Resistance, p.Chance, p.Kishta)
-		fmt.Println("Inventaire :")
-		if len(p.Inventaire) == 0 {
+		fmt.Println("Sacoche :")
+		if len(p.Saccoche) == 0 {
 			fmt.Println(" (vide)")
 		} else {
-			for _, it := range p.Inventaire {
+			for _, it := range p.Saccoche {
 				fmt.Printf(" - %s x%d\n", it.Name, it.Quantity)
 			}
 		}
@@ -111,7 +111,7 @@ func gererFour() {
 		Intelligence: Player.Intelligence,
 		Chance:       Player.Chance,
 		Kishta:       Player.Kishta,
-		Inventaire:   []four.Inventaire{},
+		Saccoche:   []four.Inventaire{},
 	}
 
 	// Appeler la fonction du Four
