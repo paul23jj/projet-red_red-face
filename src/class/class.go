@@ -179,8 +179,8 @@ func UtiliserPouvoir(P *Personnage, pouvoir string, cible *Monstre) {
 	case "joga bonito":
 		fmt.Println("Tu esquives gracieusement !")
 		P.Vitesse += int(float64(P.Vitesse) * 2.0 * boost)
-	case "Ultime Kantin":
-		fmt.Println("Kantin utilise son pouvoir ultime !")
+	case "Tacos 3 Viandes":
+		fmt.Println("Kavtiv mange un Tacos 3 Viandes !")
 		cible.HP -= int(float64(P.Force) * 20 * boost)
 		if cible.HP < 0 {
 			cible.HP = 0
