@@ -32,10 +32,9 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 			// Tour du joueur
 			fmt.Println("À toi de jouer !")
 			fmt.Println("1) Attaquer")
-			fmt.Println("2) Défendre")
-			fmt.Println("3) Utiliser un objet")
-			fmt.Println("4) Utiliser un pouvoir")
-			fmt.Println("5) Fuir")
+			fmt.Println("2) Utiliser un objet")
+			fmt.Println("3) Utiliser un pouvoir")
+			fmt.Println("4) Fuir")
 			fmt.Print("Ton choix: ")
 			choix, _ := reader.ReadString('\n')
 			choix = strings.TrimSpace(choix)
@@ -44,8 +43,6 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 			case "1":
 				Attaquer(Personnage, Monstre)
 			case "2":
-				Defendre(Personnage)
-			case "3":
 				objetUtilise := inv.UtiliserObjetParNumero(Personnage, Monstre)
 				if objetUtilise == "Pain" {
 					painEffet = 3
@@ -53,9 +50,9 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 				if objetUtilise == "Seringue" {
 					seringueEffet = 3
 				}
-			case "4":
+			case "3":
 				UtiliserPouvoir(Personnage, Monstre)
-			case "5":
+			case "4":
 				Fuir(Personnage, Monstre)
 				return
 			default:
@@ -87,8 +84,6 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 				case "1":
 					Attaquer(Personnage, Monstre)
 				case "2":
-					Defendre(Personnage)
-				case "3":
 					objetUtilise := inv.UtiliserObjetParNumero(Personnage, Monstre)
 					if objetUtilise == "Pain" {
 						painEffet = 3
@@ -96,9 +91,9 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 					if objetUtilise == "Seringue" {
 						seringueEffet = 3
 					}
-				case "4":
+				case "3":
 					UtiliserPouvoir(Personnage, Monstre)
-				case "5":
+				case "4":
 					Fuir(Personnage, Monstre)
 					return
 				default:

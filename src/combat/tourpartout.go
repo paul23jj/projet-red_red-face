@@ -13,6 +13,8 @@ import (
 	"time"
 )
 
+var DefendActive bool = false
+
 func Attaquer(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 	// Exemple d'implémentation simple de l'attaque
 	degats := Personnage.Force - Monstre.Defense
@@ -49,12 +51,6 @@ func UtiliserPouvoir(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 	Personnage.PouvoirCooldown = 3 // cooldown de 3 tours
 }
 
-// Defendre permet au personnage de réduire les dégâts subis au prochain tour
-func Defendre(Personnage *class.Personnage) {
-	Personnage.Resistance += 5
-	fmt.Printf("%s se défend et augmente sa résistance de 5 pour ce tour !\n", Personnage.Nom)
-}
-
 // EnnemiAttaque permet au monstre d'attaquer le personnage
 func EnnemiAttaque(Monstre *Monstre.Monstre, Personnage *class.Personnage) {
 	degats := Monstre.Force - Personnage.Resistance
@@ -74,6 +70,7 @@ func Combatmain(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 	seringueEffet := 0
 
 	for Personnage.HP > 0 && Monstre.HP > 0 {
+
 		fmt.Println("\n--- Tour de combat ---")
 		fmt.Printf("%s : %d HP | %s : %d HP\n", Personnage.Nom, Personnage.HP, Monstre.Nom, Monstre.HP)
 		fmt.Printf("Vitesse : %d | Vitesse : %d\n", Personnage.Vitesse, Monstre.Vitesse)
@@ -95,9 +92,8 @@ func Combatmain(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 			switch choix {
 			case "1":
 				Attaquer(Personnage, Monstre)
+				DefendActive = false
 			case "2":
-				Defendre(Personnage)
-			case "3":
 				objetUtilise := inv.UtiliserObjetParNumero(Personnage, Monstre)
 				if objetUtilise == "Pain" {
 					painEffet = 3
@@ -105,13 +101,16 @@ func Combatmain(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 				if objetUtilise == "Seringue" {
 					seringueEffet = 3
 				}
-			case "4":
+				DefendActive = false
+			case "3":
 				UtiliserPouvoir(Personnage, Monstre)
-			case "5":
+				DefendActive = false
+			case "4":
 				Fuir(Personnage, Monstre)
 				return
 			default:
 				fmt.Println("Choix invalide.")
+				DefendActive = false
 			}
 
 			// Si le monstre est encore vivant, il joue
@@ -122,7 +121,11 @@ func Combatmain(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 			// Tour du monstre
 			fmt.Println("Le monstre agit en premier !")
 			EnnemiAttaque(Monstre, Personnage)
-
+			// Si le joueur a choisi de défendre ce tour, on remet la résistance à la normale
+			if DefendActive {
+				Personnage.Resistance /= 2
+				DefendActive = false
+			}
 			// Si le joueur est encore vivant, il joue
 			if Personnage.HP > 0 && Monstre.HP > 0 {
 				fmt.Println("À toi de jouer !")
@@ -138,9 +141,8 @@ func Combatmain(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 				switch choix {
 				case "1":
 					Attaquer(Personnage, Monstre)
+					DefendActive = false
 				case "2":
-					Defendre(Personnage)
-				case "3":
 					objetUtilise := inv.UtiliserObjetParNumero(Personnage, Monstre)
 					if objetUtilise == "Pain" {
 						painEffet = 3
@@ -148,13 +150,16 @@ func Combatmain(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 					if objetUtilise == "Seringue" {
 						seringueEffet = 3
 					}
-				case "4":
+					DefendActive = false
+				case "3":
 					UtiliserPouvoir(Personnage, Monstre)
-				case "5":
+					DefendActive = false
+				case "4":
 					Fuir(Personnage, Monstre)
 					return
 				default:
 					fmt.Println("Choix invalide.")
+					DefendActive = false
 				}
 			}
 		}
