@@ -42,7 +42,7 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 			case "2":
 				Defendre(Personnage)
 			case "3":
-				UtiliserObjet(Personnage)
+				UtiliserObjetParNumero(Personnage, Monstre)
 			case "4":
 				UtiliserPouvoir(Personnage, Monstre)
 			case "5":
@@ -79,7 +79,7 @@ func TourPartoutCombat(Personnage *class.Personnage, Monstre *Monstre.Monstre) {
 				case "2":
 					Defendre(Personnage)
 				case "3":
-					UtiliserObjet(Personnage)
+					UtiliserObjetParNumero(Personnage, Monstre)
 				case "4":
 					UtiliserPouvoir(Personnage, Monstre)
 				case "5":

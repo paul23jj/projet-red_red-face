@@ -18,16 +18,13 @@ var Player class.Personnage
 var currentMonstre monstre.Monstre
 
 func StartMenu() {
-	reader := bufio.NewReader(os.Stdin)
+	// Scanner unique pour tout le menu
+	scanner := bufio.NewScanner(os.Stdin)
 
 	fmt.Println("=== Bienvenue dans Projet-Red ===")
 	fmt.Print("Veux-tu rentrer dans la tess ? (oui/non) : ")
-	choice, err := reader.ReadString('\n')
-	if err != nil {
-		fmt.Println("Erreur de lecture, à bientôt !")
-		return
-	}
-	choice = strings.TrimSpace(strings.ToLower(choice))
+	scanner.Scan()
+	choice := strings.TrimSpace(strings.ToLower(scanner.Text()))
 
 	if choice != "oui" {
 		fmt.Println("Dommage... à bientôt !")
@@ -41,7 +38,7 @@ func StartMenu() {
 	}
 
 	for {
-		fmt.Println("\n=== Menu Principal ===")
+		fmt.Println("\n=== La Tess ===")
 		fmt.Println("1. Aller dans le Four")
 		fmt.Println("2. Aller au Marché")
 		fmt.Println("3. Regarder la sacoche")
@@ -50,19 +47,16 @@ func StartMenu() {
 		fmt.Println("6. Quitter")
 		fmt.Print("Choisis une option : ")
 
-		menuChoice, err := reader.ReadString('\n')
-		if err != nil {
-			fmt.Println("Erreur de lecture, réessaie.")
-			continue
-		}
-		menuChoice = strings.TrimSpace(menuChoice)
+		scanner.Scan()
+		menuChoice := strings.TrimSpace(scanner.Text())
+
 		switch menuChoice {
 		case "1":
 			fmt.Println("Tu es maintenant dans le Four !")
 			gererFour()
 		case "2":
 			fmt.Println("Tu es maintenant au Marché !")
-			gererMarche()
+			gererMarche(scanner)
 		case "3":
 			fmt.Println("Voici ta sacoche :")
 			inventaire.AfficherSacoche(&Player)
@@ -72,16 +66,13 @@ func StartMenu() {
 			combat.TourPartoutCombat(&Player, &currentMonstre)
 		case "5":
 			fmt.Println("Voici tes stats :")
-			marche.ShowStats(&Player)
+			marche.ShowStats(&Player, scanner) // <-- scanner partagé
 		case "6":
 			fmt.Println("À bientôt !")
 			os.Exit(0)
 		default:
 			fmt.Println("Option invalide, réessaie.")
 		}
-
-		// Vider le buffer
-		reader.ReadString('\n')
 	}
 }
 
@@ -130,6 +121,7 @@ func gererFour() {
 	Player.Saccoche = []class.Inventaire{}
 }
 
-func gererMarche() {
-	marche.MarcheDuSoleil(&Player)
+func gererMarche(scanner *bufio.Scanner) {
+	// On passe le scanner à MarcheDuSoleil pour utiliser un scanner unique
+	marche.MarcheDuSoleil(&Player, scanner)
 }
