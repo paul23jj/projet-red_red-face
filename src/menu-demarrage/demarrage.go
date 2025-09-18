@@ -53,7 +53,7 @@ func StartMenu() {
 		switch menuChoice {
 		case "1":
 			fmt.Println("Tu es maintenant dans le Four !")
-			gererFour()
+			gererFour(&Player)
 		case "2":
 			fmt.Println("Tu es maintenant au Marché !")
 			gererMarche(scanner)
@@ -76,49 +76,17 @@ func StartMenu() {
 	}
 }
 
-func gererFour() {
-	// Fonction pour afficher les stats compatible avec four.Personnage
-	showStats := func(p *class.Personnage) {
-		fmt.Printf("\n--- Stats de ton perso (%s) ---\n", p.Classe)
-		fmt.Printf("HP: %d/%d | Force: %d | Vitesse: %d | Intel: %d | Résistance: %d | Chance: %d | Kishta: %d\n",
-			p.HP, p.MaxHP, p.Force, p.Vitesse, p.Intelligence, p.Resistance, p.Chance, p.Kishta)
-		fmt.Println("Sacoche :")
-		if len(p.Saccoche) == 0 {
-			fmt.Println(" (vide)")
-		} else {
-			for _, it := range p.Saccoche {
-				fmt.Printf(" - %s x%d\n", it.Name, it.Quantity)
-			}
-		}
-	}
-
+func gererFour(p *class.Personnage) {
 	// Convertir class.Personnage en four.Personnage
-	pFour := &class.Personnage{
-		Classe:       Player.Classe,
-		HP:           Player.HP,
-		MaxHP:        Player.MaxHP,
-		Vitesse:      Player.Vitesse,
-		Force:        Player.Force,
-		Intelligence: Player.Intelligence,
-		Chance:       Player.Chance,
-		Kishta:       Player.Kishta,
-		Saccoche:     []class.Inventaire{},
-	}
+
+	fmt.Println(p.Saccoche)
 
 	// Appeler la fonction du Four
-	four.EntrerForge(pFour, showStats)
+	four.EntrerForge(p)
 
-	// Synchroniser les changements vers Player
-	Player.HP = pFour.HP
-	Player.MaxHP = pFour.MaxHP
-	Player.Vitesse = pFour.Vitesse
-	Player.Force = pFour.Force
-	Player.Intelligence = pFour.Intelligence
-	Player.Resistance = pFour.Resistance
-	Player.Chance = pFour.Chance
-	Player.Kishta = pFour.Kishta
-	// Synchroniser l'inventaire
-	Player.Saccoche = []class.Inventaire{}
+	fmt.Println(p.Saccoche)
+	fmt.Println(Player.Saccoche)
+
 }
 
 func gererMarche(scanner *bufio.Scanner) {

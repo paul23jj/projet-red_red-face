@@ -45,7 +45,7 @@ func InitPlayer() Personnage {
 		P.Intelligence = 100
 		P.Resistance = 100
 		P.Chance = 100
-		P.Kishta = 100000
+		P.Kishta = 1000000
 		P.Pouvoirs = []string{"Tacos 3 Viandes"}
 		P.Saccoche = []Inventaire{{Name: "Sanglier", Quantity: 1}}
 	} else {

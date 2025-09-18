@@ -119,9 +119,11 @@ func acheterForge(p *class.Personnage, item Item) {
 }
 
 // --- Fonction principale pour entrer dans Le Four ---
-func EntrerForge(p *class.Personnage, showStats func(*class.Personnage)) {
+func EntrerForge(p *class.Personnage) {
 	// Débogage : Afficher Saccoche immédiatement à l'entrée
 	fmt.Println("--- Debug Saccoche (entrée dans EntrerForge) ---")
+	fmt.Println("Saccoche actuelle :")
+	fmt.Println(p.Saccoche)
 	if len(p.Saccoche) == 0 {
 		fmt.Println("Saccoche vide")
 	} else {
@@ -134,7 +136,6 @@ func EntrerForge(p *class.Personnage, showStats func(*class.Personnage)) {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
-		showStats(p)
 		showForge(items)
 
 		fmt.Print("Choix : ")
