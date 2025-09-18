@@ -12,6 +12,7 @@ func GainXP(player *class.Personnage, amount int) {
 
 	// Tous les 100 XP → le joueur augmente de niveau
 	if player.Niveau >= 100 {
+		player.Niveau -= 100
 		LevelUp(player)
 	}
 }
