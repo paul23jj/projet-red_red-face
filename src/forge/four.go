@@ -27,7 +27,7 @@ func ItemsForge() []Item {
 			},
 			Buff: func(p *class.Personnage) {
 				p.Chance += 30
-				p.Intelligence += 20
+				p.Resistance += 20
 			},
 		},
 		{
@@ -37,7 +37,7 @@ func ItemsForge() []Item {
 				{Name: "Puff goût Fraise", Quantity: 1},
 			},
 			Buff: func(p *class.Personnage) {
-				p.Vitesse += 40
+				p.Intelligence += 40
 			},
 		},
 		{
@@ -47,7 +47,7 @@ func ItemsForge() []Item {
 			},
 			Buff: func(p *class.Personnage) {
 				p.Force += 50
-				p.Resistance += 20
+				p.Vitesse += 20
 			},
 		},
 	}
